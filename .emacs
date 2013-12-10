@@ -294,23 +294,23 @@
 (require 'saveplace)
 
 ;; go.
-(mi-require-url 'go-mode "go-mode.el" "https://raw.github.com/wybosys/nnt/master/contrib/emacs/go-mode.el")
-(mi-require-url 'go-mode-load "go-mode-load.el" "https://raw.github.com/wybosys/nnt/master/contrib/emacs/go-mode-load.el")
+(mi-require-url 'go-mode "go-mode.el" "https://raw.github.com/wybosys/wybosys/master/emacs/go-mode.el")
+(mi-require-url 'go-mode-load "go-mode-load.el" "https://raw.github.com/wybosys/wybosys/master/emacs/go-mode-load.el")
 
 ;; vcm.
-(mi-require-url 'git "git.el" "https://raw.github.com/wybosys/nnt/master/contrib/git/git.el")
-(mi-require-url 'git-blame "git-blame.el" "https://raw.github.com/wybosys/nnt/master/contrib/git/git-blame.el")
+(mi-require-url 'git "git.el" "https://raw.github.com/wybosys/wybosys/master/git/git.el")
+(mi-require-url 'git-blame "git-blame.el" "https://raw.github.com/wybosys/wybosys/master/git/git-blame.el")
 (require 'vc-git)
 (mi-require-url 'egit "egit.el" "https://raw.github.com/jimhourihan/egit/master/egit.el")
 
 ;; hl-chars
-;(mi-require-url 'highlight-chars "highlight-chars.el" "https://raw.github.com/wybosys/nnt/master/contrib/emacs/highlight-chars.el")
+;(mi-require-url 'highlight-chars "highlight-chars.el" "https://raw.github.com/wybosys/wybosys/master/emacs/highlight-chars.el")
 
 ;; whitespace-mode.
-(mi-require-url 'whitespace "whitespace.el" "https://raw.github.com/wybosys/nnt/master/contrib/emacs/whitespace.el")
+(mi-require-url 'whitespace "whitespace.el" "https://raw.github.com/wybosys/wybosys/master/emacs/whitespace.el")
 
 ;; sql.
-(mi-require-url 'sql "sql.el" "https://raw.github.com/wybosys/nnt/master/contrib/emacs/sql.el")
+(mi-require-url 'sql "sql.el" "https://raw.github.com/wybosys/wybosys/master/emacs/sql.el")
 
 ;; maxima mode
 (add-to-list 'load-path "/opt/local/share/maxima/5.28.0/emacs")
@@ -385,7 +385,7 @@
 (add-to-list 'auto-mode-alist '("\\.geom\\'" . glsl-mode))
 
 ;; cg toolkit
-(mi-use-package-url "cg-mode.el" "https://raw.github.com/wybosys/nnt/master/contrib/emacs/cg-mode.el")
+(mi-use-package-url "cg-mode.el" "https://raw.github.com/wybosys/wybosys/master/emacs/cg-mode.el")
 (add-to-list 'auto-mode-alist '("\\.cg\\'" . cg-mode))
 
 ;; opencl
