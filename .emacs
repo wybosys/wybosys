@@ -237,7 +237,7 @@
   (elpa-require 'yasnippet)
   (elpa-require 'yasnippet-bundle)
   )
-;(add-hook 'after-init-hook 'my-yas)
+(add-hook 'after-init-hook 'my-yas)
 
 ;; icicles.
 (defun my-icicle ()
@@ -298,8 +298,8 @@
 (mi-require-url 'go-mode-load "go-mode-load.el" "https://raw.github.com/wybosys/wybosys/master/emacs/go-mode-load.el")
 
 ;; vcm.
-(mi-require-url 'git "git.el" "https://raw.github.com/wybosys/wybosys/master/git/git.el")
-(mi-require-url 'git-blame "git-blame.el" "https://raw.github.com/wybosys/wybosys/master/git/git-blame.el")
+(mi-require-url 'git "git.el" "https://raw.github.com/wybosys/wybosys/master/emacs/git/git.el")
+(mi-require-url 'git-blame "git-blame.el" "https://raw.github.com/wybosys/wybosys/master/emacs/git/git-blame.el")
 (require 'vc-git)
 (mi-require-url 'egit "egit.el" "https://raw.github.com/jimhourihan/egit/master/egit.el")
 
@@ -445,13 +445,13 @@
   (interactive)
   (if (minibufferp)
       (minibuffer-complete)
-    (if (or (not yas/minor-mode)
-            (null (do-yas-expand)))
-        (if (check-expansion)
-            (company-complete-common)
-          (indent-for-tab-command)
-          )
+					;(if (or (not yas/minor-mode)
+					;(null (do-yas-expand)))
+    (if (check-expansion)
+	(company-complete-common)
+      (indent-for-tab-command)
       )
+					;)
     )
   )
 
@@ -561,7 +561,7 @@
   (my-h2s)	
   (my-cscope)
   ;; add yas template.
-  ;(yas/define-snippets 'c-mode my-yas-c-comment 'cc-mode)
+  (yas/define-snippets 'c-mode my-yas-c-comment 'cc-mode)
   )
 
 (add-hook 'c-mode-common-hook 
