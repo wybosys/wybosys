@@ -600,8 +600,10 @@
 ;; php.
 ;(elpa-require 'php-mode)
 ;(elpa-require 'php+-mode)
-(mi-use-package-url "php-mode-new.el" "http://mewde.googlecode.com/files/php-mode-new.el")
-(autoload 'php-mode "php-mode-new.el" "PHP mode" t)
+;(mi-use-package-url "php-mode-new.el" "http://mewde.googlecode.com/files/php-mode-new.el")
+;(autoload 'php-mode "php-mode-new.el" "PHP mode" t)
+(mi-add-git "php+-mode")
+(mi-require-git 'php+-mode "php+-mode" "https://github.com/echosa/phpplus-mode.git")
 (add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
 
 ;; apache httpd.
