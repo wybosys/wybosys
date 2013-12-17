@@ -445,13 +445,13 @@
   (interactive)
   (if (minibufferp)
       (minibuffer-complete)
-					;(if (or (not yas/minor-mode)
-					;(null (do-yas-expand)))
+                                        ;(if (or (not yas/minor-mode)
+                                        ;(null (do-yas-expand)))
     (if (check-expansion)
-	(company-complete-common)
+        (company-complete-common)
       (indent-for-tab-command)
       )
-					;)
+                                        ;)
     )
   )
 
@@ -598,6 +598,16 @@
 (mi-use-package-url "php-mode-new.el" "http://mewde.googlecode.com/files/php-mode-new.el")
 (autoload 'php-mode "php-mode-new.el" "PHP mode" t)
 (add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
+
+;; apache httpd.
+(mi-use-package-url "apache-mode.el" "https://raw.github.com/wybosys/wybosys/master/emacs/apache-mode.el")
+(autoload 'apache-mode "apache-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.htaccess\\'"   . apache-mode))
+(add-to-list 'auto-mode-alist '("httpd\\.conf\\'"  . apache-mode))
+(add-to-list 'auto-mode-alist '("httpd-[[:ascii:]]+\\.conf\\'"  . apache-mode))
+(add-to-list 'auto-mode-alist '("srm\\.conf\\'"    . apache-mode))
+(add-to-list 'auto-mode-alist '("access\\.conf\\'" . apache-mode))
+(add-to-list 'auto-mode-alist '("sites-\\(available\\|enabled\\)/" . apache-mode))
 
 ;; objc.
 (add-to-list 'auto-mode-alist '("\\.mm\\'" . c++-mode))
