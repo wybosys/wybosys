@@ -22,15 +22,16 @@
 (setq dired-omit-files "^\\.[^.]\\|\\.pdf$\\|\\.tex$|\\.DS_Store$")
 
 ;; package manager.
+(require 'package)
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ("melpa" . "http://melpa.milkbox.net/packages/")
+                         ("tromey" . "http://tromey.com/elpa/")
+                         ))    
+(package-initialize)
+
 (defun elpa-require (module &optional package)
   (if (require module nil 'noerror) nil
-    (require 'package)
-    (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                             ("marmalade" . "http://marmalade-repo.org/packages/")
-                             ("melpa" . "http://melpa.milkbox.net/packages/")
-                             ("tromey" . "http://tromey.com/elpa/")
-                             ))    
-    (package-initialize)
     (unless package-archive-contents
       (package-refresh-contents))
     (if (eq package nil)
