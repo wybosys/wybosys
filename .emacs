@@ -322,6 +322,7 @@
                                         ;(elpa-require 'python-mode)
   (elpa-require 'python-magic)
   (elpa-require 'python-pylint)
+  (elpa-require 'python-info)
                                         ;(elpa-require 'ipython)
   (setq ropemacs-guess-project t)
   (setq ropemacs-enable-autoimport t)
@@ -364,6 +365,7 @@
 (autoload 'yaml-mode "yaml-mode")
 
 ;; qt.
+;(elpa-require 'qml-mode)
 (mi-use-package-url "qml-mode.el" "https://raw.github.com/emacsmirror/qml-mode/master/qml-mode.el")
 (mi-use-package-url "qt-pro.el" "http://www.tolchz.net/wp-content/uploads/2008/01/qt-pro.el")
 (add-to-list 'auto-mode-alist '("\\.pr[io]$" . qt-pro-mode))
@@ -596,6 +598,8 @@
       )
 
 ;; php.
+;(elpa-require 'php-mode)
+;(elpa-require 'php+-mode)
 (mi-use-package-url "php-mode-new.el" "http://mewde.googlecode.com/files/php-mode-new.el")
 (autoload 'php-mode "php-mode-new.el" "PHP mode" t)
 (add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
@@ -695,9 +699,7 @@
   )
 
 ;; scala
-(mi-add-git "scala-mode2")
-(mi-require-git 'scala-mode2 "scala-mode2" "https://github.com/hvesalai/scala-mode2.git")
-
+(elpa-require 'scala-mode2)
 
 ;; groovy
 (mi-add-git "groovy-mode")
@@ -746,3 +748,5 @@
       (move-beginning-of-line 2)
       (insert (concat (buffer-substring-no-properties begin end) "\n")))))
 
+;; show blank, newline, tab ...
+(elpa-require 'blank-mode)
