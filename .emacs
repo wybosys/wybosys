@@ -621,7 +621,6 @@
                   (if (and (boundp 'my-php-symbol-hash)
                            my-php-symbol-hash)
                       my-php-symbol-hash
-                    (message "Fetching completion list...")
                     (with-temp-buffer
                         (call-process-shell-command "php -r '$all=get_defined_functions();foreach ($all[\"internal\"] as $fun) { echo $fun . \";\";};'" nil t)
                       (goto-char (point-min))
