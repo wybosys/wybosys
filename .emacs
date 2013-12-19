@@ -432,11 +432,8 @@
       (if (looking-at "\\.") t
         (backward-char 1)
         (if (looking-at "->") t 
-          nil)
-        )
-      )
-    )
-  )
+            nil)
+          ))))
 
 (defun do-yas-expand ()  
   (let ((yas/fallback-behavior 'return-nil))
@@ -452,8 +449,7 @@
                                         ;(null (do-yas-expand)))
     (if (check-expansion)
         (company-complete-common)
-      (indent-for-tab-command)
-      )
+      (indent-for-tab-command))
                                         ;)
     )
   )
@@ -465,12 +461,12 @@
 
 (defun my-cedet-setup ()
   (require 'cedet)
-  (my-cedet-setting)
-  (my-cedet-keymap)
+  (my-cedet-setting)  
   )
 
 (defun my-cedet-launch ()
   (semantic-mode)
+  (my-cedet-keymap)
   )
 
 ;; ecb
@@ -599,21 +595,18 @@
 
 ;; php.
 ;(elpa-require 'php-mode)
-;(elpa-require 'php+-mode)
 ;(mi-use-package-url "php-mode-new.el" "http://mewde.googlecode.com/files/php-mode-new.el")
 ;(autoload 'php-mode "php-mode-new.el" "PHP mode" t)
 (mi-add-git "php+-mode")
 (mi-require-git 'php+-mode "php+-mode" "https://github.com/echosa/phpplus-mode.git")
-(add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
 (defun my-php ()
-  (add-to-list 'company-backends 'company-php-backend)
-  )
-(add-hook 'php-mode-hook 'my-php)
+  (add-to-list 'company-backends 'company-php-backend))
+(add-hook 'php+-mode-hook 'my-php)
 
 ;; company-php
 (defun company-php-backend (command &optional arg &rest ignored)
   (case command
-    ('prefix (and (eq major-mode 'php-mode)
+    ('prefix (and (eq major-mode 'php+-mode)
                   (company-grab-symbol)))
     ('sorted t)
     ('candidates (all-completions
