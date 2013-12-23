@@ -403,14 +403,14 @@
 
 ;; cedet
 (defun my-cedet-setting ()
-  (setq 
-   semantic-c-takeover-hideif t
-                                        ;semantic-symref-tool "cscope"
-   semantic-idle-completions-mode t
-   semantic-decoration-mode t
-   semantic-highlight-func-mode t
-   semantic-show-unmatched-syntax-mode t
-   )
+  (custom-set-variables
+   '(semantic-default-submodes '(global-semantic-decoration-mode 
+                                 global-semantic-idle-completions-mode
+                                 global-semantic-idle-scheduler-mode 
+                                 global-semanticdb-minor-mode                                                                       
+                                 global-semantic-idle-summary-mode 
+                                 global-semantic-mru-bookmark-mode))
+   '(semantic-idle-scheduler-idle-time 3))  
   )
 
 (defun my-semantic-c-processed-files ()
