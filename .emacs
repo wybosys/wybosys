@@ -403,6 +403,11 @@
                                  global-semantic-idle-summary-mode 
                                  global-semantic-mru-bookmark-mode))
    '(semantic-idle-scheduler-idle-time 3))  
+  (setq semantic-c-dependency-system-include-path (list
+                                                   "/usr/include"
+                                                   "/usr/local/include"
+                                                   "/opt/local/include"
+                                                   ))
   )
 
 (defun my-semantic-c-processed-files ()
@@ -443,9 +448,6 @@
   )
 
 (defun my-cedet-setup ()
-  (mi-add-git "cedet")
-  (mi-require-git 'cedet "cedet" "")
-  ;(require 'cedet)
   (my-cedet-setting)  
   )
 
