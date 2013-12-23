@@ -460,7 +460,9 @@
   )
 
 (defun my-cedet-setup ()
-  (require 'cedet)
+  (mi-add-git "cedet")
+  (mi-require-git 'cedet "cedet" "")
+  ;(require 'cedet)
   (my-cedet-setting)  
   )
 
