@@ -232,14 +232,6 @@
   )
 (add-hook 'prog-mode-hook 'my-hlparen)
 
-;; yasnippet
-(setq my-yas-c-comment '())
-(defun my-yas ()
-  (elpa-require 'yasnippet)
-  (elpa-require 'yasnippet-bundle)
-  )
-(add-hook 'after-init-hook 'my-yas)
-
 ;; icicles.
 (defun my-icicle ()
   (elpa-require 'icicles)
@@ -435,22 +427,13 @@
             nil)
           ))))
 
-(defun do-yas-expand ()  
-  (let ((yas/fallback-behavior 'return-nil))
-    (yas/expand)
-    )
-  )
-
 (defun tab-indent-or-complete ()
   (interactive)
   (if (minibufferp)
       (minibuffer-complete)
-                                        ;(if (or (not yas/minor-mode)
-                                        ;(null (do-yas-expand)))
     (if (check-expansion)
         (company-complete-common)
       (indent-for-tab-command))
-                                        ;)
     )
   )
 
@@ -561,8 +544,6 @@
   (setq c-basic-offset 4)
   (my-h2s)	
   (my-cscope)
-  ;; add yas template.
-  (yas/define-snippets 'c-mode my-yas-c-comment 'cc-mode)
   )
 
 (add-hook 'c-mode-common-hook 
