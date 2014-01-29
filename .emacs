@@ -602,17 +602,24 @@
       )
 
 ;; php.
-;(elpa-require 'php-mode)
+(elpa-require 'php-mode)
+(elpa-require 'anything)
 ;(mi-use-package-url "php-mode-new.el" "http://mewde.googlecode.com/files/php-mode-new.el")
 ;(autoload 'php-mode "php-mode-new.el" "PHP mode" t)
-(mi-add-git "php+-mode")
-(mi-require-git 'php+-mode "php+-mode" "https://github.com/echosa/phpplus-mode.git")
+;(mi-add-git "php+-mode")
+;(mi-require-git 'php+-mode "php+-mode" "https://github.com/echosa/phpplus-mode.git")
 (defun my-php ()
+  (mi-use-package-url "php-completion.el" "https://raw.github.com/wybosys/wybosys/master/emacs/php-completion.el")
+  (require 'php-completion)
+  (php-completion-mode t)
+  ;; if you like patial match,
+  ;; use `ac-source-php-completion-patial' instead of `ac-source-php-completion'.
+  (add-to-list 'ac-sources 'ac-source-php-completion)
   ;(add-to-list 'company-backends 'company-php-backend)
   (elpa-require 'flymake-php)
   (flymake-php-load)
   )
-(add-hook 'php+-mode-hook 'my-php)
+(add-hook 'php-mode-hook 'my-php)
 
 ;; company-php
 (defun company-php-backend (command &optional arg &rest ignored)
