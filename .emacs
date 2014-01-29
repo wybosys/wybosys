@@ -289,6 +289,10 @@
 ;; go.
 (mi-require-url 'go-mode "go-mode.el" "https://raw.github.com/wybosys/wybosys/master/emacs/go-mode.el")
 (mi-require-url 'go-mode-load "go-mode-load.el" "https://raw.github.com/wybosys/wybosys/master/emacs/go-mode-load.el")
+(defun my-go ()
+  (elpa-require 'flymake-go)
+  )
+(add-hook 'go-mode-hook 'my-go)
 
 ;; vcm.
 (mi-require-url 'git "git.el" "https://raw.github.com/wybosys/wybosys/master/emacs/git/git.el")
@@ -386,12 +390,29 @@
 ;; opencl
 (add-to-list 'auto-mode-alist '("\\.cl\\'" . c-mode))
 
-;; company.
-(defun my-company ()
-  (elpa-require 'company)
-  (global-company-mode)
+;; autocomplete
+(defun my-autocomplete ()
+  (elpa-require 'auto-complete)
+  (require 'auto-complete-config)
+  (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")  
+  (ac-config-default)
+  (global-auto-complete-mode t)
   )
-(add-hook 'after-init-hook 'my-company)
+(defun my-autocomplete-c ()
+  (elpa-require 'ac-c-headers)
+  (add-to-list 'ac-sources 'ac-source-c-headers)
+  (add-to-list 'ac-sources 'ac-source-c-header-symbols t))
+(add-hook 'after-init-hook 'my-autocomplete)
+
+;; company.
+;(defun my-company ()
+;  (elpa-require 'company)
+;  (global-company-mode)
+;  )
+;(add-hook 'after-init-hook 'my-company)
+
+;; flymake
+(elpa-require 'flymake)
 
 ;; cedet
 (defun my-cedet-setting ()
@@ -399,15 +420,16 @@
    '(semantic-default-submodes '(global-semantic-decoration-mode 
                                  global-semantic-idle-completions-mode
                                  global-semantic-idle-scheduler-mode 
-                                 global-semanticdb-minor-mode                                                                       
+                                 global-semanticdb-minor-mode
                                  global-semantic-idle-summary-mode 
                                  global-semantic-mru-bookmark-mode))
    '(semantic-idle-scheduler-idle-time 3))  
   (setq semantic-c-dependency-system-include-path (list
-                                                   "/usr/include"
-                                                   "/usr/local/include"
-                                                   "/opt/local/include"
+                                                   "/usr/include/"
+                                                   "/usr/local/include/"
+                                                   "/opt/local/include/"
                                                    ))
+  ;(add-to-list 'ac-sources 'ac-source-semantic)  
   )
 
 (defun my-semantic-c-processed-files ()
@@ -437,7 +459,7 @@
   (if (minibufferp)
       (minibuffer-complete)
     (if (check-expansion)
-        (company-complete-common)
+        (auto-complete) ;(company-complete-common)
       (indent-for-tab-command))
     )
   )
@@ -546,6 +568,7 @@
   (setq c-basic-offset 4)
   (my-h2s)	
   (my-cscope)
+  (my-autocomplete-c)
   )
 
 (add-hook 'c-mode-common-hook 
@@ -585,7 +608,10 @@
 (mi-add-git "php+-mode")
 (mi-require-git 'php+-mode "php+-mode" "https://github.com/echosa/phpplus-mode.git")
 (defun my-php ()
-  (add-to-list 'company-backends 'company-php-backend))
+  ;(add-to-list 'company-backends 'company-php-backend)
+  (elpa-require 'flymake-php)
+  (flymake-php-load)
+  )
 (add-hook 'php+-mode-hook 'my-php)
 
 ;; company-php
@@ -671,10 +697,6 @@
   )
 
 (add-hook 'after-init-hook 'my-undo)
-
-;; auto compelete.
-                                        ;(require 'auto-complete)
-                                        ;(global-auto-complete-mode t)
 
 ;; hex mode.
 (add-to-list 'auto-mode-alist '("\\.wav\\'" . hexl-mode))
