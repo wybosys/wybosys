@@ -53,3 +53,6 @@ gen
 .gradle
 *.pdsync
 *.pdsyncu
+.buildpath
+.project
+.settings
