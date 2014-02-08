@@ -318,12 +318,24 @@
                                         ;(elpa-require 'python-mode)
   (elpa-require 'python-magic)
   (elpa-require 'python-pylint)
+  (elpa-require 'flymake-python-pyflakes)
+  (flymake-python-pyflakes-load)
+  ;(elpa-require 'pylint)
+  ;(autoload 'pylint "pylint")
+  ;(pylint-add-menu-items)
+  ;(pylint-add-key-bindings)
+  (elpa-require 'jedi)
+  (elpa-require 'jedi-direx)
+  (jedi:setup)
+  (setq jedi:setup t)
+  (setq jedi:complete-on-dot t)
   (elpa-require 'python-info)
                                         ;(elpa-require 'ipython)
   (setq ropemacs-guess-project t)
   (setq ropemacs-enable-autoimport t)
   (setq ropemacs-codeassist-maxfixes 3) ;; stop parse if error N times
   (setq ropemacs-autoimport-modules '("os" "shutil" "sys" "logging"))
+  ;(mydev-start)
   )
 (mi-add-git "pymacs")
 (add-hook 'python-mode-hook 'my-py-settings)
@@ -529,6 +541,9 @@
   (interactive)
   (my-ecb-setup)
   )
+(defun mydev-start ()
+  (run-with-idle-timer 0.01 nil 'mydev)
+  )
 
 ;; heander to source.
 (defun my-h2s ()
@@ -574,12 +589,8 @@
 (add-hook 'c-mode-common-hook 
           '(lambda ()
              (my-c-mode)
-             (run-with-idle-timer 0.01 nil 
-                                  (lambda ()
-                                    (mydev)
-                                    )                                  
-                                  ))
-          )
+             (mydev-start)
+             ))
 
 ;; verilog
 (autoload 'verilog-mode "verilog-mode" "Verilog mode" t )
