@@ -351,6 +351,13 @@
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
+;; java
+(defun my-java ()
+  (elpa-require 'javadoc-help)
+  (elpa-require 'javap)
+  )
+(add-hook 'java-mode-hook 'my-java)
+
 ;; javascript.
 (defun my-js-settings ()
   (elpa-require 'js2-mode)
