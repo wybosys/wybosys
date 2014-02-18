@@ -443,11 +443,11 @@
                                  global-semantic-idle-summary-mode 
                                  global-semantic-mru-bookmark-mode))
    '(semantic-idle-scheduler-idle-time 3))  
-  (setq semantic-c-dependency-system-include-path (list
-                                                   "/usr/include/"
-                                                   "/usr/local/include/"
-                                                   "/opt/local/include/"
-                                                   ))
+  (setq semantic-c-dependency-system-include-path '(
+                                                    "/usr/include/"
+                                                    "/usr/local/include/"
+                                                    "/opt/local/include/"
+                                                    ))
   ;(add-to-list 'ac-sources 'ac-source-semantic)  
   )
 
@@ -477,8 +477,8 @@
   (interactive)
   (if (minibufferp)
       (minibuffer-complete)
-    (if (check-expansion)
-        (auto-complete) ;(company-complete-common)
+    (if (check-expansion)        
+        (auto-complete) ;(auto-complete '(ac-source-semantic)) ;(company-complete-common)
       (indent-for-tab-command))
     )
   )
