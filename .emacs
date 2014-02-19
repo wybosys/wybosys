@@ -232,6 +232,11 @@
   )
 (add-hook 'prog-mode-hook 'my-hlparen)
 
+;; window-number
+(elpa-require 'window-number)
+(window-number-mode)
+(window-number-meta-mode)
+
 ;; icicles.
 (defun my-icicle ()
   (elpa-require 'icicles)
