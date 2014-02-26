@@ -247,6 +247,11 @@
   )
 (add-hook 'after-init-hook 'my-icicle)
 
+;; 80 columns.
+(mi-require-url 'fill-column-indicator "fill-column-indicator.el" "https://raw.github.com/wybosys/wybosys/master/emacs/fill-column-indicator.el")
+(define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
+(global-fci-mode 1)
+
 ;; backups.
 (setq make-backup-files nil)
 (defvar backup-dir "~/.emacs.d/backups/")
