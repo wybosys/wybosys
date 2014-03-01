@@ -1,6 +1,7 @@
 ;; feedback
 (setq visible-bell t)
 (blink-cursor-mode 0)
+(setq ring-bell-function 'ignore)
 
 ;; file encoding
 (prefer-coding-system 'utf-8)
@@ -374,7 +375,7 @@
 (elpa-require 'd-mode)
 
 ;; erlang
-(elpa-require 'erlang)
+;(elpa-require 'erlang)
 
 ;; markdown
 (mi-require-url 'markdown-mode "markdown-mode.el" "http://jblevins.org/projects/markdown-mode/markdown-mode.el")
