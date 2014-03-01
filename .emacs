@@ -1,27 +1,27 @@
-;; for global
+;; feedback
 (setq visible-bell t)
 (blink-cursor-mode 0)
 
-;; for file.
+;; file encoding
 (prefer-coding-system 'utf-8)
 (setq coding-system-for-read 'utf-8)
 (setq coding-system-for-write 'utf-8)
 
-;; for cedet and ecb or other.
+;; cedet and ecb bugfix
 (setq stack-trace-on-error t)
 
-;; package manager.
+;; download lisps
 (when (not (file-accessible-directory-p "~/.emacs.d/lisps"))
   (make-directory "~/.emacs.d/lisps"))
 (add-to-list 'load-path "~/.emacs.d/lisps/")
 (add-to-list 'load-path "~/.emacs.d/auto-install/")
 
-;; dired.
+;; dired
 (require 'dired-x)
 (setq-default dired-omit-files-p t)
 (setq dired-omit-files "^\\.[^.]\\|\\.pdf$\\|\\.tex$|\\.DS_Store$")
 
-;; package manager.
+;; elpa extension
 (require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
@@ -43,13 +43,13 @@
   )
 
 ;; may cause os-x crash. 
-                                        ;(defun ai-require-file (module file)
-                                        ;  (if (require module nil 'noerror) nil
-                                        ;    (elpa-require 'auto-install)    
-                                        ;    (auto-install-from-emacswiki file)
-                                        ;    (require module)
-                                        ;    )
-                                        ;  )
+;(defun ai-require-file (module file)
+;  (if (require module nil 'noerror) nil
+;    (elpa-require 'auto-install)    
+;    (auto-install-from-emacswiki file)
+;    (require module)
+;    )
+;  )
 
 (defun ai-require-url (module url)
   (if (require module nil 'noerror) nil
@@ -173,8 +173,6 @@
    '(default ((t (:inherit nil :stipple nil :background "#FFFFFF" :foreground "#000000" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 148 :width normal :foundry "outline"))))
    '(linum ((t (:inherit (shadow default) :background "#FFFFFF"))))
    ) 
-  ;; hl-line.
-  (set-face-background 'hl-line "#EEEEEE")
   ;; other
   (my-maximum)
   )
@@ -184,10 +182,9 @@
    '(default ((t (:inherit nil :stipple nil :background "#FFFFFF" :foreground "#000000" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "outline"))))
    '(linum ((t (:inherit (shadow default) :background "#FFFFFF"))))
    )
-  ;; hl-line.
-  (set-face-background 'hl-line "#EEEEEE")
   )
 
+;; gui/cli toggle
 (if (not window-system)
     (my-cli)
   (my-gui)
@@ -195,6 +192,15 @@
 (if (fboundp 'tool-bar-mode)
     (tool-bar-mode -1)
   )
+
+;; mmm-mode
+(elpa-require 'mmm-mode)
+
+;; hl-line.
+(set-face-background 'hl-line "#EEEEEE")
+(elpa-require 'hlinum)
+(hlinum-activate)
+(set-face-background 'linum-highlight-face "#EEEEEE")
 
 ;; yes-or-no.
 (defun my-mumble-or-no-p (prompt)
@@ -216,9 +222,13 @@
 (defalias 'yes-or-no-p 'my-mumble-or-no-p)
 (defalias 'y-or-n-p 'my-mumble-or-n-p)
 
+;; autocompile
+(elpa-require 'auto-compile)
+(auto-compile-on-load-mode 1)
+(auto-compile-on-save-mode 1)
+
 ;; hl-paren
 (defun my-hlparen ()  
-                                        ; hl paren
   (mi-require-url 'highlight-parentheses "highlight-parentheses.el" "http://nschum.de/src/emacs/highlight-parentheses/highlight-parentheses.el")
   (define-globalized-minor-mode global-highlight-parentheses-mode
     highlight-parentheses-mode
@@ -226,7 +236,7 @@
       (highlight-parentheses-mode t)
       ))
   (global-highlight-parentheses-mode t)
-                                        ; rainbow
+;; rainbow
   (mi-require-url 'rainbow-delimiters "rainbow-delimiters.el" "http://github.com/jlr/rainbow-delimiters/raw/master/rainbow-delimiters.el")
   (global-rainbow-delimiters-mode t)
   )
@@ -247,10 +257,18 @@
   )
 (add-hook 'after-init-hook 'my-icicle)
 
+;; elisp
+(defun my-elisp ()
+  ;(elpa-require 'slime)
+  ;(slime-mode)
+  )
+(add-hook 'emacs-lisp-mode-hook 'my-elisp)
+
 ;; 80 columns.
-(mi-require-url 'fill-column-indicator "fill-column-indicator.el" "https://raw.github.com/wybosys/wybosys/master/emacs/fill-column-indicator.el")
-(define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
-(global-fci-mode 1)
+;(mi-require-url 'fill-column-indicator "fill-column-indicator.el" "https://raw.github.com/wybosys/wybosys/master/emacs/fill-column-indicator.el")
+;(define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
+;(global-fci-mode 1)
+;(global-visual-line-mode 1)
 
 ;; backups.
 (setq make-backup-files nil)
@@ -328,6 +346,7 @@
                                         ;(elpa-require 'python-mode)
   (elpa-require 'python-magic)
   (elpa-require 'python-pylint)
+  ;(elpa-require 'python-pep8)
   (elpa-require 'flymake-python-pyflakes)
   (flymake-python-pyflakes-load)
   ;(elpa-require 'pylint)
@@ -432,6 +451,10 @@
   (add-to-list 'ac-sources 'ac-source-c-headers)
   (add-to-list 'ac-sources 'ac-source-c-header-symbols t))
 (add-hook 'after-init-hook 'my-autocomplete)
+
+;; autopair
+(elpa-require 'autopair)
+(autopair-global-mode)
 
 ;; company.
 ;(defun my-company ()
@@ -565,7 +588,7 @@
 ;; heander to source.
 (defun my-h2s ()
   (elpa-require 'cl-lib)
-                                        ;(mi-require-url 'eassist "eassist.el" "http://www.emacswiki.org/emacs/download/eassist.el")
+  ;(mi-require-url 'eassist "eassist.el" "http://www.emacswiki.org/emacs/download/eassist.el")
   (mi-require-url 'eassist "eassist.el" "https://raw.github.com/emacsmirror/cedet/master/contrib/eassist.el")
   (setq eassist-header-switches
         '(("h" . ("cpp" "cxx" "c++" "CC" "cc" "C" "c" "mm" "m"))
