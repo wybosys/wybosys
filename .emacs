@@ -229,13 +229,11 @@
 
 ;; hl-paren
 (defun my-hlparen ()  
-  (mi-require-url 'highlight-parentheses "highlight-parentheses.el" "http://nschum.de/src/emacs/highlight-parentheses/highlight-parentheses.el")
-  (define-globalized-minor-mode global-highlight-parentheses-mode
-    highlight-parentheses-mode
-    (lambda ()
-      (highlight-parentheses-mode t)
-      ))
-  (global-highlight-parentheses-mode t)
+  ;(mi-require-url 'highlight-parentheses "highlight-parentheses.el" "http://nschum.de/src/emacs/highlight-parentheses/highlight-parentheses.el")
+  ;(define-globalized-minor-mode global-highlight-parentheses-mode highlight-parentheses-mode (lambda () (highlight-parentheses-mode t)))
+  ;(global-highlight-parentheses-mode t)
+  (elpa-require 'mic-paren)
+  (paren-activate)
 ;; rainbow
   (mi-require-url 'rainbow-delimiters "rainbow-delimiters.el" "http://github.com/jlr/rainbow-delimiters/raw/master/rainbow-delimiters.el")
   (global-rainbow-delimiters-mode t)
@@ -293,7 +291,7 @@
   (require 'desktop)
   (session-initialize)
   )
-                                        ;(add-hook 'after-init-hook 'my-session)
+;(add-hook 'after-init-hook 'my-session)
 
 ;; uniquify buffer name
 (require 'uniquify)
