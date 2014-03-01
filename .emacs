@@ -370,6 +370,12 @@
 ;; json
 ;(mi-require-url 'json-mode "json-mode.el" "https://raw.github.com/joshwnj/json-mode/master/json-mode.el")
 
+;; d
+(elpa-require 'd-mode)
+
+;; erlang
+(elpa-require 'erlang)
+
 ;; markdown
 (mi-require-url 'markdown-mode "markdown-mode.el" "http://jblevins.org/projects/markdown-mode/markdown-mode.el")
 (autoload 'markdown-mode "markdown-mode"
