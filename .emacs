@@ -374,9 +374,6 @@
 ;; d
 (elpa-require 'd-mode)
 
-;; erlang
-;(elpa-require 'erlang)
-
 ;; markdown
 (mi-require-url 'markdown-mode "markdown-mode.el" "http://jblevins.org/projects/markdown-mode/markdown-mode.el")
 (autoload 'markdown-mode "markdown-mode"
@@ -446,6 +443,7 @@
 ;; autocomplete
 (defun my-autocomplete ()
   (elpa-require 'auto-complete)
+  (elpa-require 'ac-etags)
   (require 'auto-complete-config)
   (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")  
   (ac-config-default)
@@ -679,6 +677,14 @@
 
 ;; erlang
 (elpa-require 'erlang)
+(defun my-erlang ()
+  (mi-use-package-url "erlang-start.el" "https://raw.github.com/wybosys/wybosys/master/emacs/erlang/erlang-start.el")
+  (require 'erlang-start)
+  (mi-use-package-url "erlang-flymake.el" "https://raw.github.com/wybosys/wybosys/master/emacs/erlang/erlang-flymake.el")
+  (require 'erlang-flymake)
+  (add-to-list 'ac-modes 'erlang-mode)
+  )
+(add-hook 'erlang-mode-hook 'my-erlang)
 
 ;; company-php
 (defun company-php-backend (command &optional arg &rest ignored)
