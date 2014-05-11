@@ -677,6 +677,9 @@
   )
 (add-hook 'php-mode-hook 'my-php)
 
+;; erlang
+(elpa-require 'erlang)
+
 ;; company-php
 (defun company-php-backend (command &optional arg &rest ignored)
   (case command
