@@ -111,14 +111,14 @@
 (defun mi-require-git (module name url) 
   (if (require module nil 'noerror) nil
     (message (concat "Git cloning from " url))
-    (shell-command (concat (concat "git clone " url) (concat " ~/.emacs.d/lisps/" name)))
+    (shell-command (concat (concat "git clone --depth 1 " url) (concat " ~/.emacs.d/lisps/" name)))
     (message (concat "Please use root account to compile the " (concat "~/.emacs.d/lisps/" name)))
     )
   )
 (defun mi-use-git (module name url)
   (if (featurep module) nil
     (message (concat "Git cloning from " url))
-    (shell-command (concat (concat "git clone " url) (concat " ~/.emacs.d/lisps/" name)))    
+    (shell-command (concat (concat "git clone --depth 1 " url) (concat " ~/.emacs.d/lisps/" name)))    
     )
   )
 
@@ -677,12 +677,16 @@
 
 ;; erlang
 (elpa-require 'erlang)
+(setq erlang-root-dir "/opt/local/lib/erlang/")
 (defun my-erlang ()
   (mi-use-package-url "erlang-start.el" "https://raw.github.com/wybosys/wybosys/master/emacs/erlang/erlang-start.el")
   (require 'erlang-start)
   (mi-use-package-url "erlang-flymake.el" "https://raw.github.com/wybosys/wybosys/master/emacs/erlang/erlang-flymake.el")
   (require 'erlang-flymake)
   (add-to-list 'ac-modes 'erlang-mode)
+  (add-to-list 'load-path "~/.emacs.d/lisps/distel/elisp")  
+  (mi-require-git 'distel "distel" "https://github.com/massemanet/distel.git")
+  (distel-setup)
   )
 (add-hook 'erlang-mode-hook 'my-erlang)
 
