@@ -514,7 +514,7 @@
   (if (minibufferp)
       (minibuffer-complete)
     (if (check-expansion)
-        (auto-complete) ;(auto-complete '(ac-source-semantic)) ;(company-complete-common)        
+        (auto-complete)
       (indent-for-tab-command))
     )
   )
@@ -687,6 +687,8 @@
   (add-to-list 'load-path "~/.emacs.d/lisps/distel/elisp")  
   (mi-require-git 'distel "distel" "https://github.com/massemanet/distel.git")
   (distel-setup)
+  ;(setq inferior-erlang-machine-options '("-sname" "emacs"))
+  ;(imenu-add-to-menubar "imenu")
   )
 (add-hook 'erlang-mode-hook 'my-erlang)
 
