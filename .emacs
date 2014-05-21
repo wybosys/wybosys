@@ -17,11 +17,6 @@
 (add-to-list 'load-path "~/.emacs.d/lisps/")
 (add-to-list 'load-path "~/.emacs.d/auto-install/")
 
-;; dired
-(require 'dired-x)
-(setq-default dired-omit-files-p t)
-(setq dired-omit-files "^\\.[^.]\\|\\.pdf$\\|\\.tex$|\\.DS_Store$")
-
 ;; elpa extension
 (require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
@@ -195,6 +190,17 @@
 (if (fboundp 'tool-bar-mode)
     (tool-bar-mode -1)
   )
+
+;; dired
+(elpa-require 'dash)
+(elpa-require 'dired-hacks-utils)
+(elpa-require 'dired+)
+(elpa-require 'dired-single)
+;(elpa-require 'dired-filter)
+;(require 'dired-x)
+;(elpa-require 'dired-rainbow)
+(setq-default dired-omit-files-p t)
+(setq dired-omit-files "^\\.[^.]\\|\\.pdf$\\|\\.tex$|\\.DS_Store$")
 
 ;; mmm-mode
 (elpa-require 'mmm-mode)
@@ -855,3 +861,4 @@
 
 ;; show blank, newline, tab ...
 (elpa-require 'blank-mode)
+
