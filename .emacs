@@ -32,6 +32,7 @@
 (package-initialize)
 
 (defun elpa-require (module &optional package)
+  ;(setq mytimemarker (current-time))
   (if (require module nil 'noerror) nil
     (unless package-archive-contents
       (package-refresh-contents))
@@ -41,6 +42,7 @@
     (message "module installed")
     (require module)
     )
+  ;(message "module %s interval: %f" (symbol-name module) (float-time (time-since mytimemarker)))
   )
 
 ;; may cause os-x crash. 
