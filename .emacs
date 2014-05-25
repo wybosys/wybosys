@@ -419,8 +419,8 @@
 
 ;; yaml.
 (mi-use-package-url "yaml-mode.el" "https://raw.github.com/yoshiki/yaml-mode/master/yaml-mode.el")
-(add-to-list 'auto-mode-alist '("\\.ya?ml$" . yaml-mode))
 (autoload 'yaml-mode "yaml-mode")
+(add-to-list 'auto-mode-alist '("\\.ya?ml$" . yaml-mode))
 
 ;; qt.
 ;(elpa-require 'qml-mode)
