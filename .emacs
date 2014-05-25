@@ -196,11 +196,14 @@
 (elpa-require 'dired-hacks-utils)
 (elpa-require 'dired+)
 (elpa-require 'dired-single)
+(elpa-require 'dired-toggle)
+;(elpa-require 'dired-subtree)
 ;(elpa-require 'dired-filter)
 ;(require 'dired-x)
 ;(elpa-require 'dired-rainbow)
 (setq-default dired-omit-files-p t)
 (setq dired-omit-files "^\\.[^.]\\|\\.pdf$\\|\\.tex$|\\.DS_Store$")
+(setq dired-default-buffer-name "*Dired*")
 
 ;; mmm-mode
 (elpa-require 'mmm-mode)
@@ -260,7 +263,8 @@
   (icy-mode 1)
   (add-hook 'icicle-ido-like-mode-hook
             (lambda () (setq icicle-default-value
-                             (if icicle-ido-like-mode t 'insert-end))))
+                             (if icicle-ido-like-mode t 'insert-end))
+              ))
   )
 (add-hook 'after-init-hook 'my-icicle)
 
@@ -833,6 +837,7 @@
 (global-set-key (kbd "<end>") 'bookmark-set)
 (global-set-key (kbd "<home>") 'bookmark-jump)
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
+(global-set-key (kbd "C-c C-d") 'dired-toggle)
 
 ;; clipboard
 (defun copy-from-osx ()
