@@ -736,6 +736,7 @@
 ;; nginx mode.
 (mi-use-package-url "nginx-mode.el" "https://raw.github.com/ajc/nginx-mode/master/nginx-mode.el")
 (autoload 'nginx-mode "nginx-mode" nil t)
+(setq nginx-indent-level 8)
 (add-to-list 'auto-mode-alist '("nginx\\.conf\\'" . nginx-mode))
 (add-to-list 'auto-mode-alist '("nginx/conf\\.d/[[:ascii:]]+\\.conf\\'" . nginx-mode))
 
