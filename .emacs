@@ -733,6 +733,12 @@
 (add-to-list 'auto-mode-alist '("access\\.conf\\'" . apache-mode))
 (add-to-list 'auto-mode-alist '("sites-\\(available\\|enabled\\)/" . apache-mode))
 
+;; nginx mode.
+(mi-use-package-url "nginx-mode.el" "https://raw.github.com/ajc/nginx-mode/master/nginx-mode.el")
+(autoload 'nginx-mode "nginx-mode" nil t)
+(add-to-list 'auto-mode-alist '("nginx\\.conf\\'" . nginx-mode))
+(add-to-list 'auto-mode-alist '("nginx/conf\\.d/[[:ascii:]]+\\.conf\\'" . nginx-mode))
+
 ;; objc.
 (add-to-list 'auto-mode-alist '("\\.mm\\'" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.m\\'" . objc-mode))
