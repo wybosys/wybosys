@@ -306,10 +306,8 @@
   (session-initialize)
   (elpa-require 'desktop)
   (require 'desktop)
-  (desktop-save-mode 1)
-  (desktop-read)
-  (setq desktop-enable t)
-  (setq desktop-dirname "~/.emacs.d/")
+  ;(desktop-save-mode 1)
+  ;(setq desktop-enable t)
   )
 (add-hook 'after-init-hook 'my-session)
 
