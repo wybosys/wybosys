@@ -270,8 +270,11 @@
 
 ;; elisp
 (defun my-elisp ()
-  ;(elpa-require 'slime)
-  ;(slime-mode)
+  (elpa-require 'slime)
+  (elpa-require 'ac-slime)
+  ;(setq inferior-lisp-program "sbcl")
+  ;(slime-setup)
+  (require 'slime-autoloads)
   )
 (add-hook 'emacs-lisp-mode-hook 'my-elisp)
 
@@ -304,7 +307,9 @@
   (elpa-require 'desktop)
   (require 'desktop)
   (desktop-save-mode 1)
+  (desktop-read)
   (setq desktop-enable t)
+  (setq desktop-dirname "~/.emacs.d/")
   )
 (add-hook 'after-init-hook 'my-session)
 
