@@ -270,11 +270,11 @@
 
 ;; elisp
 (defun my-elisp ()
-  (elpa-require 'slime)
-  (elpa-require 'ac-slime)
-  ;(setq inferior-lisp-program "sbcl")
+  ;(elpa-require 'slime)
+  ;(elpa-require 'ac-slime)
+  ;(setq inferior-lisp-program "ccl64")
   ;(slime-setup)
-  (require 'slime-autoloads)
+  ;(require 'slime-autoloads)
   )
 (add-hook 'emacs-lisp-mode-hook 'my-elisp)
 
