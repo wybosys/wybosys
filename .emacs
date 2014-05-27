@@ -191,6 +191,12 @@
     (tool-bar-mode -1)
   )
 
+;; benchmark
+;; git@github.com:dholm/benchmark-init-el.git
+;(require 'benchmark-init)
+;(require 'benchmark-init-modes)
+;(benchmark-init/activate)
+
 ;; dired
 (elpa-require 'dash)
 (elpa-require 'dired-hacks-utils)
@@ -316,7 +322,7 @@
 (setq uniquify-buffer-name-style 'reverse)
 
 ;; org-mode
-(require 'org)
+(autoload 'org-mode "org" nil t)
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 
 ;; tramp
@@ -683,21 +689,16 @@
   )
 (add-hook 'sh-set-shell-hook 'my-bash)
 
+;; anything
+(elpa-require 'anything)
+
 ;; php.
 (elpa-require 'php-mode)
-(elpa-require 'anything)
-;(mi-use-package-url "php-mode-new.el" "http://mewde.googlecode.com/files/php-mode-new.el")
-;(autoload 'php-mode "php-mode-new.el" "PHP mode" t)
-;(mi-add-git "php+-mode")
-;(mi-require-git 'php+-mode "php+-mode" "https://github.com/echosa/phpplus-mode.git")
 (defun my-php ()
   (mi-use-package-url "php-completion.el" "https://raw.github.com/wybosys/wybosys/master/emacs/php-completion.el")
   (require 'php-completion)
   (php-completion-mode t)
-  ;; if you like patial match,
-  ;; use `ac-source-php-completion-patial' instead of `ac-source-php-completion'.
   (add-to-list 'ac-sources 'ac-source-php-completion)
-  ;(add-to-list 'company-backends 'company-php-backend)
   (elpa-require 'flymake-php)
   (flymake-php-load)
   )
