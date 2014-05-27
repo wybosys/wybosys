@@ -300,11 +300,13 @@
 ;; session.
 (defun my-session ()
   (elpa-require 'session)
+  (session-initialize)
   (elpa-require 'desktop)
   (require 'desktop)
-  (session-initialize)
+  (desktop-save-mode 1)
+  (setq desktop-enable t)
   )
-;(add-hook 'after-init-hook 'my-session)
+(add-hook 'after-init-hook 'my-session)
 
 ;; uniquify buffer name
 (require 'uniquify)
@@ -666,6 +668,17 @@
       verilog-highlight-p1800-keywords nil
       verilog-linter             "my_lint_shell_command"
       )
+
+;; bash.
+(defun my-bash()
+  (elpa-require 'bash-completion)
+  (bash-completion-setup)
+  (elpa-require 'flymake-shell)
+  (flymake-shell-load)
+  (elpa-require 'shell-command)
+  (elpa-require 'shell-here)
+  )
+(add-hook 'sh-set-shell-hook 'my-bash)
 
 ;; php.
 (elpa-require 'php-mode)
