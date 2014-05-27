@@ -611,6 +611,9 @@
   (run-with-idle-timer 0.01 nil 'mydev)
   )
 
+;; zeal
+;(mi-require-url 'zeal-at-point "zeal-at-point" "https://raw.github.com/jinzhu/zeal-at-point/master/zeal-at-point.el")
+
 ;; heander to source.
 (defun my-h2s ()
   (elpa-require 'cl-lib)
