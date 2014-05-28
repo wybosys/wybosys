@@ -364,19 +364,16 @@
 
 ;; python.
 (defun my-py-settings ()
-  ;(mi-require-git 'pymacs "pymacs" "https://github.com/pinard/Pymacs.git")
-  ;(elpa-require 'python-magic)
+  ;(elpa-require 'pymacs)
   (elpa-require 'python-pylint)
   (elpa-require 'python-environment)
+  (elpa-require 'python-info)
   (elpa-require 'flymake-python-pyflakes)
   (flymake-python-pyflakes-load)
   (elpa-require 'jedi)
   (elpa-require 'jedi-direx)
-  (jedi:ac-setup)
-  (setq jedi:complete-on-dot t)
-  (elpa-require 'python-info)
+  (jedi:setup)
   )
-(mi-add-git "pymacs")
 (add-hook 'python-mode-hook 'my-py-settings)
 
 ;; json
