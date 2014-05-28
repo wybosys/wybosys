@@ -365,7 +365,7 @@
 ;; python.
 (defun my-py-settings ()
   ;(mi-require-git 'pymacs "pymacs" "https://github.com/pinard/Pymacs.git")
-  (elpa-require 'python-magic)
+  ;(elpa-require 'python-magic)
   (elpa-require 'python-pylint)
   (elpa-require 'python-environment)
   (elpa-require 'flymake-python-pyflakes)
@@ -373,7 +373,6 @@
   (elpa-require 'jedi)
   (elpa-require 'jedi-direx)
   (jedi:ac-setup)
-  (jedi:install-server)
   (setq jedi:complete-on-dot t)
   (elpa-require 'python-info)
   )
