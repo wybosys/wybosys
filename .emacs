@@ -365,6 +365,10 @@
 ;; python.
 (defun my-py-settings ()
   ;(elpa-require 'pymacs)
+  ;(setq ipython-command "ipython")
+  ;(elpa-require 'ipython)
+  ;(elpa-require 'pep8)
+  (elpa-require 'python-pep8)
   (elpa-require 'python-pylint)
   (elpa-require 'python-environment)
   (elpa-require 'python-info)
