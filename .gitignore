@@ -55,3 +55,4 @@ gen
 *.pdsync
 *.pdsyncu
 *.elc
+*.beam
