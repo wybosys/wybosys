@@ -340,7 +340,6 @@
 (mi-require-url 'go-mode "go-mode.el" "https://raw.github.com/wybosys/wybosys/master/emacs/go-mode.el")
 (mi-require-url 'go-mode-load "go-mode-load.el" "https://raw.github.com/wybosys/wybosys/master/emacs/go-mode-load.el")
 (defun my-go ()
-  (elpa-require 'flymake-go)
   )
 (add-hook 'go-mode-hook 'my-go)
 
@@ -349,9 +348,6 @@
 (mi-require-url 'git-blame "git-blame.el" "https://raw.github.com/wybosys/wybosys/master/emacs/git/git-blame.el")
 (require 'vc-git)
 (mi-require-url 'egit "egit.el" "https://raw.github.com/jimhourihan/egit/master/egit.el")
-
-;; hl-chars
-;(mi-require-url 'highlight-chars "highlight-chars.el" "https://raw.github.com/wybosys/wybosys/master/emacs/highlight-chars.el")
 
 ;; whitespace-mode.
 (mi-require-url 'whitespace "whitespace.el" "https://raw.github.com/wybosys/wybosys/master/emacs/whitespace.el")
@@ -364,33 +360,18 @@
 
 ;; python.
 (defun my-py-settings ()
-  ;(elpa-require 'pymacs)
-  ;(setq ipython-command "ipython")
-  ;(elpa-require 'ipython)
-  ;(elpa-require 'pep8)  
   (elpa-require 'python-pep8)
-  (elpa-require 'python-pylint)
   (elpa-require 'python-environment)
   (elpa-require 'python-info)
-  (elpa-require 'flymake-python-pyflakes)
-  (flymake-python-pyflakes-load)
+  (elpa-require 'pylint)
+  (elpa-require 'pyflakes)
   (elpa-require 'jedi)
   (elpa-require 'jedi-direx)
+  (elpa-require 'flycheck-pyflakes)
+  (flycheck-mode)
   (jedi:setup)
-  (defun flymake-pylint-init ()
-    (let* ((temp-file (flymake-init-create-temp-buffer-copy
-                       'flymake-create-temp-inplace))
-           (local-file (file-relative-name
-                        temp-file
-                        (file-name-directory buffer-file-name))))
-      (list "epylint" (list local-file))))
-  (add-to-list 'flymake-allowed-file-name-masks
-               '("\\.py\\'" flymake-pylint-init))
   )
 (add-hook 'python-mode-hook 'my-py-settings)
-
-;; json
-;(mi-require-url 'json-mode "json-mode.el" "https://raw.github.com/joshwnj/json-mode/master/json-mode.el")
 
 ;; d
 (elpa-require 'd-mode)
@@ -480,16 +461,10 @@
 (elpa-require 'autopair)
 (autopair-global-mode)
 
-;; company.
-;(defun my-company ()
-;  (elpa-require 'company)
-;  (global-company-mode)
-;  )
-;(add-hook 'after-init-hook 'my-company)
-
-;; flymake
-(elpa-require 'flymake)
-(elpa-require 'flymake-cursor)
+;; flycheck
+(elpa-require 'flycheck)
+;(elpa-require 'flycheck-color-mode-line)
+;(add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)
 
 ;; cedet
 (defun my-cedet-setting ()
@@ -684,8 +659,6 @@
 (defun my-bash()
   (elpa-require 'bash-completion)
   (bash-completion-setup)
-  (elpa-require 'flymake-shell)
-  (flymake-shell-load)
   (elpa-require 'shell-command)
   (elpa-require 'shell-here)
   )
@@ -697,12 +670,11 @@
 ;; php.
 (elpa-require 'php-mode)
 (defun my-php ()
+  (flycheck-mode)
   (mi-use-package-url "php-completion.el" "https://raw.github.com/wybosys/wybosys/master/emacs/php-completion.el")
   (require 'php-completion)
   (php-completion-mode t)
   (add-to-list 'ac-sources 'ac-source-php-completion)
-  (elpa-require 'flymake-php)
-  (flymake-php-load)
   )
 (add-hook 'php-mode-hook 'my-php)
 
@@ -712,35 +684,13 @@
 (defun my-erlang ()
   (mi-use-package-url "erlang-start.el" "https://raw.github.com/wybosys/wybosys/master/emacs/erlang/erlang-start.el")
   (require 'erlang-start)
-  (mi-use-package-url "erlang-flymake.el" "https://raw.github.com/wybosys/wybosys/master/emacs/erlang/erlang-flymake.el")
-  (require 'erlang-flymake)
+  (flycheck-mode)
   (add-to-list 'ac-modes 'erlang-mode)
   (add-to-list 'load-path "~/.emacs.d/lisps/distel/elisp")  
   (mi-require-git 'distel "distel" "https://github.com/massemanet/distel.git")
   (distel-setup)
-  ;(setq inferior-erlang-machine-options '("-sname" "emacs"))
-  ;(imenu-add-to-menubar "imenu")
   )
 (add-hook 'erlang-mode-hook 'my-erlang)
-
-;; company-php
-(defun company-php-backend (command &optional arg &rest ignored)
-  (case command
-    ('prefix (and (eq major-mode 'php+-mode)
-                  (company-grab-symbol)))
-    ('sorted t)
-    ('candidates (all-completions
-                  arg 
-                  (if (and (boundp 'my-php-symbol-hash)
-                           my-php-symbol-hash)
-                      my-php-symbol-hash
-                    (with-temp-buffer
-                        (call-process-shell-command "php -r '$all=get_defined_functions();foreach ($all[\"internal\"] as $fun) { echo $fun . \";\";};'" nil t)
-                      (goto-char (point-min))
-                      (let ((hash (make-hash-table)))
-                        (while (re-search-forward "\\([^;]+\\);" (point-max) t)
-                          (puthash (match-string 1) t hash))
-                        (setq my-php-symbol-hash hash))))))))
 
 ;; apache httpd.
 (mi-use-package-url "apache-mode.el" "https://raw.github.com/wybosys/wybosys/master/emacs/apache-mode.el")
