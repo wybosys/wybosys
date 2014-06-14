@@ -170,7 +170,10 @@
   (custom-set-faces
    '(default ((t (:inherit nil :stipple nil :background "#FFFFFF" :foreground "#000000" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 148 :width normal :foundry "outline"))))
    '(linum ((t (:inherit (shadow default) :background "#FFFFFF"))))
-   ) 
+   )
+  (set-fontset-font
+   (frame-parameter nil 'font) 'han (font-spec :family "STSong")
+   )
   ;; other
   (my-maximum)
   )
