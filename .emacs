@@ -249,13 +249,10 @@
 (auto-compile-on-save-mode 1)
 
 ;; hl-paren
-(defun my-hlparen ()  
-  ;(mi-require-url 'highlight-parentheses "highlight-parentheses.el" "http://nschum.de/src/emacs/highlight-parentheses/highlight-parentheses.el")
-  ;(define-globalized-minor-mode global-highlight-parentheses-mode highlight-parentheses-mode (lambda () (highlight-parentheses-mode t)))
-  ;(global-highlight-parentheses-mode t)
+(defun my-hlparen ()
   (elpa-require 'mic-paren)
   (paren-activate)
-;; rainbow
+  ; rainbow
   (mi-require-url 'rainbow-delimiters "rainbow-delimiters.el" "http://github.com/jlr/rainbow-delimiters/raw/master/rainbow-delimiters.el")
   (global-rainbow-delimiters-mode t)
   )
@@ -276,16 +273,6 @@
               ))
   )
 (add-hook 'after-init-hook 'my-icicle)
-
-;; elisp
-(defun my-elisp ()
-  ;(elpa-require 'slime)
-  ;(elpa-require 'ac-slime)
-  ;(setq inferior-lisp-program "ccl64")
-  ;(slime-setup)
-  ;(require 'slime-autoloads)
-  )
-(add-hook 'emacs-lisp-mode-hook 'my-elisp)
 
 ;; 80 columns.
 ;(mi-require-url 'fill-column-indicator "fill-column-indicator.el" "https://raw.github.com/wybosys/wybosys/master/emacs/fill-column-indicator.el")
@@ -315,8 +302,6 @@
   (session-initialize)
   (elpa-require 'desktop)
   (require 'desktop)
-  ;(desktop-save-mode 1)
-  ;(setq desktop-enable t)
   )
 (add-hook 'after-init-hook 'my-session)
 
@@ -565,8 +550,8 @@
   )
 
 (defun my-ecb-keys ()
-                                        ;(local-set-key "." 'semantic-complete-self-insert)
-                                        ;(local-set-key ">" 'semantic-complete-self-insert)
+   ;(local-set-key "." 'semantic-complete-self-insert)
+   ;(local-set-key ">" 'semantic-complete-self-insert)
   )
 
 (defun my-ecb-setup ()
@@ -588,13 +573,9 @@
   (run-with-idle-timer 0.01 nil 'mydev)
   )
 
-;; zeal
-;(mi-require-url 'zeal-at-point "zeal-at-point" "https://raw.github.com/jinzhu/zeal-at-point/master/zeal-at-point.el")
-
 ;; heander to source.
 (defun my-h2s ()
   (elpa-require 'cl-lib)
-  ;(mi-require-url 'eassist "eassist.el" "http://www.emacswiki.org/emacs/download/eassist.el")
   (mi-require-url 'eassist "eassist.el" "https://raw.github.com/emacsmirror/cedet/master/contrib/eassist.el")
   (setq eassist-header-switches
         '(("h" . ("cpp" "cxx" "c++" "CC" "cc" "C" "c" "mm" "m"))
@@ -715,9 +696,6 @@
 ;; objc.
 (add-to-list 'auto-mode-alist '("\\.mm\\'" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.m\\'" . objc-mode))
-
-;; web browser.
-;(mi-use-package-url "nero.el" "http://nero-el.googlecode.com/svn/nero.el")
 
 ;; script style.
 (defconst my-c-style
