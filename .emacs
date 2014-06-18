@@ -3,11 +3,6 @@
 (blink-cursor-mode 0)
 (setq ring-bell-function 'ignore)
 
-;; file encoding
-(prefer-coding-system 'utf-8)
-(setq coding-system-for-read 'utf-8)
-(setq coding-system-for-write 'utf-8)
-
 ;; cedet and ecb bugfix
 (setq stack-trace-on-error t)
 
