@@ -3,6 +3,9 @@
 (blink-cursor-mode 0)
 (setq ring-bell-function 'ignore)
 
+;; coding
+(prefer-coding-system 'chinese-gb18030)
+
 ;; cedet and ecb bugfix
 (setq stack-trace-on-error t)
 
