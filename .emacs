@@ -4,7 +4,11 @@
 (setq ring-bell-function 'ignore)
 
 ;; coding
-(prefer-coding-system 'chinese-gb18030)
+;(prefer-coding-system 'chinese-gb18030)
+(set-language-environment 'Chinese-GB)
+(set-buffer-file-coding-system 'utf-8)
+(set-clipboard-coding-system 'utf-8)
+(set-selection-coding-system 'utf-8)
 
 ;; cedet and ecb bugfix
 (setq stack-trace-on-error t)
