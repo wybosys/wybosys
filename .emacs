@@ -4,11 +4,9 @@
 (setq ring-bell-function 'ignore)
 
 ;; coding
-;(prefer-coding-system 'chinese-gb18030)
-(set-language-environment 'Chinese-GB)
-(set-buffer-file-coding-system 'utf-8)
-(set-clipboard-coding-system 'utf-8)
-(set-selection-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+(setq default-buffer-file-coding-system 'utf-8)
+;(setq coding-system-for-read 'utf-8)
 
 ;; cedet and ecb bugfix
 (setq stack-trace-on-error t)
@@ -174,7 +172,8 @@
    '(linum ((t (:inherit (shadow default) :background "#FFFFFF"))))
    )
   (set-fontset-font
-   (frame-parameter nil 'font) 'han (font-spec :family "STSong")
+   (frame-parameter nil 'font) 
+   'han (font-spec :family "STSong")
    )
   ;; other
   (my-maximum)
@@ -325,6 +324,13 @@
 ;; save space.
 (setq-default save-place t)
 (require 'saveplace)
+
+;; default mode.
+(add-to-list 'auto-mode-alist '("\\.api\\'" . text-mode))
+(defun my-text ()
+  (prefer-coding-system 'gb18030)
+  )
+(add-hook 'text-mode-hook 'my-text)
 
 ;; go.
 (mi-require-url 'go-mode "go-mode.el" "https://raw.github.com/wybosys/wybosys/master/emacs/go-mode.el")
