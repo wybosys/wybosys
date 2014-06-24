@@ -703,7 +703,18 @@
 
 ;; objc.
 (add-to-list 'auto-mode-alist '("\\.mm\\'" . c++-mode))
-(add-to-list 'auto-mode-alist '("\\.m\\'" . objc-mode))
+;(add-to-list 'auto-mode-alist '("\\.m\\'" . objc-mode))
+
+;; octave.
+(autoload 'octave-mode "octave-mod" nil t)
+(add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
+(add-hook 'octave-mode-hook
+          (lambda ()
+            (add-to-list 'ac-modes 'octave-mode)
+            (elpa-require 'ac-octave)
+            (abbrev-mode 1)
+            (auto-fill-mode 1)
+            ))
 
 ;; script style.
 (defconst my-c-style
