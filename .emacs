@@ -701,6 +701,12 @@
 (add-to-list 'auto-mode-alist '("nginx\\.conf\\'" . nginx-mode))
 (add-to-list 'auto-mode-alist '("nginx/conf\\.d/[[:ascii:]]+\\.conf\\'" . nginx-mode))
 
+;; ssh mode.
+(mi-use-package-url "ssh-config-mode.el" "https://raw.github.com/jhgorrell/ssh-config-mode-el/master/ssh-config-mode.el")
+(autoload 'ssh-config-mode "ssh-config-mode" nil t)
+(add-to-list 'auto-mode-alist '(".ssh/config\\'"  . ssh-config-mode))
+(add-to-list 'auto-mode-alist '("sshd?_config\\'" . ssh-config-mode))
+
 ;; objc.
 (add-to-list 'auto-mode-alist '("\\.mm\\'" . c++-mode))
 ;(add-to-list 'auto-mode-alist '("\\.m\\'" . objc-mode))
