@@ -797,6 +797,7 @@
                              "tidy -i -xml -utf8 --quiet y --indent-attributes y -" (buffer-name) t)
     )
   )
+(add-to-list 'auto-mode-alist '("\\.gpx\\'" . xml-mode))
 
 ;; scala
 (elpa-require 'scala-mode2)
