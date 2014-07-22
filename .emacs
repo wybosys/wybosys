@@ -468,10 +468,13 @@
    '(semantic-default-submodes '(global-semantic-decoration-mode 
                                  global-semantic-idle-completions-mode
                                  global-semantic-idle-scheduler-mode 
-                                 global-semanticdb-minor-mode
                                  global-semantic-idle-summary-mode 
-                                 global-semantic-mru-bookmark-mode))
-   '(semantic-idle-scheduler-idle-time 3))  
+                                 global-semantic-mru-bookmark-mode
+                                 global-semantic-highlight-edits-mode
+                                 global-semanticdb-minor-mode
+                                 ))
+   '(semantic-idle-scheduler-idle-time 2)
+   )  
   (setq semantic-c-dependency-system-include-path '(
                                                     "/usr/include/"
                                                     "/usr/local/include/"
