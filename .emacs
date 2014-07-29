@@ -365,7 +365,8 @@
   (elpa-require 'jedi-direx)
   (elpa-require 'flycheck-pyflakes)
   (flycheck-mode)
-  (jedi:setup)
+  ;(setq jedi:complete-on-dot t)
+  (jedi:ac-setup)
   )
 (add-hook 'python-mode-hook 'my-py-settings)
 
