@@ -617,6 +617,7 @@
 
 ;; c mode.
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.c\\'" . c++-mode))
 (defun my-c-mode ()
   (interactive)
   (setq c-basic-offset 4)
