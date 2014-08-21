@@ -675,6 +675,11 @@
   )
 (add-hook 'php-mode-hook 'my-php)
 
+;; protobuf
+(mi-use-package-url "protobuf-mode.el" "https://raw.github.com/wybosys/wybosys/master/emacs/protobuf-mode.el")
+(autoload 'protobuf-mode "protobuf-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.proto\\'" . protobuf-mode))
+
 ;; erlang
 (elpa-require 'erlang)
 (setq erlang-root-dir "/opt/local/lib/erlang/")
