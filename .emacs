@@ -680,6 +680,9 @@
 (autoload 'protobuf-mode "protobuf-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.proto\\'" . protobuf-mode))
 
+;; thrift.
+(elpa-require 'thrift)
+
 ;; erlang
 (elpa-require 'erlang)
 (setq erlang-root-dir "/opt/local/lib/erlang/")
