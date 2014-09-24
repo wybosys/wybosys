@@ -5,6 +5,7 @@ tmp
 ~*
 *~
 .settings
+.classpath
 *.xcuserdatad
 xcshareddata
 *.user
