@@ -57,3 +57,5 @@ gen
 *.pdsyncu
 *.elc
 *.beam
+*.idea
+*.iml
