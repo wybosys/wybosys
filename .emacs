@@ -395,6 +395,15 @@
   )
 (add-hook 'js-mode-hook 'my-js-settings)
 
+;; typescript
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
+(defun my-typescript-settings ()
+  (auto-complete-mode)
+  ;(require 'tss)
+  ;(tss-config-default)
+  )
+(add-hook 'typescript-mode-hook 'my-typescript-settings)
+
 ;; cmake.
 (mi-use-package-url "cmake-mode.el" "http://www.cmake.org/CMakeDocs/cmake-mode.el")
 (setq auto-mode-alist
