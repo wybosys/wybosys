@@ -336,6 +336,8 @@
 (mi-require-url 'go-mode "go-mode.el" "https://raw.github.com/wybosys/wybosys/master/emacs/go-mode.el")
 (mi-require-url 'go-mode-load "go-mode-load.el" "https://raw.github.com/wybosys/wybosys/master/emacs/go-mode-load.el")
 (defun my-go ()
+  (elpa-require 'go-autocomplete)
+  (elpa-require 'golint)
   )
 (add-hook 'go-mode-hook 'my-go)
 
