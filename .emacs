@@ -119,6 +119,11 @@
     )
   )
 
+(defun mi-add-exec-path (path)
+  (setenv "PATH" (concat (getenv "PATH") (concat ":" path)))
+  (setq exec-path (split-string (getenv "PATH") path-separator))
+  )
+
 ;; guide setting.
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -332,12 +337,21 @@
   )
 (add-hook 'text-mode-hook 'my-text)
 
-;; go.
+;; go-lang.
 (mi-require-url 'go-mode "go-mode.el" "https://raw.github.com/wybosys/wybosys/master/emacs/go-mode.el")
 (mi-require-url 'go-mode-load "go-mode-load.el" "https://raw.github.com/wybosys/wybosys/master/emacs/go-mode-load.el")
 (defun my-go ()
+  (if (eq (getenv "GOPATH") nil) (setenv "GOPATH" (concat (getenv "HOME") "/.go.d/")))
+  (setq go-path (getenv "GOPATH"))
+  (mi-add-exec-path (concat go-path "bin/"))
+  (if (not (file-exists-p (concat go-path "bin/gocode")))    
+      (progn
+        (message "installing gocode")
+        (shell-command "go get -u github.com/nsf/gocode")))
   (elpa-require 'go-autocomplete)
   (elpa-require 'golint)
+  (add-to-list 'ac-sources 'ac-source-go)
+  (my-autocomplete)
   )
 (add-hook 'go-mode-hook 'my-go)
 
