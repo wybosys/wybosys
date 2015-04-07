@@ -684,7 +684,7 @@
   (elpa-require 'shell-command)
   (elpa-require 'shell-here)
   )
-(add-hook 'sh-set-shell-hook 'my-bash)
+(add-hook 'shell-mode-hook 'my-bash)
 
 ;; anything
 (elpa-require 'anything)
