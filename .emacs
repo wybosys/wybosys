@@ -412,8 +412,10 @@
 (add-hook 'js-mode-hook 'my-js-settings)
 
 ;; typescript
+(elpa-require 'typescript)
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
 (defun my-typescript-settings ()
+  (elpa-require 'tss)
   (auto-complete-mode)
   ;(require 'tss)
   ;(tss-config-default)
