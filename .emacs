@@ -413,8 +413,8 @@
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
 (defun my-typescript-settings ()
   (auto-complete-mode)
-  (elpa-require 'tss)
-  (tss-config-default)
+  ;(elpa-require 'tss)
+  ;(tss-config-default)
   )
 (add-hook 'typescript-mode-hook 'my-typescript-settings)
 
@@ -478,8 +478,8 @@
 (add-hook 'after-init-hook 'my-autocomplete)
 
 ;; autopair
-(elpa-require 'autopair)
-(autopair-global-mode)
+;(elpa-require 'autopair)
+;(autopair-global-mode)
 
 ;; flycheck
 (elpa-require 'flycheck)
