@@ -846,8 +846,8 @@
 ;; global bind keys.
 (global-set-key (kbd "C-x <left>") 'my-switch-to-lastbuffer)
 (global-set-key (kbd "C-x <right>") 'other-window)
-(global-set-key (kbd "ESC <up>") 'previous-buffer)
-(global-set-key (kbd "ESC <down>") 'next-buffer)
+(global-set-key (kbd "<M-up>") 'previous-buffer)
+(global-set-key (kbd "<M-down>") 'next-buffer)
 (global-set-key (kbd "C-x C-<up>") 'scroll-other-window-down)
 (global-set-key (kbd "C-x C-<down>") 'scroll-other-window)
 (global-set-key (kbd "C-<tab>") 'my-switch-to-lastbuffer)
