@@ -50,6 +50,7 @@ objfre_*
 .plugins
 obj
 bin
+bin-debug
 libs
 gen
 .gradle
