@@ -252,14 +252,14 @@
 (auto-compile-on-save-mode 1)
 
 ;; hl-paren
-(defun my-hlparen ()
-  (elpa-require 'mic-paren)
-  (paren-activate)
+;(defun my-hlparen ()
+;  (elpa-require 'mic-paren)
+;  (paren-activate)
   ; rainbow
-  (mi-require-url 'rainbow-delimiters "rainbow-delimiters.el" "http://github.com/jlr/rainbow-delimiters/raw/master/rainbow-delimiters.el")
-  (global-rainbow-delimiters-mode t)
-  )
-(add-hook 'prog-mode-hook 'my-hlparen)
+;  (mi-require-url 'rainbow-delimiters "rainbow-delimiters.el" "http://github.com/jlr/rainbow-delimiters/raw/master/rainbow-delimiters.el")
+;  (global-rainbow-delimiters-mode t)
+;  )
+;(add-hook 'prog-mode-hook 'my-hlparen)
 
 ;; window-number
 (elpa-require 'window-number)
