@@ -51,6 +51,7 @@ objfre_*
 obj
 bin
 bin-debug
+bin-release
 libs
 gen
 .gradle
