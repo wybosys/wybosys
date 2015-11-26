@@ -1,0 +1,12 @@
+[submodule "el-erlang"]
+	path = el-erlang
+	url = git@github.com:wybosys/el-erlang.git
+[submodule "el-git"]
+	path = el-git
+	url = git@github.com:wybosys/el-git.git
+[submodule "el-typescript"]
+	path = el-typescript
+	url = git@github.com:wybosys/el-typescript.git
+[submodule "el-tss"]
+	path = el-tss
+	url = git@github.com:wybosys/el-tss.git

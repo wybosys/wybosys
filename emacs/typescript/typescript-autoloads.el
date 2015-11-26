@@ -1,35 +1,0 @@
-;;; typescript-autoloads.el --- automatically extracted autoloads
-;;
-;;; Code:
-(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
-
-;;;### (autoloads nil "typescript" "typescript.el" (21808 32576 0
-;;;;;;  0))
-;;; Generated autoloads from typescript.el
-
-(autoload 'typescript-mode "typescript" "\
-Major mode for editing typescript.
-
-Key bindings:
-
-\\{typescript-mode-map}
-
-\(fn)" t nil)
-
-(eval-after-load 'folding '(when (fboundp 'folding-add-to-marks-list) (folding-add-to-marks-list 'typescript-mode "// {{{" "// }}}")))
-
-(add-to-list 'auto-mode-alist '("\\.ts$" . typescript-mode))
-
-;;;***
-
-;;;### (autoloads nil nil ("typescript-pkg.el") (21808 32576 32946
-;;;;;;  0))
-
-;;;***
-
-;; Local Variables:
-;; version-control: never
-;; no-byte-compile: t
-;; no-update-autoloads: t
-;; End:
-;;; typescript-autoloads.el ends here
