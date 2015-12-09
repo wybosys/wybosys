@@ -404,6 +404,7 @@
 ;; javascript.
 (defun my-js-settings ()
   (elpa-require 'js2-mode)
+  (add-to-list 'interpreter-mode-alist '("node" . js2-mode))
   (js2-mode)
   )
 (add-hook 'js-mode-hook 'my-js-settings)
