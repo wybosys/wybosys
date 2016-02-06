@@ -419,6 +419,9 @@
   )
 (add-hook 'typescript-mode-hook 'my-typescript-settings)
 
+;; coffee-script
+(elpa-require 'coffee-mode)
+
 ;; cmake.
 (mi-use-package-url "cmake-mode.el" "http://www.cmake.org/CMakeDocs/cmake-mode.el")
 (setq auto-mode-alist
