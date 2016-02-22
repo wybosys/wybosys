@@ -65,3 +65,4 @@ out
 RECOVER_*
 .fuse_*
 *.swf
+wingProperties.json
