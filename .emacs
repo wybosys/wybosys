@@ -412,6 +412,7 @@
 (mi-add-git "typescript")
 (mi-require-git 'typescript "typescript" "https://github.com/wybosys/el-typescript.git")
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
+(add-to-list 'auto-mode-alist '("\\.tsc\\'" . typescript-mode))
 (defun my-typescript-settings ()
   (auto-complete-mode)
   ;(elpa-require 'tss)
