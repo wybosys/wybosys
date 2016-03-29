@@ -643,6 +643,10 @@
   (elpa-require 'ascope)
   )
 
+;; speedbar
+(elpa-require 'sr-speedbar)
+(speedbar-add-supported-extension "ts")
+
 ;; c mode.
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.c\\'" . c++-mode))
