@@ -67,3 +67,7 @@ RECOVER_*
 *.swf
 wingProperties.json
 Thumbs.db
+.n*
+publish
+tsconfig.json
+.wing
