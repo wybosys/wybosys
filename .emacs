@@ -278,7 +278,7 @@
 (add-hook 'after-init-hook 'my-icicle)
 
 ;; 80 columns.
-;(mi-require-url 'fill-column-indicator "fill-column-indicator.el" "https://raw.github.com/wybosys/wybosys/master/emacs/fill-column-indicator.el")
+;(mi-require-url 'fill-column-indicator "fill-column-indicator.el" "https://raw.githubusercontent.com/wybosys/wybosys/master/el/fill-column-indicator.el")
 ;(define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
 ;(global-fci-mode 1)
 ;(global-visual-line-mode 1)
@@ -335,8 +335,8 @@
 (add-hook 'text-mode-hook 'my-text)
 
 ;; go-lang.
-(mi-require-url 'go-mode "go-mode.el" "https://raw.github.com/wybosys/wybosys/master/emacs/go-mode.el")
-(mi-require-url 'go-mode-load "go-mode-load.el" "https://raw.github.com/wybosys/wybosys/master/emacs/go-mode-load.el")
+(mi-require-url 'go-mode "go-mode.el" "https://raw.githubusercontent.com/wybosys/wybosys/master/el/go-mode.el")
+(mi-require-url 'go-mode-load "go-mode-load.el" "https://raw.githubusercontent.com/wybosys/wybosys/master/el/go-mode-load.el")
 (defun my-go ()
   (if (eq (getenv "GOPATH") nil) (setenv "GOPATH" (concat (getenv "HOME") "/.go.d/")))
   (setq go-path (getenv "GOPATH"))
@@ -353,16 +353,16 @@
 (add-hook 'go-mode-hook 'my-go)
 
 ;; vcm.
-(mi-require-url 'git "git.el" "https://raw.github.com/wybosys/wybosys/master/emacs/git/git.el")
-(mi-require-url 'git-blame "git-blame.el" "https://raw.github.com/wybosys/wybosys/master/emacs/git/git-blame.el")
+(mi-require-url 'git "git.el" "https://raw.githubusercontent.com/wybosys/el-git/master/git.el")
+(mi-require-url 'git-blame "git-blame.el" "https://raw.githubusercontent.com/wybosys/el-git/master/git-blame.el")
 (require 'vc-git)
 (mi-require-url 'egit "egit.el" "https://raw.github.com/jimhourihan/egit/master/egit.el")
 
 ;; whitespace-mode.
-(mi-require-url 'whitespace "whitespace.el" "https://raw.github.com/wybosys/wybosys/master/emacs/whitespace.el")
+(mi-require-url 'whitespace "whitespace.el" "https://raw.githubusercontent.com/wybosys/wybosys/master/el/whitespace.el")
 
 ;; sql.
-(mi-require-url 'sql "sql.el" "https://raw.github.com/wybosys/wybosys/master/emacs/sql.el")
+(mi-require-url 'sql "sql.el" "https://raw.githubusercontent.com/wybosys/wybosys/master/el/sql.el")
 
 ;; maxima mode
 (add-to-list 'load-path "/opt/local/share/maxima/5.28.0/emacs")
@@ -410,7 +410,7 @@
 
 ;; typescript
 (mi-add-git "typescript")
-(mi-require-git 'typescript "typescript" "https://github.com/wybosys/el-typescript.git")
+(mi-require-git 'typescript "typescript" "https://githubusercontent.com/wybosys/el-typescript.git")
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
 (add-to-list 'auto-mode-alist '("\\.tsc\\'" . typescript-mode))
 (defun my-typescript-settings ()
@@ -461,7 +461,7 @@
 (add-to-list 'auto-mode-alist '("\\.geom\\'" . glsl-mode))
 
 ;; cg toolkit
-(mi-use-package-url "cg-mode.el" "https://raw.github.com/wybosys/wybosys/master/emacs/cg-mode.el")
+(mi-use-package-url "cg-mode.el" "https://raw.githubusercontent.com/wybosys/wybosys/master/el/cg-mode.el")
 (add-to-list 'auto-mode-alist '("\\.cg\\'" . cg-mode))
 
 ;; opencl
@@ -700,7 +700,7 @@
 (elpa-require 'php-mode)
 (defun my-php ()
   (flycheck-mode)
-  (mi-use-package-url "php-completion.el" "https://raw.github.com/wybosys/wybosys/master/emacs/php-completion.el")
+  (mi-use-package-url "php-completion.el" "https://raw.githubusercontent.com/wybosys/wybosys/master/el/php-completion.el")
   (require 'php-completion)
   (php-completion-mode t)
   (add-to-list 'ac-sources 'ac-source-php-completion)
@@ -708,7 +708,7 @@
 (add-hook 'php-mode-hook 'my-php)
 
 ;; protobuf
-(mi-use-package-url "protobuf-mode.el" "https://raw.github.com/wybosys/wybosys/master/emacs/protobuf-mode.el")
+(mi-use-package-url "protobuf-mode.el" "https://raw.githubusercontent.com/wybosys/wybosys/master/el/protobuf-mode.el")
 (autoload 'protobuf-mode "protobuf-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.proto\\'" . protobuf-mode))
 
@@ -719,7 +719,7 @@
 (elpa-require 'erlang)
 (setq erlang-root-dir "/opt/local/lib/erlang/")
 (defun my-erlang ()
-  (mi-use-package-url "erlang-start.el" "https://raw.github.com/wybosys/wybosys/master/emacs/erlang/erlang-start.el")
+  (mi-use-package-url "erlang-start.el" "https://raw.githubusercontent.com/wybosys/el-erlang/master/erlang-start.el")
   (require 'erlang-start)
   (flycheck-mode)
   (add-to-list 'ac-modes 'erlang-mode)
@@ -730,7 +730,7 @@
 (add-hook 'erlang-mode-hook 'my-erlang)
 
 ;; apache httpd.
-(mi-use-package-url "apache-mode.el" "https://raw.github.com/wybosys/wybosys/master/emacs/apache-mode.el")
+(mi-use-package-url "apache-mode.el" "https://raw.githubusercontent.com/wybosys/wybosys/master/el/apache-mode.el")
 (autoload 'apache-mode "apache-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.htaccess\\'"   . apache-mode))
 (add-to-list 'auto-mode-alist '("httpd\\.conf\\'"  . apache-mode))
