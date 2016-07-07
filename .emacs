@@ -410,7 +410,7 @@
 
 ;; typescript
 (mi-add-git "typescript")
-(mi-require-git 'typescript "typescript" "https://githubusercontent.com/wybosys/el-typescript.git")
+(mi-require-git 'typescript "typescript" "https://github.com/wybosys/el-typescript.git")
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
 (add-to-list 'auto-mode-alist '("\\.tsc\\'" . typescript-mode))
 (defun my-typescript-settings ()
@@ -696,17 +696,6 @@
 ;; anything
 (elpa-require 'anything)
 
-;; php.
-(elpa-require 'php-mode)
-(defun my-php ()
-  (flycheck-mode)
-  (mi-use-package-url "php-completion.el" "https://raw.githubusercontent.com/wybosys/wybosys/master/el/php-completion.el")
-  (require 'php-completion)
-  (php-completion-mode t)
-  (add-to-list 'ac-sources 'ac-source-php-completion)
-  )
-(add-hook 'php-mode-hook 'my-php)
-
 ;; protobuf
 (mi-use-package-url "protobuf-mode.el" "https://raw.githubusercontent.com/wybosys/wybosys/master/el/protobuf-mode.el")
 (autoload 'protobuf-mode "protobuf-mode" nil t)
@@ -841,17 +830,6 @@
   )
 (add-to-list 'auto-mode-alist '("\\.gpx\\'" . xml-mode))
 
-;; scala
-(elpa-require 'scala-mode2)
-
-;; groovy
-(mi-add-git "groovy-mode")
-(mi-require-git 'groovy-mode "groovy-mode" "https://github.com/russel/Emacs-Groovy-Mode.git")
-(add-hook 'groovy-mode-hook
-          '(lambda ()
-             (require 'groovy-electric)
-             (groovy-electric-mode)))
-
 ;; global bind keys.
 (global-set-key (kbd "C-x <left>") 'my-switch-to-lastbuffer)
 (global-set-key (kbd "C-x <right>") 'other-window)
@@ -907,5 +885,5 @@
 )
 
 ;; show blank, newline, tab ...
-(elpa-require 'blank-mode)
+;(elpa-require 'blank-mode)
 
