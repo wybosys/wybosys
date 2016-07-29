@@ -847,6 +847,16 @@
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
 (global-set-key (kbd "C-c C-d") 'dired-toggle)
 
+;; suspend
+(global-unset-key (kbd "C-z"))
+(global-set-key (kbd "C-z C-z") 'my-suspend-frame)
+(defun my-suspend-frame ()
+  "In a GUI environment, do nothing; otherwise `suspend-frame'."
+  (interactive)
+  (if (display-graphic-p)
+      (message "suspend-frame disabled for graphical displays.")
+    (suspend-frame)))
+
 ;; clipboard
 (defun copy-from-osx ()
   (shell-command-to-string "pbpaste"))
