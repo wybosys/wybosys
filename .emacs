@@ -607,7 +607,6 @@
 ;; mydev
 (defun mydev ()
   (interactive)
-  (my-ecb-setup)
   )
 (defun mydev-start ()
   (run-with-idle-timer 0.01 nil 'mydev)
@@ -616,7 +615,7 @@
 ;; heander to source.
 (defun my-h2s ()
   (elpa-require 'cl-lib)
-  (mi-require-url 'eassist "eassist.el" "https://raw.github.com/emacsmirror/cedet/master/contrib/eassist.el")
+  (mi-require-url 'eassist "eassist.el" "https://raw.githubusercontent.com/wybosys/wybosys/master/el/eassist.el")
   (setq eassist-header-switches
         '(("h" . ("cpp" "cxx" "c++" "CC" "cc" "C" "c" "mm" "m"))
           ("hh" . ("cc" "CC" "cpp" "cxx" "c++" "C"))
@@ -638,11 +637,6 @@
   (local-set-key "\M-o" 'eassist-switch-h-cpp)
   )
 
-;; cscope
-(defun my-cscope ()
-  (elpa-require 'ascope)
-  )
-
 ;; speedbar
 (elpa-require 'sr-speedbar)
 (speedbar-add-supported-extension "ts")
@@ -654,7 +648,6 @@
   (interactive)
   (setq c-basic-offset 4)
   (my-h2s)	
-  (my-cscope)
   (my-autocomplete-c)
   )
 
