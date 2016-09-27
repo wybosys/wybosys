@@ -278,7 +278,8 @@
 (add-hook 'text-mode-hook 'my-text)
 
 ;; bison
-(add-to-list 'auto-mode-alist '("\\.yy$" . bison-mode))
+(add-to-list 'auto-mode-alist '("\\.ypp$" . bison-mode))
+(add-to-list 'auto-mode-alist '("\\.y++$" . bison-mode))
 
 ;; go-lang.
 (defun my-go ()
