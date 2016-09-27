@@ -6,18 +6,17 @@
 ;; coding
 (prefer-coding-system 'utf-8)
 (setq default-buffer-file-coding-system 'utf-8)
-;(setq coding-system-for-read 'utf-8)
 
 ;; cedet and ecb bugfix
 (setq stack-trace-on-error t)
 
-;; download lisps
+;; 设置附加的加载目录
 (when (not (file-accessible-directory-p "~/.emacs.d/lisps"))
   (make-directory "~/.emacs.d/lisps"))
 (add-to-list 'load-path "~/.emacs.d/lisps/")
 (add-to-list 'load-path "~/.emacs.d/auto-install/")
 
-;; elpa extension
+;; elpa
 (require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
@@ -26,8 +25,8 @@
                          ))    
 (package-initialize)
 
+;; 管理elpa提供的库
 (defun elpa-require (module &optional package)
-  ;(setq mytimemarker (current-time))
   (if (require module nil 'noerror) nil
     (unless package-archive-contents
       (package-refresh-contents))
@@ -37,37 +36,9 @@
     (message "module installed")
     (require module)
     )
-  ;(message "module %s interval: %f" (symbol-name module) (float-time (time-since mytimemarker)))
   )
 
-;; may cause os-x crash. 
-;(defun ai-require-file (module file)
-;  (if (require module nil 'noerror) nil
-;    (elpa-require 'auto-install)    
-;    (auto-install-from-emacswiki file)
-;    (require module)
-;    )
-;  )
-
-(defun ai-require-url (module url)
-  (if (require module nil 'noerror) nil
-    (elpa-require 'auto-install)
-    (setq auto-install-use-wget nil)
-    (setq auto-install-save-confirm nil)
-    (auto-install-from-url url)
-    )
-  (require module nil 'noerror)
-  )
-
-(defun ai-try-require-url (module url)
-  (if (featurep module) nil
-    (elpa-require 'auto-install)
-    (setq auto-install-use-wget nil)
-    (setq auto-install-save-confirm nil)
-    (auto-install-from-url url)    
-    )
-  )
-
+;; 管理通过url访问的库
 (defun mi-use-package-url (name url)
   (let ((file (concat "~/.emacs.d/lisps/" name))
         (url-request-method "GET")
@@ -96,12 +67,13 @@
 	    )
       (byte-compile-file file)
       )
-    ))
-
+    )
+  )
 (defun mi-require-url (module name url)
   (mi-use-package-url name url)
   (require module nil 'noerror))
 
+;; 使用git管理包
 (defun mi-add-git (name)
   (add-to-list 'load-path (concat "~/.emacs.d/lisps/" name))
   )
@@ -119,12 +91,13 @@
     )
   )
 
+;; 让emacs可以找到执行文件
 (defun mi-add-exec-path (path)
   (setenv "PATH" (concat (getenv "PATH") (concat ":" path)))
   (setq exec-path (split-string (getenv "PATH") path-separator))
   )
 
-;; guide setting.
+;; 使用emacs的可视化配置保存的参数
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -146,7 +119,7 @@
  '(show-paren-mode t)
  '(tab-width 4))
 
-;; in-gui or not-gui.
+;; 最大化窗口
 (defun my-maximum ()
   (interactive)
   (cond ((eq window-system 'x)
@@ -162,6 +135,7 @@
         )
   )
 
+;; 配置颜色色系
 (defun my-colors ()
   (interactive)
   (cond ((eq window-system 'ns)
@@ -170,6 +144,7 @@
         )
   )
 
+;; 当使用gui模式打开
 (defun my-gui ()
   (my-colors)
   (custom-set-faces
@@ -181,6 +156,7 @@
   (my-maximum)
   )
 
+;; 当使用命令行模式打开
 (defun my-cli ()
   (custom-set-faces
    '(default ((t (:inherit nil :stipple nil :background "#FFFFFF" :foreground "#000000" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "outline"))))
@@ -197,30 +173,22 @@
     (tool-bar-mode -1)
   )
 
-;; benchmark
-;; git@github.com:dholm/benchmark-init-el.git
-;(require 'benchmark-init)
-;(require 'benchmark-init-modes)
-;(benchmark-init/activate)
-
 ;; dired
 (elpa-require 'dash)
-(elpa-require 'dired-hacks-utils)
 (elpa-require 'dired+)
 (elpa-require 'dired-single)
 (elpa-require 'dired-toggle)
-;(elpa-require 'dired-subtree)
-;(elpa-require 'dired-filter)
-;(require 'dired-x)
-;(elpa-require 'dired-rainbow)
+(elpa-require 'dired-efap)
+(elpa-require 'dired-filetype-face)
+(elpa-require 'dired-open)
 (setq-default dired-omit-files-p t)
-(setq dired-omit-files "^\\.[^.]\\|\\.pdf$\\|\\.tex$|\\.DS_Store$")
+(setq dired-omit-files "\\.pdf$\\|\\.tex$|\\.DS_Store$")
 (setq dired-default-buffer-name "*Dired*")
 
 ;; mmm-mode
 (elpa-require 'mmm-mode)
 
-;; hl-line.
+;; hl-line
 (set-face-background 'hl-line "#EEEEEE")
 (elpa-require 'hlinum)
 (hlinum-activate)
@@ -228,7 +196,6 @@
 
 ;; yes-or-no.
 (defun my-mumble-or-no-p (prompt)
-  "PROMPT user with a yes-or-no question, but only test for no."
   (if (string= "no"
                (downcase
                 (read-from-minibuffer
@@ -236,7 +203,6 @@
       nil
     t))
 (defun my-mumble-or-n-p (prompt)
-  "PROMPT user with a y-or-n question, but only test for no."
   (if (string= "n"
                (downcase
                 (read-from-minibuffer
@@ -252,14 +218,11 @@
 (auto-compile-on-save-mode 1)
 
 ;; hl-paren
-;(defun my-hlparen ()
-;  (elpa-require 'mic-paren)
-;  (paren-activate)
-  ; rainbow
-;  (mi-require-url 'rainbow-delimiters "rainbow-delimiters.el" "http://github.com/jlr/rainbow-delimiters/raw/master/rainbow-delimiters.el")
-;  (global-rainbow-delimiters-mode t)
-;  )
-;(add-hook 'prog-mode-hook 'my-hlparen)
+(defun my-hlparen ()
+  (elpa-require 'rainbow-delimiters)
+  (global-rainbow-delimiters-mode)
+  )
+(add-hook 'prog-mode-hook 'my-hlparen)
 
 ;; window-number
 (elpa-require 'window-number)
@@ -277,12 +240,6 @@
   )
 (add-hook 'after-init-hook 'my-icicle)
 
-;; 80 columns.
-;(mi-require-url 'fill-column-indicator "fill-column-indicator.el" "https://raw.githubusercontent.com/wybosys/wybosys/master/el/fill-column-indicator.el")
-;(define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
-;(global-fci-mode 1)
-;(global-visual-line-mode 1)
-
 ;; backups.
 (setq make-backup-files nil)
 (defvar backup-dir "~/.emacs.d/backups/")
@@ -291,22 +248,11 @@
 ;; diff
 (setq ediff-split-window-function 'split-window-horizontally)
 
-;; ignores.
-(setq my-ignores '(".DS_Store" ".git" ".svn" ".cvs" ".ede\\'" "\\`~" "\\`#" ".pyc\\'" "\\`tmp" ".o\\'" "\\`_{1}" ".ropeproject" ".scc\\'" ".out\\'" ".files\\'" ".class\\'" ".symvers\\'" ".order\\'" ".properties\\'" ".dmp\\'" ".tmp\\'" ".ncb\\'" ".suo\\'" ".usr\\'" ".user\\'" ".xcuserdatad\\'" "build" "Debug" "Release" "Debug Static" "Release Static" ".cmd\\'"))
-
-;; ido mode for fast open.
+;; 过滤掉一般不需要访问的文件
+(setq my-ignores '(".DS_Store" ".git" ".svn" ".cvs" ".ede\\'" "\\`~" "\\`#" ".pyc\\'" "\\`tmp" ".o\\'" "\\`_{1}" ".ropeproject" ".scc\\'" ".out\\'" ".files\\'" ".class\\'" ".symvers\\'" ".order\\'" ".dmp\\'" ".tmp\\'" ".ncb\\'" ".suo\\'" ".usr\\'" ".user\\'" ".xcuserdatad\\'" ".cmd\\'"))
 (ido-mode 1)
 (dolist (ignore my-ignores)
   (add-to-list 'ido-ignore-files ignore))
-
-;; session.
-(defun my-session ()
-  (elpa-require 'session)
-  (session-initialize)
-  (elpa-require 'desktop)
-  (require 'desktop)
-  )
-(add-hook 'after-init-hook 'my-session)
 
 ;; uniquify buffer name
 (require 'uniquify)
@@ -320,9 +266,6 @@
 (require 'tramp)
 (setq tramp-default-method "ssh")
 
-;; bookmark
-(require 'bookmark)
-
 ;; save space.
 (setq-default save-place t)
 (require 'saveplace)
@@ -335,8 +278,6 @@
 (add-hook 'text-mode-hook 'my-text)
 
 ;; go-lang.
-(mi-require-url 'go-mode "go-mode.el" "https://raw.githubusercontent.com/wybosys/wybosys/master/el/go-mode.el")
-(mi-require-url 'go-mode-load "go-mode-load.el" "https://raw.githubusercontent.com/wybosys/wybosys/master/el/go-mode-load.el")
 (defun my-go ()
   (if (eq (getenv "GOPATH") nil) (setenv "GOPATH" (concat (getenv "HOME") "/.go.d/")))
   (setq go-path (getenv "GOPATH"))
@@ -350,22 +291,19 @@
   (add-to-list 'ac-sources 'ac-source-go)
   (my-autocomplete)
   )
-(add-hook 'go-mode-hook 'my-go)
+(defun my-setup-go ()
+  (mi-require-url 'go-mode "go-mode.el" "https://raw.githubusercontent.com/wybosys/wybosys/master/el/go-mode.el")
+  (mi-require-url 'go-mode-load "go-mode-load.el" "https://raw.githubusercontent.com/wybosys/wybosys/master/el/go-mode-load.el")
+  (add-hook 'go-mode-hook 'my-go)
+  (go-mode)
+  )
+(add-to-list 'auto-mode-alist '("\\.go$" . my-setup-go))
 
 ;; vcm.
 (mi-require-url 'git "git.el" "https://raw.githubusercontent.com/wybosys/el-git/master/git.el")
 (mi-require-url 'git-blame "git-blame.el" "https://raw.githubusercontent.com/wybosys/el-git/master/git-blame.el")
 (require 'vc-git)
 (mi-require-url 'egit "egit.el" "https://raw.github.com/jimhourihan/egit/master/egit.el")
-
-;; whitespace-mode.
-(mi-require-url 'whitespace "whitespace.el" "https://raw.githubusercontent.com/wybosys/wybosys/master/el/whitespace.el")
-
-;; sql.
-(mi-require-url 'sql "sql.el" "https://raw.githubusercontent.com/wybosys/wybosys/master/el/sql.el")
-
-;; maxima mode
-(add-to-list 'load-path "/opt/local/share/maxima/5.28.0/emacs")
 
 ;; python.
 (defun my-py-settings ()
@@ -378,28 +316,9 @@
   (elpa-require 'jedi-direx)
   (elpa-require 'flycheck-pyflakes)
   (flycheck-mode)
-  ;(setq jedi:complete-on-dot t)
   (jedi:ac-setup)
   )
 (add-hook 'python-mode-hook 'my-py-settings)
-
-;; d
-(elpa-require 'd-mode)
-
-;; markdown
-(mi-require-url 'markdown-mode "markdown-mode.el" "http://jblevins.org/projects/markdown-mode/markdown-mode.el")
-(autoload 'markdown-mode "markdown-mode"
-  "Major mode for editing Markdown files" t)
-(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
-
-;; java
-(defun my-java ()
-  (elpa-require 'javadoc-help)
-  (elpa-require 'javap)
-  )
-(add-hook 'java-mode-hook 'my-java)
 
 ;; javascript.
 (defun my-js-settings ()
@@ -409,63 +328,47 @@
 (add-hook 'js-mode-hook 'my-js-settings)
 
 ;; typescript
-(mi-add-git "typescript")
-(mi-require-git 'typescript "typescript" "https://github.com/wybosys/el-typescript.git")
-(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
-(add-to-list 'auto-mode-alist '("\\.tsc\\'" . typescript-mode))
 (defun my-typescript-settings ()
   (auto-complete-mode)
   ;(elpa-require 'tss)
   ;(tss-config-default)
   )
-(add-hook 'typescript-mode-hook 'my-typescript-settings)
-
-;; coffee-script
-;(elpa-require 'coffee-mode)
+(defun my-setup-ts ()
+  (mi-add-git "typescript")
+  (mi-require-git 'typescript "typescript" "https://github.com/wybosys/el-typescript.git")
+  (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
+  (add-to-list 'auto-mode-alist '("\\.tsc\\'" . typescript-mode))
+  (elpa-require 'tide)
+  (add-hook 'typescript-mode-hook 'my-typescript-settings)
+  (typescript-mode)
+  )
+(add-to-list 'auto-mode-alist '("\\.ts$" . my-setup-ts))
+(add-to-list 'auto-mode-alist '("\\.tsc$" . my-setup-ts))
 
 ;; cmake.
-(mi-use-package-url "cmake-mode.el" "http://www.cmake.org/CMakeDocs/cmake-mode.el")
+(defun my-setup-cmake ()
+  (mi-use-package-url "cmake-mode.el" "http://www.cmake.org/CMakeDocs/cmake-mode.el")
+  (cmake-mode)
+  )
 (setq auto-mode-alist
       (append
-       '(("CMakeLists\\.txt\\'" . cmake-mode))
-       '(("\\.cmake\\'" . cmake-mode))
+       '(("CMakeLists\\.txt\\'" . my-setup-cmake))
+       '(("\\.cmake\\'" . my-setup-cmake))
        auto-mode-alist))
-(autoload 'cmake-mode "cmake-mode" t)
 
 ;; yaml.
-(mi-use-package-url "yaml-mode.el" "https://raw.github.com/yoshiki/yaml-mode/master/yaml-mode.el")
-(autoload 'yaml-mode "yaml-mode")
-(add-to-list 'auto-mode-alist '("\\.ya?ml$" . yaml-mode))
-
-;; qt.
-;(elpa-require 'qml-mode)
-(mi-use-package-url "qml-mode.el" "https://raw.github.com/emacsmirror/qml-mode/master/qml-mode.el")
-(mi-use-package-url "qt-pro.el" "http://www.tolchz.net/wp-content/uploads/2008/01/qt-pro.el")
-(add-to-list 'auto-mode-alist '("\\.pr[io]$" . qt-pro-mode))
-(add-to-list 'auto-mode-alist '("\\.qml$" . qml-mode))
-(autoload 'qt-pro-mode "qt-pro")
-(autoload 'qml-mode "qml-mode")
+(defun my-setup-yaml ()
+  (mi-use-package-url "yaml-mode.el" "https://raw.github.com/yoshiki/yaml-mode/master/yaml-mode.el")
+  (yaml-mode)
+  )
+(add-to-list 'auto-mode-alist '("\\.ya?ml$" . my-setup-yaml))
 
 ;; lua.
-(mi-use-package-url "lua-mode.el" "https://raw.github.com/immerrr/lua-mode/master/lua-mode.el")
-(autoload 'lua-mode "lua-mode" "Lua editing mode." t)
-(add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
-(add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
-
-;; glsl
-(mi-use-package-url "glsl-mode.el" "https://raw.github.com/jimhourihan/glsl-mode/master/glsl-mode.el")
-(autoload 'glsl-mode "glsl-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.glsl\\'" . glsl-mode))
-(add-to-list 'auto-mode-alist '("\\.vert\\'" . glsl-mode))
-(add-to-list 'auto-mode-alist '("\\.frag\\'" . glsl-mode))
-(add-to-list 'auto-mode-alist '("\\.geom\\'" . glsl-mode))
-
-;; cg toolkit
-(mi-use-package-url "cg-mode.el" "https://raw.githubusercontent.com/wybosys/wybosys/master/el/cg-mode.el")
-(add-to-list 'auto-mode-alist '("\\.cg\\'" . cg-mode))
-
-;; opencl
-(add-to-list 'auto-mode-alist '("\\.cl\\'" . c-mode))
+(defun my-setup-lua ()
+  (mi-use-package-url "lua-mode.el" "https://raw.github.com/immerrr/lua-mode/master/lua-mode.el")
+  (lua-mode)
+  )
+(add-to-list 'auto-mode-alist '("\\.lua$" . my-setup-lua))
 
 ;; autocomplete
 (defun my-autocomplete ()
@@ -482,14 +385,8 @@
   (add-to-list 'ac-sources 'ac-source-c-header-symbols t))
 (add-hook 'after-init-hook 'my-autocomplete)
 
-;; autopair
-;(elpa-require 'autopair)
-;(autopair-global-mode)
-
 ;; flycheck
 (elpa-require 'flycheck)
-;(elpa-require 'flycheck-color-mode-line)
-;(add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)
 
 ;; cedet
 (defun my-cedet-setting ()
@@ -509,7 +406,6 @@
                                                     "/usr/local/include/"
                                                     "/opt/local/include/"
                                                     ))
-  ;(add-to-list 'ac-sources 'ac-source-semantic)  
   )
 
 (defun my-semantic-c-processed-files ()
@@ -657,26 +553,6 @@
              (mydev-start)
              ))
 
-;; verilog
-(autoload 'verilog-mode "verilog-mode" "Verilog mode" t )
-(add-to-list 'auto-mode-alist '("\\.[ds]?vh?\\'" . verilog-mode))
-(setq verilog-indent-level             3
-      verilog-indent-level-module      3
-      verilog-indent-level-declaration 3
-      verilog-indent-level-behavioral  3
-      verilog-indent-level-directive   1
-      verilog-case-indent              2
-      verilog-auto-newline             t
-      verilog-auto-indent-on-newline   t
-      verilog-tab-always-indent        t
-      verilog-auto-endcomments         t
-      verilog-minimum-comment-distance 40
-      verilog-indent-begin-after-if    t
-      verilog-auto-lineup              'declarations
-      verilog-highlight-p1800-keywords nil
-      verilog-linter             "my_lint_shell_command"
-      )
-
 ;; bash.
 (defun my-bash()
   (elpa-require 'bash-completion)
@@ -690,16 +566,13 @@
 (elpa-require 'anything)
 
 ;; protobuf
-(mi-use-package-url "protobuf-mode.el" "https://raw.githubusercontent.com/wybosys/wybosys/master/el/protobuf-mode.el")
-(autoload 'protobuf-mode "protobuf-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.proto\\'" . protobuf-mode))
-
-;; thrift.
-(elpa-require 'thrift)
+(defun my-setup-pb ()  
+  (mi-use-package-url "protobuf-mode.el" "https://raw.githubusercontent.com/wybosys/wybosys/master/el/protobuf-mode.el")
+  (protobuf-mode)
+  )
+(add-to-list 'auto-mode-alist '("\\.proto\\'" . my-setup-pb))
 
 ;; erlang
-(elpa-require 'erlang)
-(setq erlang-root-dir "/opt/local/lib/erlang/")
 (defun my-erlang ()
   (mi-use-package-url "erlang-start.el" "https://raw.githubusercontent.com/wybosys/el-erlang/master/erlang-start.el")
   (require 'erlang-start)
@@ -709,45 +582,40 @@
   (mi-require-git 'distel "distel" "https://github.com/massemanet/distel.git")
   (distel-setup)
   )
-(add-hook 'erlang-mode-hook 'my-erlang)
+(defun my-setup-erl ()
+  (elpa-require 'erlang)
+  (setq erlang-root-dir "/opt/local/lib/erlang/")
+  (add-hook 'erlang-mode-hook 'my-erlang)
+  (erlang-mode)
+  )
+(add-to-list 'auto-mode-alist '("\\.erl$" . my-setup-erl))
 
 ;; apache httpd.
-(mi-use-package-url "apache-mode.el" "https://raw.githubusercontent.com/wybosys/wybosys/master/el/apache-mode.el")
-(autoload 'apache-mode "apache-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.htaccess\\'"   . apache-mode))
-(add-to-list 'auto-mode-alist '("httpd\\.conf\\'"  . apache-mode))
-(add-to-list 'auto-mode-alist '("httpd-[[:ascii:]]+\\.conf\\'"  . apache-mode))
-(add-to-list 'auto-mode-alist '("srm\\.conf\\'"    . apache-mode))
-(add-to-list 'auto-mode-alist '("access\\.conf\\'" . apache-mode))
-(add-to-list 'auto-mode-alist '("sites-\\(available\\|enabled\\)/" . apache-mode))
+(defun my-setup-httpd ()
+  (mi-use-package-url "apache-mode.el" "https://raw.githubusercontent.com/wybosys/wybosys/master/el/apache-mode.el")
+  (apache-mode)
+  )
+(add-to-list 'auto-mode-alist '("\\.htaccess\\'"   . my-setup-httpd))
+(add-to-list 'auto-mode-alist '("httpd\\.conf\\'"  . my-setup-httpd))
+(add-to-list 'auto-mode-alist '("httpd-[[:ascii:]]+\\.conf\\'"  . my-setup-httpd))
+(add-to-list 'auto-mode-alist '("srm\\.conf\\'"    . my-setup-httpd))
+(add-to-list 'auto-mode-alist '("access\\.conf\\'" . my-setup-httpd))
+(add-to-list 'auto-mode-alist '("sites-\\(available\\|enabled\\)/" . my-setup-httpd))
 
 ;; nginx mode.
-(mi-use-package-url "nginx-mode.el" "https://raw.github.com/ajc/nginx-mode/master/nginx-mode.el")
-(autoload 'nginx-mode "nginx-mode" nil t)
-(setq nginx-indent-level 4)
-(add-to-list 'auto-mode-alist '("nginx\\.conf\\'" . nginx-mode))
-(add-to-list 'auto-mode-alist '("nginx/conf\\.d/[[:ascii:]]+\\.conf\\'" . nginx-mode))
+(defun my-setup-nginx ()
+  (mi-use-package-url "nginx-mode.el" "https://raw.github.com/ajc/nginx-mode/master/nginx-mode.el")
+  (setq nginx-indent-level 4)
+  (nginx-mode)
+  )
+(add-to-list 'auto-mode-alist '("nginx\\.conf\\'" . my-setup-nginx))
+(add-to-list 'auto-mode-alist '("nginx/conf\\.d/[[:ascii:]]+\\.conf\\'" . my-setup-nginx))
 
 ;; ssh mode.
 (mi-use-package-url "ssh-config-mode.el" "https://raw.github.com/jhgorrell/ssh-config-mode-el/master/ssh-config-mode.el")
 (autoload 'ssh-config-mode "ssh-config-mode" nil t)
 (add-to-list 'auto-mode-alist '(".ssh/config\\'"  . ssh-config-mode))
 (add-to-list 'auto-mode-alist '("sshd?_config\\'" . ssh-config-mode))
-
-;; objc.
-(add-to-list 'auto-mode-alist '("\\.mm\\'" . c++-mode))
-;(add-to-list 'auto-mode-alist '("\\.m\\'" . objc-mode))
-
-;; octave.
-(autoload 'octave-mode "octave-mod" nil t)
-(add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
-(add-hook 'octave-mode-hook
-          (lambda ()
-            (add-to-list 'ac-modes 'octave-mode)
-            (elpa-require 'ac-octave)
-            (abbrev-mode 1)
-            (auto-fill-mode 1)
-            ))
 
 ;; script style.
 (defconst my-c-style
@@ -788,14 +656,6 @@
         (awk-mode . "awk") 
         (other . "gnu")
         ))
-
-;; undo mode.
-(defun my-undo ()
-  (elpa-require 'undo-tree)
-  (undo-tree-mode)
-  )
-
-(add-hook 'after-init-hook 'my-undo)
 
 ;; hex mode.
 (add-to-list 'auto-mode-alist '("\\.wav\\'" . hexl-mode))
@@ -888,5 +748,5 @@
 )
 
 ;; show blank, newline, tab ...
-;(elpa-require 'blank-mode)
+(elpa-require 'blank-mode)
 
