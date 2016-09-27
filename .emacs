@@ -277,6 +277,9 @@
   )
 (add-hook 'text-mode-hook 'my-text)
 
+;; bison
+(add-to-list 'auto-mode-alist '("\\.yy$" . bison-mode))
+
 ;; go-lang.
 (defun my-go ()
   (if (eq (getenv "GOPATH") nil) (setenv "GOPATH" (concat (getenv "HOME") "/.go.d/")))
