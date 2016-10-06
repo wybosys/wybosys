@@ -609,6 +609,7 @@
 ;; nginx mode.
 (defun my-setup-nginx ()
   (mi-use-package-url "nginx-mode.el" "https://raw.github.com/ajc/nginx-mode/master/nginx-mode.el")
+  (require 'nginx-mode)
   (setq nginx-indent-level 4)
   (nginx-mode)
   )
