@@ -281,7 +281,7 @@
 (add-to-list 'auto-mode-alist '("\\.ypp$" . bison-mode))
 (add-to-list 'auto-mode-alist '("\\.y++$" . bison-mode))
 
-;; go-lang.
+;; golang.
 (defun my-go ()
   (if (eq (getenv "GOPATH") nil) (setenv "GOPATH" (concat (getenv "HOME") "/.go.d/")))
   (setq go-path (getenv "GOPATH"))
@@ -289,7 +289,12 @@
   (if (not (file-exists-p (concat go-path "bin/gocode")))    
       (progn
         (message "installing gocode")
-        (shell-command "go get -u github.com/nsf/gocode")))
+        (shell-command "go get -u github.com/nsf/gocode")
+        (shell-command "go get -u github.com/golang/lint/golint")
+        (shell-command "go get -u golang.org/x/tools/cmd/guru")
+        (shell-command "go get -u golang.org/x/tools/cmd/goimports")
+        (shell-command "go get -u golang.org/x/tools/cmd/gorename")
+        ))
   (elpa-require 'go-autocomplete)
   (elpa-require 'golint)
   (add-to-list 'ac-sources 'ac-source-go)
