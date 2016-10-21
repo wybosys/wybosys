@@ -96,6 +96,7 @@
   (setenv "PATH" (concat (getenv "PATH") (concat ":" path)))
   (setq exec-path (split-string (getenv "PATH") path-separator))
   )
+(mi-add-exec-path "/opt/local/bin:/opt/local/sbin")
 
 ;; 使用emacs的可视化配置保存的参数
 (custom-set-variables
@@ -115,6 +116,9 @@
  '(inhibit-startup-screen t)
  '(initial-scratch-message "")
  '(linum-format "%-5d")
+ '(package-selected-packages
+   (quote
+    (go-dlv go-stacktracer go-projectile go-impl go-gopath go-errcheck go-playground window-number undo-tree tss tide thrift sr-speedbar session rainbow-delimiters python-pep8 python-info pylint pyflakes mmm-mode js2-mode jedi-direx icicles hlinum golint go-autocomplete flycheck-pyflakes erlang ecb dired-toggle dired-single dired-open dired-filetype-face dired-efap dired+ d-mode blank-mode bison-mode auto-compile anything ac-etags ac-c-headers)))
  '(scroll-bar-mode (quote right))
  '(show-paren-mode t)
  '(tab-width 4))
@@ -295,14 +299,22 @@
         (shell-command "go get -u golang.org/x/tools/cmd/goimports")
         (shell-command "go get -u golang.org/x/tools/cmd/gorename")
         ))
+  (elpa-require 'go-dlv)
+  (elpa-require 'go-eldoc)
   (elpa-require 'go-autocomplete)
+  (elpa-require 'go-playground)
+  (elpa-require 'go-errcheck)
+  (elpa-require 'go-gopath)
+  (elpa-require 'go-guru)
+  (elpa-require 'go-impl)
+  (elpa-require 'go-projectile)
+  (elpa-require 'go-stacktracer)
   (elpa-require 'golint)
   (add-to-list 'ac-sources 'ac-source-go)
   (my-autocomplete)
   )
 (defun my-setup-go ()
-  (mi-require-url 'go-mode "go-mode.el" "https://raw.githubusercontent.com/wybosys/wybosys/master/el/go-mode.el")
-  (mi-require-url 'go-mode-load "go-mode-load.el" "https://raw.githubusercontent.com/wybosys/wybosys/master/el/go-mode-load.el")
+  (elpa-require 'go-mode)
   (add-hook 'go-mode-hook 'my-go)
   (go-mode)
   )
@@ -756,3 +768,10 @@
 ;; show blank, newline, tab ...
 (elpa-require 'blank-mode)
 
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :background "#FFFFFF" :foreground "#000000" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "outline"))))
+ '(linum ((t (:inherit (shadow default) :background "#FFFFFF")))))
