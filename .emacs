@@ -18,11 +18,8 @@
 
 ;; elpa
 (require 'package)
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa.milkbox.net/packages/")
-                         ("tromey" . "http://tromey.com/elpa/")
-                         ))    
+(setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
 (package-initialize)
 
 ;; 管理elpa提供的库
@@ -182,8 +179,8 @@
 (elpa-require 'dired-single)
 (elpa-require 'dired-toggle)
 (elpa-require 'dired-efap)
-(elpa-require 'dired-filetype-face)
 (elpa-require 'dired-open)
+(elpa-require 'dired-filetype-face)
 (setq-default dired-omit-files-p t)
 (setq dired-omit-files "\\.pdf$\\|\\.tex$|\\.DS_Store$")
 (setq dired-default-buffer-name "*Dired*")
@@ -321,7 +318,7 @@
 ;; php.
 (defun my-php ()
   (elpa-require 'composer)
-  (elpa-require 'php-extras)
+  ;(elpa-require 'php-extras)
   (elpa-require 'php-eldoc)
   ;(elpa-require 'php-completion)
   (elpa-require 'php-scratch)
@@ -791,3 +788,4 @@
 
 ;; show blank, newline, tab ...
 (elpa-require 'blank-mode)
+
