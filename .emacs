@@ -119,7 +119,7 @@
  '(linum-format "%-5d")
  '(package-selected-packages
    (quote
-    (go-dlv go-stacktracer go-projectile go-impl go-gopath go-errcheck go-playground window-number undo-tree tss tide thrift sr-speedbar session rainbow-delimiters python-pep8 python-info pylint pyflakes mmm-mode js2-mode jedi-direx icicles hlinum golint go-autocomplete flycheck-pyflakes erlang ecb dired-toggle dired-single dired-open dired-filetype-face dired-efap dired+ d-mode blank-mode bison-mode auto-compile anything ac-etags ac-c-headers)))
+    (ac-php php-psysh php-scratch php-completion php-eldoc php-extras composer php-mode go-dlv go-stacktracer go-projectile go-impl go-gopath go-errcheck go-playground window-number undo-tree tss tide thrift sr-speedbar session rainbow-delimiters python-pep8 python-info pylint pyflakes mmm-mode js2-mode jedi-direx icicles hlinum golint go-autocomplete flycheck-pyflakes erlang ecb dired-toggle dired-single dired-open dired-filetype-face dired-efap dired+ d-mode blank-mode bison-mode auto-compile anything ac-etags ac-c-headers)))
  '(scroll-bar-mode (quote right))
  '(show-paren-mode t)
  '(tab-width 4)
@@ -282,7 +282,7 @@
   )
 (add-hook 'text-mode-hook 'my-text)
 
-;; bison
+;; bison.
 (add-to-list 'auto-mode-alist '("\\.ypp$" . bison-mode))
 (add-to-list 'auto-mode-alist '("\\.y++$" . bison-mode))
 
@@ -320,6 +320,24 @@
   (go-mode)
   )
 (add-to-list 'auto-mode-alist '("\\.go$" . my-setup-go))
+
+;; phplang.
+(defun my-php ()
+  (elpa-require 'composer)
+  (elpa-require 'php-extras)
+  (elpa-require 'php-eldoc)
+  ;(elpa-require 'php-completion)
+  (elpa-require 'php-scratch)
+  (elpa-require 'ac-php)
+  (ac-php-mode)
+  )
+(defun my-setup-php ()
+  (elpa-require 'php-mode)
+  (add-hook 'php-mode-hook 'my-php)
+  (php-mode)
+  )
+(add-to-list 'auto-mode-alist '("\\.php$" . my-setup-php))
+(add-to-list 'auto-mode-alist '("\\.volt$" . my-setup-php))
 
 ;; vcm.
 (mi-require-url 'git "git.el" "https://raw.githubusercontent.com/wybosys/el-git/master/git.el")
@@ -774,5 +792,5 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#FFFFFF" :foreground "#000000" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 128 :width normal :foundry nil))))
+ '(default ((t (:inherit nil :stipple nil :background "#FFFFFF" :foreground "#000000" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "outline"))))
  '(linum ((t (:inherit (shadow default) :background "#FFFFFF")))))
