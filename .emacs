@@ -117,9 +117,6 @@
  '(inhibit-startup-screen t)
  '(initial-scratch-message "")
  '(linum-format "%-5d")
- '(package-selected-packages
-   (quote
-    (ac-php php-psysh php-scratch php-completion php-eldoc php-extras composer php-mode go-dlv go-stacktracer go-projectile go-impl go-gopath go-errcheck go-playground window-number undo-tree tss tide thrift sr-speedbar session rainbow-delimiters python-pep8 python-info pylint pyflakes mmm-mode js2-mode jedi-direx icicles hlinum golint go-autocomplete flycheck-pyflakes erlang ecb dired-toggle dired-single dired-open dired-filetype-face dired-efap dired+ d-mode blank-mode bison-mode auto-compile anything ac-etags ac-c-headers)))
  '(scroll-bar-mode (quote right))
  '(show-paren-mode t)
  '(tab-width 4)
@@ -321,13 +318,14 @@
   )
 (add-to-list 'auto-mode-alist '("\\.go$" . my-setup-go))
 
-;; phplang.
+;; php.
 (defun my-php ()
   (elpa-require 'composer)
   (elpa-require 'php-extras)
   (elpa-require 'php-eldoc)
   ;(elpa-require 'php-completion)
   (elpa-require 'php-scratch)
+  (elpa-require 'ede-php-autoload)
   (elpa-require 'ac-php)
   (ac-php-mode)
   )
@@ -424,6 +422,13 @@
   (add-to-list 'ac-sources 'ac-source-c-headers)
   (add-to-list 'ac-sources 'ac-source-c-header-symbols t))
 (add-hook 'after-init-hook 'my-autocomplete)
+
+;; ede
+(defun my-ede ()
+  (elpa-require 'ede)
+  (global-ede-mode t)
+  )
+(add-hook 'after-init-hook 'my-ede)
 
 ;; flycheck
 (elpa-require 'flycheck)
