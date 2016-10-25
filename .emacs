@@ -116,7 +116,7 @@
  '(linum-format "%-5d")
  '(package-selected-packages
    (quote
-    (flymake-go helm-anything helm-projectile magit helm geben ac-html window-number undo-tree tss tide thrift sr-speedbar session rainbow-delimiters python-pep8 python-info pylint pyflakes php-scratch php-extras php-eldoc php-completion mmm-mode js2-mode jedi-direx icicles hlinum golint go-stacktracer go-projectile go-playground go-impl go-gopath go-errcheck go-dlv go-autocomplete flycheck-pyflakes erlang ede-php-autoload ecb dired-toggle dired-single dired-open dired-filetype-face dired-efap dired+ d-mode composer blank-mode bison-mode auto-compile anything ac-php ac-etags ac-c-headers)))
+    (flycheck-gometalinter helm-flycheck flymake-go helm-anything helm-projectile magit helm geben ac-html window-number undo-tree tss tide thrift sr-speedbar session rainbow-delimiters python-pep8 python-info pylint pyflakes php-scratch php-extras php-eldoc php-completion mmm-mode js2-mode jedi-direx icicles hlinum golint go-stacktracer go-projectile go-playground go-impl go-gopath go-errcheck go-dlv go-autocomplete flycheck-pyflakes erlang ede-php-autoload ecb dired-toggle dired-single dired-open dired-filetype-face dired-efap dired+ d-mode composer blank-mode bison-mode auto-compile anything ac-php ac-etags ac-c-headers)))
  '(scroll-bar-mode (quote right))
  '(show-paren-mode t)
  '(tab-width 4)
@@ -259,6 +259,7 @@
         (shell-command "go get -u golang.org/x/tools/cmd/goimports")
         (shell-command "go get -u golang.org/x/tools/cmd/gorename")
         (shell-command "go get -u github.com/kisielk/errcheck")
+        (shell-command "go get -u github.com/alecthomas/gometalinter")
         ))
   (elpa-require 'go-dlv)
   (elpa-require 'go-eldoc)
@@ -273,10 +274,12 @@
   (elpa-require 'golint)
   (add-to-list 'ac-sources 'ac-source-go)
   (my-autocomplete)
-  (go-eldoc-setup)
-  ;; helm
+  (go-eldoc-setup)  
   (elpa-require 'helm-go-package)
   (substitute-key-definition 'go-import-add 'helm-go-package go-mode-map)
+  (elpa-require 'flycheck-gometalinter)
+  (flycheck-mode t)
+  (flycheck-gometalinter-setup)
   )
 (defun my-setup-go ()
   (elpa-require 'go-mode)
@@ -312,6 +315,9 @@
 
 ;; vcm.
 (elpa-require 'magit)
+
+;; flycheck
+(elpa-require 'flycheck)
 
 ;; python.
 (defun my-py-settings ()
@@ -418,7 +424,8 @@
   (require 'helm-config)
   (elpa-require 'ac-helm)
   ;(elpa-require 'helm-anything)
-  (elpa-require 'helm-projectile)  
+  (elpa-require 'helm-projectile)
+  (elpa-require 'helm-flycheck)
   (global-set-key (kbd "M-x") 'helm-M-x)
   )
 (add-hook 'after-init-hook 'my-helm)
@@ -429,9 +436,6 @@
   (global-ede-mode t)
   )
 (add-hook 'after-init-hook 'my-ede)
-
-;; flycheck
-(elpa-require 'flycheck)
 
 ;; cedet
 (defun my-cedet-setting ()
