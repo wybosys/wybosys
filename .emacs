@@ -116,7 +116,7 @@
  '(linum-format "%-5d")
  '(package-selected-packages
    (quote
-    (flycheck-gometalinter helm-flycheck flymake-go helm-anything helm-projectile magit helm geben ac-html window-number undo-tree tss tide thrift sr-speedbar session rainbow-delimiters python-pep8 python-info pylint pyflakes php-scratch php-extras php-eldoc php-completion mmm-mode js2-mode jedi-direx icicles hlinum golint go-stacktracer go-projectile go-playground go-impl go-gopath go-errcheck go-dlv go-autocomplete flycheck-pyflakes erlang ede-php-autoload ecb dired-toggle dired-single dired-open dired-filetype-face dired-efap dired+ d-mode composer blank-mode bison-mode auto-compile anything ac-php ac-etags ac-c-headers)))
+    (dash-at-point w3m imenu+ imenu-anywhere helm-dash flycheck-gometalinter helm-flycheck flymake-go helm-anything helm-projectile magit helm geben ac-html window-number undo-tree tss tide thrift sr-speedbar session rainbow-delimiters python-pep8 python-info pylint pyflakes php-scratch php-extras php-eldoc php-completion mmm-mode js2-mode jedi-direx icicles hlinum golint go-stacktracer go-projectile go-playground go-impl go-gopath go-errcheck go-dlv go-autocomplete flycheck-pyflakes erlang ede-php-autoload ecb dired-toggle dired-single dired-open dired-filetype-face dired-efap dired+ d-mode composer blank-mode bison-mode auto-compile anything ac-php ac-etags ac-c-headers)))
  '(scroll-bar-mode (quote right))
  '(show-paren-mode t)
  '(tab-width 4)
@@ -148,7 +148,6 @@
   )
 
 ;; dired
-(elpa-require 'dash)
 (elpa-require 'dired+)
 (elpa-require 'dired-single)
 (elpa-require 'dired-toggle)
@@ -282,6 +281,7 @@
   (elpa-require 'flycheck-gometalinter)
   (flycheck-mode t)
   (flycheck-gometalinter-setup)
+  (setq-local helm-dash-docsets '("Go"))
   )
 (defun my-setup-go ()
   (elpa-require 'go-mode)
@@ -428,7 +428,11 @@
   ;(elpa-require 'helm-anything)
   (elpa-require 'helm-projectile)
   (elpa-require 'helm-flycheck)
+  (elpa-require 'dash)
+  (elpa-require 'helm-dash)
+  (elpa-require 'dash-at-point)
   (global-set-key (kbd "M-x") 'helm-M-x)
+  (setq helm-dash-browser-func 'eww)
   )
 (add-hook 'after-init-hook 'my-helm)
 
