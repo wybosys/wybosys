@@ -116,7 +116,7 @@
  '(linum-format "%-5d")
  '(package-selected-packages
    (quote
-    (helm geben ac-html window-number undo-tree tss tide thrift sr-speedbar session rainbow-delimiters python-pep8 python-info pylint pyflakes php-scratch php-extras php-eldoc php-completion mmm-mode js2-mode jedi-direx icicles hlinum golint go-stacktracer go-projectile go-playground go-impl go-gopath go-errcheck go-dlv go-autocomplete flycheck-pyflakes erlang ede-php-autoload ecb dired-toggle dired-single dired-open dired-filetype-face dired-efap dired+ d-mode composer blank-mode bison-mode auto-compile anything ac-php ac-etags ac-c-headers)))
+    (helm-anything helm-projectile magit helm geben ac-html window-number undo-tree tss tide thrift sr-speedbar session rainbow-delimiters python-pep8 python-info pylint pyflakes php-scratch php-extras php-eldoc php-completion mmm-mode js2-mode jedi-direx icicles hlinum golint go-stacktracer go-projectile go-playground go-impl go-gopath go-errcheck go-dlv go-autocomplete flycheck-pyflakes erlang ede-php-autoload ecb dired-toggle dired-single dired-open dired-filetype-face dired-efap dired+ d-mode composer blank-mode bison-mode auto-compile anything ac-php ac-etags ac-c-headers)))
  '(scroll-bar-mode (quote right))
  '(show-paren-mode t)
  '(tab-width 4)
@@ -206,12 +206,8 @@
 (defun my-icicle ()
   (elpa-require 'icicles)
   (icy-mode 1)
-  (add-hook 'icicle-ido-like-mode-hook
-            (lambda () (setq icicle-default-value
-                             (if icicle-ido-like-mode t 'insert-end))
-              ))
   )
-(add-hook 'after-init-hook 'my-icicle)
+;(add-hook 'after-init-hook 'my-icicle)
 
 ;; backups.
 (setq make-backup-files nil)
@@ -299,7 +295,12 @@
   (elpa-require 'php-scratch)
   (elpa-require 'ede-php-autoload)
   (elpa-require 'ac-php)
-  (ac-php-mode)
+  (auto-complete-mode t)
+  (ac-php-mode t)
+  (yas-global-mode t)
+  ;(setq ac-sources  '(ac-source-php ) )
+  ;(define-key php-mode-map  (kbd "C-]") 'ac-php-find-symbol-at-point)   ;goto define
+  ;(define-key php-mode-map  (kbd "C-t") 'ac-php-location-stack-back   ) ;go back
   )
 (defun my-setup-php ()
   (elpa-require 'php-mode)
@@ -310,10 +311,7 @@
 (add-to-list 'auto-mode-alist '("\\.volt$" . my-setup-php))
 
 ;; vcm.
-(mi-require-url 'git "git.el" "https://raw.githubusercontent.com/wybosys/el-git/master/git.el")
-(mi-require-url 'git-blame "git-blame.el" "https://raw.githubusercontent.com/wybosys/el-git/master/git-blame.el")
-(require 'vc-git)
-(mi-require-url 'egit "egit.el" "https://raw.github.com/jimhourihan/egit/master/egit.el")
+(elpa-require 'magit)
 
 ;; python.
 (defun my-py-settings ()
@@ -389,22 +387,33 @@
   )
 (add-to-list 'auto-mode-alist '("\\.lua$" . my-setup-lua))
 
-;; autocomplete
+;; autocomplete.
 (defun my-autocomplete ()
   (elpa-require 'auto-complete)
   (elpa-require 'ac-etags)
   (require 'auto-complete-config)
   (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")  
   (ac-config-default)
-  (global-auto-complete-mode t)
+  ;(global-auto-complete-mode t)
   )
 (defun my-autocomplete-c ()
   (elpa-require 'ac-c-headers)
   (add-to-list 'ac-sources 'ac-source-c-headers)
   (add-to-list 'ac-sources 'ac-source-c-header-symbols t))
-(add-hook 'after-init-hook 'my-autocomplete)
+;(add-hook 'after-init-hook 'my-autocomplete)
 
-;; ede
+;; helm.
+(defun my-helm ()
+  (elpa-require 'helm)
+  (require 'helm-config)
+  (elpa-require 'ac-helm)
+  (elpa-require 'helm-anything)
+  (elpa-require 'helm-projectile)  
+  (global-set-key (kbd "M-x") 'helm-M-x)
+  )
+(add-hook 'after-init-hook 'my-helm)
+
+;; ede.
 (defun my-ede ()
   (elpa-require 'ede)
   (global-ede-mode t)
