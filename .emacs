@@ -147,35 +147,6 @@
         )
   )
 
-;; 当使用gui模式打开
-(defun my-gui ()
-  (my-colors)
-  (custom-set-faces
-   '(default ((t (:inherit nil :stipple nil :background "#FFFFFF" :foreground "#000000" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 128 :width normal :foundry nil))))
-   '(linum ((t (:inherit (shadow default) :background "#FFFFFF"))))
-   )
-  (set-fontset-font (frame-parameter nil 'font) 'han (font-spec :family "STSong"))
-  ;; other
-  (my-maximum)
-  )
-
-;; 当使用命令行模式打开
-(defun my-cli ()
-  (custom-set-faces
-   '(default ((t (:inherit nil :stipple nil :background "#FFFFFF" :foreground "#000000" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "outline"))))
-   '(linum ((t (:inherit (shadow default) :background "#FFFFFF"))))
-   )
-  )
-
-;; gui/cli toggle
-(if (not window-system)
-    (my-cli)
-  (my-gui)
-  )
-(if (fboundp 'tool-bar-mode)
-    (tool-bar-mode -1)
-  )
-
 ;; dired
 (elpa-require 'dash)
 (elpa-require 'dired+)
@@ -800,4 +771,31 @@
  '(default ((t (:inherit nil :stipple nil :background "#FFFFFF" :foreground "#000000" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "outline"))))
  '(linum ((t (:inherit (shadow default) :background "#FFFFFF")))))
 
+;; 当使用gui模式打开
+(defun my-gui ()
+  (my-colors)
+  (custom-set-faces
+   '(default ((t (:inherit nil :stipple nil :background "#FFFFFF" :foreground "#000000" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 128 :width normal :foundry nil))))
+   '(linum ((t (:inherit (shadow default) :background "#FFFFFF"))))
+   )
+  (set-fontset-font (frame-parameter nil 'font) 'han (font-spec :family "STSong"))
+  ;; other
+  (my-maximum)
+  )
 
+;; 当使用命令行模式打开
+(defun my-cli ()
+  (custom-set-faces
+   '(default ((t (:inherit nil :stipple nil :background "#FFFFFF" :foreground "#000000" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "outline"))))
+   '(linum ((t (:inherit (shadow default) :background "#FFFFFF"))))
+   )
+  )
+
+;; gui/cli toggle
+(if (not window-system)
+    (my-cli)
+  (my-gui)
+  )
+(if (fboundp 'tool-bar-mode)
+    (tool-bar-mode -1)
+  )
