@@ -116,7 +116,7 @@
  '(linum-format "%-5d")
  '(package-selected-packages
    (quote
-    (window-number undo-tree tss tide thrift sr-speedbar session rainbow-delimiters python-pep8 python-info pylint pyflakes php-scratch php-extras php-eldoc php-completion mmm-mode js2-mode jedi-direx icicles hlinum golint go-stacktracer go-projectile go-playground go-impl go-gopath go-errcheck go-dlv go-autocomplete flycheck-pyflakes erlang ede-php-autoload ecb dired-toggle dired-single dired-open dired-filetype-face dired-efap dired+ d-mode composer blank-mode bison-mode auto-compile anything ac-php ac-etags ac-c-headers)))
+    (ac-html window-number undo-tree tss tide thrift sr-speedbar session rainbow-delimiters python-pep8 python-info pylint pyflakes php-scratch php-extras php-eldoc php-completion mmm-mode js2-mode jedi-direx icicles hlinum golint go-stacktracer go-projectile go-playground go-impl go-gopath go-errcheck go-dlv go-autocomplete flycheck-pyflakes erlang ede-php-autoload ecb dired-toggle dired-single dired-open dired-filetype-face dired-efap dired+ d-mode composer blank-mode bison-mode auto-compile anything ac-php ac-etags ac-c-headers)))
  '(scroll-bar-mode (quote right))
  '(show-paren-mode t)
  '(tab-width 4)
@@ -328,6 +328,15 @@
   (jedi:ac-setup)
   )
 (add-hook 'python-mode-hook 'my-py-settings)
+
+;; html.
+(defun my-html ()
+  (elpa-require 'ac-html)
+  (require 'ac-html-default-data-provider)
+  (ac-html-enable-data-provider 'ac-html-default-data-provider)
+  (auto-complete-mode)
+  )
+(add-hook 'html-mode-hook 'my-html)
 
 ;; javascript.
 (defun my-js-settings ()
