@@ -116,7 +116,7 @@
  '(linum-format "%-5d")
  '(package-selected-packages
    (quote
-    (helm-anything helm-projectile magit helm geben ac-html window-number undo-tree tss tide thrift sr-speedbar session rainbow-delimiters python-pep8 python-info pylint pyflakes php-scratch php-extras php-eldoc php-completion mmm-mode js2-mode jedi-direx icicles hlinum golint go-stacktracer go-projectile go-playground go-impl go-gopath go-errcheck go-dlv go-autocomplete flycheck-pyflakes erlang ede-php-autoload ecb dired-toggle dired-single dired-open dired-filetype-face dired-efap dired+ d-mode composer blank-mode bison-mode auto-compile anything ac-php ac-etags ac-c-headers)))
+    (flymake-go helm-anything helm-projectile magit helm geben ac-html window-number undo-tree tss tide thrift sr-speedbar session rainbow-delimiters python-pep8 python-info pylint pyflakes php-scratch php-extras php-eldoc php-completion mmm-mode js2-mode jedi-direx icicles hlinum golint go-stacktracer go-projectile go-playground go-impl go-gopath go-errcheck go-dlv go-autocomplete flycheck-pyflakes erlang ede-php-autoload ecb dired-toggle dired-single dired-open dired-filetype-face dired-efap dired+ d-mode composer blank-mode bison-mode auto-compile anything ac-php ac-etags ac-c-headers)))
  '(scroll-bar-mode (quote right))
  '(show-paren-mode t)
  '(tab-width 4)
@@ -185,11 +185,6 @@
     t))
 (defalias 'yes-or-no-p 'my-mumble-or-no-p)
 (defalias 'y-or-n-p 'my-mumble-or-n-p)
-
-;; autocompile
-(elpa-require 'auto-compile)
-(auto-compile-on-load-mode 1)
-(auto-compile-on-save-mode 1)
 
 ;; hl-paren
 (defun my-hlparen ()
@@ -263,6 +258,7 @@
         (shell-command "go get -u golang.org/x/tools/cmd/guru")
         (shell-command "go get -u golang.org/x/tools/cmd/goimports")
         (shell-command "go get -u golang.org/x/tools/cmd/gorename")
+        (shell-command "go get -u github.com/kisielk/errcheck")
         ))
   (elpa-require 'go-dlv)
   (elpa-require 'go-eldoc)
@@ -277,6 +273,10 @@
   (elpa-require 'golint)
   (add-to-list 'ac-sources 'ac-source-go)
   (my-autocomplete)
+  (go-eldoc-setup)
+  ;; helm
+  (elpa-require 'helm-go-package)
+  (substitute-key-definition 'go-import-add 'helm-go-package go-mode-map)
   )
 (defun my-setup-go ()
   (elpa-require 'go-mode)
@@ -394,20 +394,30 @@
   (require 'auto-complete-config)
   (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")  
   (ac-config-default)
-  ;(global-auto-complete-mode t)
+  ;;(global-auto-complete-mode t)
   )
 (defun my-autocomplete-c ()
   (elpa-require 'ac-c-headers)
   (add-to-list 'ac-sources 'ac-source-c-headers)
   (add-to-list 'ac-sources 'ac-source-c-header-symbols t))
-;(add-hook 'after-init-hook 'my-autocomplete)
+;;(add-hook 'after-init-hook 'my-autocomplete)
+
+;; lisp.
+(defun my-lisp ()
+  ;; autocompile
+  (elpa-require 'auto-compile)
+  (auto-compile-on-load-mode 1)
+  (auto-compile-on-save-mode 1)
+  (auto-complete-mode t)
+  )
+(add-hook 'emacs-lisp-mode-hook 'my-lisp)
 
 ;; helm.
 (defun my-helm ()
   (elpa-require 'helm)
   (require 'helm-config)
   (elpa-require 'ac-helm)
-  (elpa-require 'helm-anything)
+  ;(elpa-require 'helm-anything)
   (elpa-require 'helm-projectile)  
   (global-set-key (kbd "M-x") 'helm-M-x)
   )
@@ -594,7 +604,7 @@
 (add-hook 'shell-mode-hook 'my-bash)
 
 ;; anything
-(elpa-require 'anything)
+; (elpa-require 'anything)
 
 ;; protobuf
 (defun my-setup-pb ()  
