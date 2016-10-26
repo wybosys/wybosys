@@ -282,6 +282,8 @@
   (flycheck-mode t)
   (flycheck-gometalinter-setup)
   (setq-local helm-dash-docsets '("Go"))
+  (setq gofmt-command "goimports")
+  (add-hook 'before-save-hook 'gofmt-before-save)
   )
 (defun my-setup-go ()
   (elpa-require 'go-mode)
