@@ -116,11 +116,15 @@
  '(linum-format "%-5d")
  '(package-selected-packages
    (quote
-    (dash-at-point w3m imenu+ imenu-anywhere helm-dash flycheck-gometalinter helm-flycheck flymake-go helm-anything helm-projectile magit helm geben ac-html window-number undo-tree tss tide thrift sr-speedbar session rainbow-delimiters python-pep8 python-info pylint pyflakes php-scratch php-extras php-eldoc php-completion mmm-mode js2-mode jedi-direx icicles hlinum golint go-stacktracer go-projectile go-playground go-impl go-gopath go-errcheck go-dlv go-autocomplete flycheck-pyflakes erlang ede-php-autoload ecb dired-toggle dired-single dired-open dired-filetype-face dired-efap dired+ d-mode composer blank-mode bison-mode auto-compile anything ac-php ac-etags ac-c-headers)))
+    (dash-at-point w3m imenu+ imenu-anywhere helm-dash flycheck-gometalinter helm-flycheck flymake-go helm-anything helm-projectile magit helm geben ac-html window-number undo-tree tss tide thrift sr-speedbar rainbow-delimiters python-pep8 python-info pylint pyflakes php-scratch php-extras php-eldoc php-completion mmm-mode js2-mode jedi-direx icicles hlinum golint go-stacktracer go-projectile go-playground go-impl go-gopath go-errcheck go-dlv go-autocomplete flycheck-pyflakes erlang ede-php-autoload ecb dired-toggle dired-single dired-open dired-filetype-face dired-efap dired+ composer blank-mode bison-mode auto-compile anything ac-php ac-etags ac-c-headers)))
  '(scroll-bar-mode (quote right))
  '(show-paren-mode t)
  '(tab-width 4)
  '(tool-bar-mode nil))
+
+;; 工作区域.
+(elpa-require 'desktop)
+(desktop-save-mode 1)
 
 ;; 最大化窗口
 (defun my-maximum ()
@@ -267,7 +271,6 @@
   (go-install-tool "errcheck" "github.com/kisielk/errcheck")
   (go-install-tool "gometalinter" "github.com/alecthomas/gometalinter")
   (go-install-tool "impl" "github.com/josharian/impl")
-  (go-install-tool "oracle" "go get golang.org/x/tools/cmd/oracle")
   (elpa-require 'go-dlv)
   (elpa-require 'go-eldoc)
   (elpa-require 'go-autocomplete)
