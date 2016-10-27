@@ -248,7 +248,16 @@
 (add-to-list 'auto-mode-alist '("\\.ypp$" . bison-mode))
 (add-to-list 'auto-mode-alist '("\\.y++$" . bison-mode))
 
-;; golang.
+;; 在file的父目录搜索目标文件
+(defun find-file-ancestor (file tgt)
+  (when (> (string-width file) 0)
+    (let ((curdir (file-name-directory file)))
+      (if (file-exists-p (concat curdir tgt))
+          curdir
+        (find-file-ancestor (substring curdir 0 -1) tgt)
+        ))))
+
+;; Golang.
 (defun go-install-tool (tool url)
   (setq gobin-path (concat (getenv "HOME") "/.go.d/bin/"))
   (if (not (file-exists-p (concat gobin-path tool)))
@@ -260,6 +269,7 @@
 (defun my-go ()
   (setq go-path (concat (getenv "HOME") "/.go.d/"))
   (setenv "GOPATH" go-path)
+  (setenv "GOROOT" "/opt/local/lib/go")
   (mi-add-exec-path (concat go-path "bin/"))
   (go-install-tool "gocode" "github.com/nsf/gocode")
   (go-install-tool "golint" "github.com/golang/lint/golint")
@@ -283,14 +293,23 @@
   (elpa-require 'go-projectile)
   (elpa-require 'go-stacktracer)
   (elpa-require 'golint)
+  ;; auto set gopath
+  (let ((cfgfile (find-file-ancestor buffer-file-name ".go.cfg")))
+    (when cfgfile
+      (setq gocfg (json-read-file (concat cfgfile ".go.cfg")))
+      (setq gopath (concat cfgfile (cdr (assoc 'GOPATH gocfg))))
+      (message (concat "GOPATH:" gopath))
+      (setenv "GOPATH" gopath)
+      ))
+  ;; cfg
   (add-to-list 'ac-sources 'ac-source-go)
   (my-autocomplete)
   (go-eldoc-setup)  
   (elpa-require 'helm-go-package)
   (substitute-key-definition 'go-import-add 'helm-go-package go-mode-map)
-  (elpa-require 'flycheck-gometalinter)
-  (flycheck-mode t)
-  (flycheck-gometalinter-setup)
+  ;;(elpa-require 'flycheck-gometalinter)
+  ;;(flycheck-mode t)
+  ;;(flycheck-gometalinter-setup)
   (setq-local helm-dash-docsets '("Go"))
   ;; autofmt
   (setq gofmt-command "goimports")
@@ -300,6 +319,7 @@
       (set (make-local-variable 'compile-command)
            "go build -v && go test -v && go vet"))
   )
+
 (defun my-setup-go ()
   (elpa-require 'go-mode)
   (add-hook 'go-mode-hook 'my-go)
