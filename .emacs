@@ -116,7 +116,7 @@
  '(linum-format "%-5d")
  '(package-selected-packages
    (quote
-    (logview shell-here shell-command bash-completion dash-at-point w3m imenu+ imenu-anywhere helm-dash flycheck-gometalinter helm-flycheck flymake-go helm-anything helm-projectile magit helm geben ac-html window-number undo-tree tss tide thrift rainbow-delimiters python-pep8 python-info pylint pyflakes php-scratch php-extras php-eldoc php-completion mmm-mode js2-mode jedi-direx hlinum golint go-stacktracer go-projectile go-playground go-impl go-gopath go-errcheck go-dlv go-autocomplete flycheck-pyflakes erlang ede-php-autoload ecb dired-toggle dired-single dired-open dired-filetype-face dired-efap dired+ composer blank-mode bison-mode auto-compile anything ac-php ac-etags ac-c-headers)))
+    (icicles logview shell-here shell-command bash-completion dash-at-point w3m imenu+ imenu-anywhere helm-dash flycheck-gometalinter helm-flycheck flymake-go helm-anything helm-projectile magit helm geben ac-html window-number undo-tree tss tide thrift rainbow-delimiters python-pep8 python-info pylint pyflakes php-scratch php-extras php-eldoc php-completion mmm-mode js2-mode jedi-direx hlinum golint go-stacktracer go-projectile go-playground go-impl go-gopath go-errcheck go-dlv go-autocomplete flycheck-pyflakes erlang ede-php-autoload ecb dired-toggle dired-single dired-open dired-filetype-face dired-efap dired+ composer blank-mode bison-mode auto-compile anything ac-php ac-etags ac-c-headers)))
  '(scroll-bar-mode (quote right))
  '(show-paren-mode t)
  '(tab-width 4)
@@ -212,7 +212,7 @@
 (setq ediff-split-window-function 'split-window-horizontally)
 
 ;; 过滤掉一般不需要访问的文件
-(setq my-ignores '(".DS_Store" ".git" ".svn" ".cvs" ".ede\\'" "\\`~" "\\`#" ".pyc\\'" "\\`tmp" ".o\\'" "\\`_{1}" ".ropeproject" ".scc\\'" ".out\\'" ".files\\'" ".class\\'" ".symvers\\'" ".order\\'" ".dmp\\'" ".tmp\\'" ".ncb\\'" ".suo\\'" ".usr\\'" ".user\\'" ".xcuserdatad\\'" ".cmd\\'"))
+(setq my-ignores '("\\.DS_Store" "\\.git" "\\.svn" "\\.cvs" "\\.ede\\'" "\\`~" "\\`#" ".pyc\\'" "\\`tmp" "\\.o\\'" "\\`_{1}" "\\.ropeproject" "\\.scc\\'" "\\.out\\'" "\\.files\\'" "\\.class\\'" "\\.symvers\\'" "\\.order\\'" "\\.dmp\\'" "\\.tmp\\'" "\\.ncb\\'" "\\.suo\\'" "\\.usr\\'" "\\.user\\'" "\\.xcuserdatad\\'" "\\.cmd\\'"))
 (ido-mode 1)
 (dolist (ignore my-ignores)
   (add-to-list 'ido-ignore-files ignore))
