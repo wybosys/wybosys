@@ -677,6 +677,7 @@
 ;; log.
 (defun my-log ()
   (elpa-require 'logview)
+  (end-of-buffer)
   (add-hook 'after-revert-hook 'end-of-buffer)
   )
 (add-to-list 'auto-mode-alist '("\\.log$" . my-log))
