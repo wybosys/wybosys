@@ -116,7 +116,7 @@
  '(linum-format "%-5d")
  '(package-selected-packages
    (quote
-    (pyimport python-docstring virtualenv python-mode flycheck find-file-in-project grep+ icicles logview shell-here shell-command bash-completion dash-at-point w3m imenu+ imenu-anywhere helm-dash flycheck-gometalinter helm-flycheck flymake-go helm-anything helm-projectile magit helm geben ac-html window-number undo-tree tss tide thrift rainbow-delimiters python-pep8 python-info pylint pyflakes php-scratch php-extras php-eldoc php-completion mmm-mode js2-mode jedi-direx hlinum golint go-stacktracer go-projectile go-playground go-impl go-gopath go-errcheck go-dlv go-autocomplete flycheck-pyflakes erlang ede-php-autoload ecb dired-toggle dired-single dired-open dired-filetype-face dired-efap dired+ composer blank-mode bison-mode auto-compile anything ac-php ac-etags ac-c-headers)))
+    (gorepl-mode pyimport python-docstring virtualenv python-mode flycheck find-file-in-project grep+ icicles logview shell-here shell-command bash-completion dash-at-point w3m imenu+ imenu-anywhere helm-dash flycheck-gometalinter helm-flycheck flymake-go helm-anything helm-projectile magit helm geben ac-html window-number undo-tree tss tide thrift rainbow-delimiters python-pep8 python-info pylint pyflakes php-scratch php-extras php-eldoc php-completion mmm-mode js2-mode jedi-direx hlinum golint go-stacktracer go-projectile go-playground go-impl go-gopath go-errcheck go-dlv go-autocomplete flycheck-pyflakes erlang ede-php-autoload ecb dired-toggle dired-single dired-open dired-filetype-face dired-efap dired+ composer blank-mode bison-mode auto-compile anything ac-php ac-etags ac-c-headers)))
  '(scroll-bar-mode (quote right))
  '(show-paren-mode t)
  '(tab-width 4)
@@ -278,8 +278,10 @@
   (go-install-tool "godef" "github.com/rogpeppe/godef")
   (go-install-tool "errcheck" "github.com/kisielk/errcheck")
   (if (go-install-tool "gometalinter" "github.com/alecthomas/gometalinter")
-      (shell-command "gometalinter --install"))      
+      (shell-command "gometalinter --install"))
   (go-install-tool "impl" "github.com/josharian/impl")
+  (go-install-tool "gore" "github.com/motemen/gore")
+  ;;(go-install-tool "spew" "github.com/davecgh/go-spew/spew")
   (elpa-require 'go-dlv)
   (elpa-require 'go-eldoc)
   (elpa-require 'go-autocomplete)
@@ -291,6 +293,7 @@
   (elpa-require 'go-projectile)
   (elpa-require 'go-stacktracer)
   (elpa-require 'golint)
+  (elpa-require 'gorepl-mode)
   ;; auto set gopath
   (let ((cfgfile (find-file-ancestor buffer-file-name ".go.cfg")))
     (when cfgfile
@@ -309,6 +312,7 @@
   ;;(flycheck-mode t)
   ;;(flycheck-gometalinter-setup)
   (setq-local helm-dash-docsets '("Go"))
+  (go-guru-hl-identifier-mode)
   ;; autofmt
   (setq gofmt-command "goimports")
   (add-hook 'before-save-hook 'gofmt-before-save)
