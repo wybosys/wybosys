@@ -122,10 +122,6 @@
  '(tab-width 4)
  '(tool-bar-mode nil))
 
-;; 工作区域.
-(elpa-require 'desktop)
-(desktop-save-mode 1)
-
 ;; 最大化窗口
 (defun my-maximum ()
   (interactive)
@@ -858,6 +854,9 @@
   (set-fontset-font (frame-parameter nil 'font) 'han (font-spec :family "STSong"))
   ;; other
   (my-maximum)
+  ;; 读取之前的桌面记录
+  (elpa-require 'desktop)
+  (desktop-save-mode 1)
   )
 
 ;; 当使用命令行模式打开
