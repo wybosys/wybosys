@@ -335,14 +335,14 @@
   (elpa-require 'geben)
   ;(elpa-require 'php-extras)
   (elpa-require 'php-eldoc)
-  ;(elpa-require 'php-completion)
+  (elpa-require 'php-completion)
   (elpa-require 'php-scratch)
-  (elpa-require 'ede-php-autoload)
+  ;(elpa-require 'ede-php-autoload)
   (elpa-require 'ac-php)
   (auto-complete-mode t)
   (ac-php-mode t)
   (yas-global-mode t)
-  ;(setq ac-sources  '(ac-source-php ) )
+  (setq ac-sources  '(ac-source-php ) )
   ;(define-key php-mode-map  (kbd "C-]") 'ac-php-find-symbol-at-point)   ;goto define
   ;(define-key php-mode-map  (kbd "C-t") 'ac-php-location-stack-back   ) ;go back
   )
