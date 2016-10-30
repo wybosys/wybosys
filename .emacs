@@ -116,7 +116,7 @@
  '(linum-format "%-5d")
  '(package-selected-packages
    (quote
-    (gorepl-mode pyimport python-docstring virtualenv python-mode flycheck find-file-in-project grep+ icicles logview shell-here shell-command bash-completion dash-at-point w3m imenu+ imenu-anywhere helm-dash flycheck-gometalinter helm-flycheck flymake-go helm-anything helm-projectile magit helm geben ac-html window-number undo-tree tss tide thrift rainbow-delimiters python-pep8 python-info pylint pyflakes php-scratch php-extras php-eldoc php-completion mmm-mode js2-mode jedi-direx hlinum golint go-stacktracer go-projectile go-playground go-impl go-gopath go-errcheck go-dlv go-autocomplete flycheck-pyflakes erlang ede-php-autoload ecb dired-toggle dired-single dired-open dired-filetype-face dired-efap dired+ composer blank-mode bison-mode auto-compile anything ac-php ac-etags ac-c-headers)))
+    (helm-go-package ac-helm gorepl-mode pyimport python-docstring virtualenv python-mode flycheck find-file-in-project grep+ icicles logview shell-here shell-command bash-completion dash-at-point w3m imenu+ imenu-anywhere helm-dash flycheck-gometalinter helm-flycheck flymake-go helm-anything helm-projectile magit helm geben ac-html window-number undo-tree tss tide thrift rainbow-delimiters python-pep8 python-info pylint pyflakes php-scratch php-extras php-eldoc php-completion mmm-mode js2-mode jedi-direx hlinum golint go-stacktracer go-projectile go-playground go-impl go-gopath go-errcheck go-dlv go-autocomplete flycheck-pyflakes erlang ede-php-autoload ecb dired-toggle dired-single dired-open dired-filetype-face dired-efap dired+ composer blank-mode bison-mode auto-compile anything ac-php ac-etags ac-c-headers)))
  '(scroll-bar-mode (quote right))
  '(show-paren-mode t)
  '(tab-width 4)
@@ -335,7 +335,7 @@
   (elpa-require 'geben)
   ;(elpa-require 'php-extras)
   (elpa-require 'php-eldoc)
-  (elpa-require 'php-completion)
+  ;(elpa-require 'php-completion)
   (elpa-require 'php-scratch)
   ;(elpa-require 'ede-php-autoload)
   (elpa-require 'ac-php)
@@ -343,8 +343,9 @@
   (ac-php-mode t)
   (yas-global-mode t)
   (setq ac-sources  '(ac-source-php ) )
-  ;(define-key php-mode-map  (kbd "C-]") 'ac-php-find-symbol-at-point)   ;goto define
-  ;(define-key php-mode-map  (kbd "C-t") 'ac-php-location-stack-back   ) ;go back
+  ;;(define-key php-mode-map  (kbd "C-]") 'ac-php-find-symbol-at-point)   ;goto define
+  ;;(define-key php-mode-map  (kbd "C-t") 'ac-php-location-stack-back   ) ;go back
+  (add-hook 'after-save-hook 'ac-php-remake-tags)
   )
 (defun my-setup-php ()
   (elpa-require 'php-mode)
@@ -353,6 +354,18 @@
   )
 (add-to-list 'auto-mode-alist '("\\.php$" . my-setup-php))
 (add-to-list 'auto-mode-alist '("\\.volt$" . my-setup-php))
+
+(defun create-php-project ()
+  (interactive)
+  (let ((prj (read-directory-name "project dir:")))
+    (with-current-buffer (get-buffer-create ".ac-php-config.json")
+      (insert "{\"use-cscope\":false,\"filter\":{\"php-file-ext-list\":[\"php\"],\"php-path-list\":[\".\"],\"php-path-list-without-subdir\":[]}}")
+      (setq buffer-file-name (concat prj ".ac-php-conf.json"))
+      (save-buffer)
+      (kill-buffer)      
+      ))
+  (ac-php-remake-tags-all)
+  )    
 
 ;; vcm.
 (elpa-require 'magit)
