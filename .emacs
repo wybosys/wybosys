@@ -116,7 +116,7 @@
  '(linum-format "%-5d")
  '(package-selected-packages
    (quote
-    (realgud helm-go-package ac-helm gorepl-mode pyimport python-docstring virtualenv python-mode flycheck find-file-in-project grep+ icicles logview shell-here shell-command bash-completion dash-at-point w3m imenu+ imenu-anywhere helm-dash flycheck-gometalinter helm-flycheck flymake-go helm-anything helm-projectile magit helm geben ac-html window-number undo-tree tss tide thrift rainbow-delimiters python-pep8 python-info pylint pyflakes php-scratch php-extras php-eldoc mmm-mode js2-mode jedi-direx hlinum golint go-stacktracer go-projectile go-playground go-impl go-gopath go-errcheck go-dlv go-autocomplete flycheck-pyflakes erlang ede-php-autoload ecb dired-toggle dired-single dired-open dired-filetype-face dired-efap dired+ composer blank-mode bison-mode auto-compile anything ac-php ac-etags ac-c-headers)))
+    (actionscript-mode realgud helm-go-package ac-helm gorepl-mode pyimport python-docstring virtualenv python-mode flycheck find-file-in-project grep+ icicles logview shell-here shell-command bash-completion dash-at-point w3m imenu+ imenu-anywhere helm-dash flycheck-gometalinter helm-flycheck flymake-go helm-anything helm-projectile magit helm geben ac-html window-number undo-tree tss tide thrift rainbow-delimiters python-pep8 python-info pylint pyflakes php-scratch php-extras php-eldoc mmm-mode js2-mode jedi-direx hlinum golint go-stacktracer go-projectile go-playground go-impl go-gopath go-errcheck go-dlv go-autocomplete flycheck-pyflakes erlang ede-php-autoload ecb dired-toggle dired-single dired-open dired-filetype-face dired-efap dired+ composer blank-mode bison-mode auto-compile anything ac-php ac-etags ac-c-headers)))
  '(scroll-bar-mode (quote right))
  '(show-paren-mode t)
  '(tab-width 4)
@@ -427,6 +427,13 @@
   )
 (add-to-list 'auto-mode-alist '("\\.ts$" . my-setup-ts))
 (add-to-list 'auto-mode-alist '("\\.tsc$" . my-setup-ts))
+
+;; actionscript.
+(defun my-setup-as ()
+  (elpa-require 'actionscript-mode)
+  (actionscript-mode)
+  )
+(add-to-list 'auto-mode-alist '("\\.as$" . my-setup-as))
 
 ;; cmake.
 (defun my-setup-cmake ()
