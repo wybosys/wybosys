@@ -474,6 +474,7 @@
   (add-to-list 'ac-sources 'ac-source-c-headers)
   (add-to-list 'ac-sources 'ac-source-c-header-symbols t))
 ;;(add-hook 'after-init-hook 'my-autocomplete)
+(add-hook 'text-mode-hook 'my-autocomplete)
 
 ;; lisp.
 (defun my-lisp ()
