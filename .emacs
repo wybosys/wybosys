@@ -2,6 +2,7 @@
 (setq visible-bell t)
 (blink-cursor-mode 0)
 (setq ring-bell-function 'ignore)
+(toggle-debug-on-error)
 
 ;; coding
 (prefer-coding-system 'utf-8)
@@ -116,7 +117,7 @@
  '(linum-format "%-5d")
  '(package-selected-packages
    (quote
-    (company actionscript-mode realgud helm-go-package ac-helm gorepl-mode pyimport python-docstring virtualenv python-mode flycheck find-file-in-project grep+ icicles logview shell-here shell-command bash-completion dash-at-point w3m imenu+ imenu-anywhere helm-dash flycheck-gometalinter helm-flycheck flymake-go helm-anything helm-projectile magit helm geben ac-html window-number undo-tree tss tide thrift rainbow-delimiters python-pep8 python-info pylint pyflakes php-scratch php-extras php-eldoc mmm-mode js2-mode jedi-direx hlinum golint go-stacktracer go-projectile go-playground go-impl go-gopath go-errcheck go-dlv go-autocomplete flycheck-pyflakes erlang ede-php-autoload ecb dired-toggle dired-single dired-open dired-filetype-face dired-efap dired+ composer blank-mode bison-mode auto-compile anything ac-php ac-etags ac-c-headers)))
+    (company actionscript-mode realgud helm-go-package ac-helm gorepl-mode pyimport python-docstring virtualenv python-mode flycheck find-file-in-project grep+ icicles logview shell-here shell-command bash-completion dash-at-point w3m imenu+ imenu-anywhere helm-dash flycheck-gometalinter helm-flycheck flymake-go helm-anything helm-projectile magit helm geben ac-html window-number undo-tree tss tide thrift rainbow-delimiters python-pep8 python-info pylint pyflakes php-scratch php-extras php-eldoc mmm-mode js2-mode jedi-direx hlinum golint go-stacktracer go-projectile go-playground go-impl go-gopath go-errcheck go-dlv go-autocomplete flycheck-pyflakes erlang ecb dired-toggle dired-single dired-open dired-filetype-face dired-efap dired+ composer blank-mode bison-mode auto-compile anything ac-php ac-etags ac-c-headers)))
  '(scroll-bar-mode (quote right))
  '(show-paren-mode t)
  '(tab-width 4)
@@ -334,19 +335,17 @@
 (defun my-php ()
   (elpa-require 'composer)
   (elpa-require 'geben)
-  ;(elpa-require 'php-extras)
   (elpa-require 'php-eldoc)
-  ;(elpa-require 'php-completion)
   (elpa-require 'php-scratch)
-  ;(elpa-require 'ede-php-autoload)
   (elpa-require 'ac-php)
-  (auto-complete-mode t)
-  (ac-php-mode t)
   (yas-global-mode t)
-  (setq ac-sources  '(ac-source-php ) )
+  (my-autocomplete)
+  (ac-php-mode t)
+  (add-to-list 'ac-sources 'ac-source-php)
   ;;(define-key php-mode-map  (kbd "C-]") 'ac-php-find-symbol-at-point)   ;goto define
   ;;(define-key php-mode-map  (kbd "C-t") 'ac-php-location-stack-back   ) ;go back
-  (add-hook 'write-contents-functions 'ac-php-remake-tags)
+                                        ;(add-hook 'write-contents-functions 'ac-php-remake-tags)
+  ;(add-hook 'write-contents-functions 'ac-php-remake-tags)
   )
 (defun my-setup-php ()
   (elpa-require 'php-mode)
@@ -469,11 +468,6 @@
   (ac-config-default)
   ;;(global-auto-complete-mode t)
   )
-(defun my-autocomplete-c ()
-  (elpa-require 'ac-c-headers)
-  (add-to-list 'ac-sources 'ac-source-c-headers)
-  (add-to-list 'ac-sources 'ac-source-c-header-symbols t))
-;;(add-hook 'after-init-hook 'my-autocomplete)
 (add-hook 'text-mode-hook 'my-autocomplete)
 
 ;; lisp.
@@ -660,10 +654,8 @@
 (defun my-c-mode ()
   (interactive)
   (setq c-basic-offset 4)
-  (my-h2s)	
-  (my-autocomplete-c)
+  (my-h2s)
   )
-
 (add-hook 'c-mode-common-hook 
           '(lambda ()
              (my-c-mode)
