@@ -2,7 +2,7 @@
 (setq visible-bell t)
 (blink-cursor-mode 0)
 (setq ring-bell-function 'ignore)
-(toggle-debug-on-error)
+;;(toggle-debug-on-error)
 
 ;; coding
 (prefer-coding-system 'utf-8)
