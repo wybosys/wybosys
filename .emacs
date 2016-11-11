@@ -854,20 +854,9 @@
       (move-beginning-of-line 2)
       (insert (concat (buffer-substring-no-properties begin end) "\n")))))
 
-;; save buffer and resave to another file
-(defun wybosys-rbta-resave()
-  (widen)
-  (write-region (point-min) (point-max) wybosys-rbta-filep)
-)
-(defun resave-buffer-to-another (filep)
-  (interactive "FFilepath:")
-  (setq wybosys-rbta-filep filep)
-  (make-local-variable 'wybosys-rbta-filep)
-  (add-hook 'after-save-hook 'wybosys-rbta-resave)
-)
-
 ;; show blank, newline, tab ...
 (elpa-require 'blank-mode)
+(add-hook 'after-save-hook 'whitespace-cleanup)
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
