@@ -45,24 +45,24 @@
         )
     (unless (file-exists-p file)
       (let ((file-buffer-name (url-retrieve-synchronously url)))
-	    (with-current-buffer file-buffer-name
-	      (set-buffer-multibyte t)
+        (with-current-buffer file-buffer-name
+          (set-buffer-multibyte t)
           (goto-char (search-forward "\n\n"))
-	      (decode-coding-region
-	       (point) (point-max)
-	       (coding-system-change-eol-conversion
+          (decode-coding-region
+           (point) (point-max)
+           (coding-system-change-eol-conversion
             (detect-coding-region (point-min) (point-max) t) 'dos))
           (setq data-begin (point))
           (setq data-end (point-max))
           (with-current-buffer (get-buffer-create (concat name "-mi-download"))
             (insert-buffer-substring file-buffer-name data-begin data-end)
             (setq buffer-file-name file)
-            (save-buffer)           
+            (save-buffer)
             (kill-buffer)
             )
           (kill-buffer)
-	      )
-	    )
+          )
+        )
       (byte-compile-file file)
       )
     )
@@ -75,7 +75,7 @@
 (defun mi-add-git (name)
   (add-to-list 'load-path (concat "~/.emacs.d/lisps/" name))
   )
-(defun mi-require-git (module name url) 
+(defun mi-require-git (module name url)
   (if (require module nil 'noerror) nil
     (message (concat "Git cloning from " url))
     (shell-command (concat (concat "git clone --depth 1 " url) (concat " ~/.emacs.d/lisps/" name)))
@@ -85,7 +85,7 @@
 (defun mi-use-git (module name url)
   (if (featurep module) nil
     (message (concat "Git cloning from " url))
-    (shell-command (concat (concat "git clone --depth 1 " url) (concat " ~/.emacs.d/lisps/" name)))    
+    (shell-command (concat (concat "git clone --depth 1 " url) (concat " ~/.emacs.d/lisps/" name)))
     )
   )
 
@@ -307,7 +307,7 @@
   ;; cfg
   (add-to-list 'ac-sources 'ac-source-go)
   (my-autocomplete)
-  (go-eldoc-setup)  
+  (go-eldoc-setup)
   (elpa-require 'helm-go-package)
   (substitute-key-definition 'go-import-add 'helm-go-package go-mode-map)
   ;;(elpa-require 'flycheck-gometalinter)
@@ -362,10 +362,10 @@
       (insert "{\"use-cscope\":false,\"filter\":{\"php-file-ext-list\":[\"php\"],\"php-path-list\":[\".\"],\"php-path-list-without-subdir\":[]}}")
       (setq buffer-file-name (concat prj ".ac-php-conf.json"))
       (save-buffer)
-      (kill-buffer)      
+      (kill-buffer)
       ))
   (ac-php-remake-tags-all)
-  )    
+  )
 
 ;; vcm.
 (elpa-require 'magit)
@@ -464,7 +464,7 @@
   (elpa-require 'auto-complete)
   (elpa-require 'ac-etags)
   (require 'auto-complete-config)
-  (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")  
+  (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
   (ac-config-default)
   ;;(global-auto-complete-mode t)
   )
@@ -506,16 +506,16 @@
 ;; cedet
 (defun my-cedet-setting ()
   (custom-set-variables
-   '(semantic-default-submodes '(global-semantic-decoration-mode 
+   '(semantic-default-submodes '(global-semantic-decoration-mode
                                  global-semantic-idle-completions-mode
-                                 global-semantic-idle-scheduler-mode 
-                                 global-semantic-idle-summary-mode 
+                                 global-semantic-idle-scheduler-mode
+                                 global-semantic-idle-summary-mode
                                  global-semantic-mru-bookmark-mode
                                  global-semantic-highlight-edits-mode
                                  global-semanticdb-minor-mode
                                  ))
    '(semantic-idle-scheduler-idle-time 2)
-   )  
+   )
   (setq semantic-c-dependency-system-include-path '(
                                                     "/usr/include/"
                                                     "/usr/local/include/"
@@ -526,8 +526,8 @@
 (defun my-semantic-c-processed-files ()
   (if (string-match ".h[px]*$" buffer-file-name)
       ;; if file is c-header, add to semantic
-      (progn        
-        (if (boundp 'semantic-lex-c-preprocessor-symbol-file)      
+      (progn
+        (if (boundp 'semantic-lex-c-preprocessor-symbol-file)
             (add-to-list 'semantic-lex-c-preprocessor-symbol-file buffer-file-name)
           )
         )
@@ -541,7 +541,7 @@
       (backward-char 1)
       (if (looking-at "\\.") t
         (backward-char 1)
-        (if (looking-at "->") t 
+        (if (looking-at "->") t
             nil)
           ))))
 
@@ -561,7 +561,7 @@
   )
 
 (defun my-cedet-setup ()
-  (my-cedet-setting)  
+  (my-cedet-setting)
   )
 
 (defun my-cedet-launch ()
@@ -589,14 +589,14 @@
 (unless (boundp 'x-max-tooltip-size)
   (setq x-max-tooltip-size '(80 . 40)))
 
-(defun my-ecb-setting () 
-  (setq 
+(defun my-ecb-setting ()
+  (setq
    global-ede-mode t
    ecb-auto-activate t
    ecb-tip-of-the-day nil
    inhibit-startup-message t
    ecb-auto-compatibility-check nil
-   ecb-version-check nil        
+   ecb-version-check nil
    )
   )
 
@@ -656,7 +656,7 @@
   (setq c-basic-offset 4)
   (my-h2s)
   )
-(add-hook 'c-mode-common-hook 
+(add-hook 'c-mode-common-hook
           '(lambda ()
              (my-c-mode)
              (mydev-start)
@@ -675,7 +675,7 @@
 ; (elpa-require 'anything)
 
 ;; protobuf
-(defun my-setup-pb ()  
+(defun my-setup-pb ()
   (mi-use-package-url "protobuf-mode.el" "https://raw.githubusercontent.com/wybosys/wybosys/master/el/protobuf-mode.el")
   (protobuf-mode)
   )
@@ -687,7 +687,7 @@
   (require 'erlang-start)
   (flycheck-mode)
   (add-to-list 'ac-modes 'erlang-mode)
-  (add-to-list 'load-path "~/.emacs.d/lisps/distel/elisp")  
+  (add-to-list 'load-path "~/.emacs.d/lisps/distel/elisp")
   (mi-require-git 'distel "distel" "https://github.com/massemanet/distel.git")
   (distel-setup)
   )
@@ -762,16 +762,16 @@
                                    (innamespace . 0)
                                    ))
     ;(c-echo-syntactic-information-p . t) // verbose while indent.
-    ) 
+    )
   "My C script style."
   )
 (c-add-style "my-cstyle" my-c-style)
 
-(setq c-default-style 
+(setq c-default-style
       '((c-mode . "my-cstyle") ;; stroustrup
-        (c++-mode . "my-cstyle") 
-        (java-mode . "java") 
-        (awk-mode . "awk") 
+        (c++-mode . "my-cstyle")
+        (java-mode . "java")
+        (awk-mode . "awk")
         (other . "gnu")
         ))
 
@@ -849,14 +849,14 @@
 (defun dublicate-line ()
   (interactive)
   (save-excursion
-    (let ((begin (line-beginning-position)) 
+    (let ((begin (line-beginning-position))
           (end (line-end-position)))
       (move-beginning-of-line 2)
       (insert (concat (buffer-substring-no-properties begin end) "\n")))))
 
 ;; show blank, newline, tab ...
 (elpa-require 'blank-mode)
-(add-hook 'after-save-hook 'whitespace-cleanup)
+(add-hook 'before-save-hook 'whitespace-cleanup)
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -897,4 +897,3 @@
 (if (fboundp 'tool-bar-mode)
     (tool-bar-mode -1)
   )
-
