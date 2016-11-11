@@ -239,7 +239,8 @@
 ;; default mode.
 (add-to-list 'auto-mode-alist '("\\.api\\'" . text-mode))
 (defun my-text ()
-  (prefer-coding-system 'gb18030)
+  (auto-complete-mode)
+  (prefer-coding-system 'utf-8)
   )
 (add-hook 'text-mode-hook 'my-text)
 
