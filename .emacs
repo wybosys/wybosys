@@ -350,7 +350,11 @@
   (add-to-list 'ac-sources 'ac-source-php)
   ;;(define-key php-mode-map  (kbd "C-]") 'ac-php-find-symbol-at-point)   ;goto define
   ;;(define-key php-mode-map  (kbd "C-t") 'ac-php-location-stack-back   ) ;go back
-  (add-hook 'write-contents-functions (lambda () (ac-php-remake-tags) nil))
+  (add-hook 'write-contents-functions
+            (lambda ()
+              (whitespace-cleanup)
+              (ac-php-remake-tags)
+              nil))
   )
 (defun my-setup-php ()
   (elpa-require 'php-mode)
