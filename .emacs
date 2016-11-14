@@ -237,10 +237,15 @@
 (require 'saveplace)
 
 ;; default mode.
+(defun save-cleanup()
+  (whitespace-cleanup)
+  nil
+  )
 (add-to-list 'auto-mode-alist '("\\.api\\'" . text-mode))
 (defun my-text ()
   (auto-complete-mode)
   (prefer-coding-system 'utf-8)
+  (add-hook 'write-contents-functions 'save-cleanup)
   )
 (add-hook 'text-mode-hook 'my-text)
 
@@ -318,7 +323,7 @@
   (go-guru-hl-identifier-mode)
   ;; autofmt
   (setq gofmt-command "goimports")
-  (add-hook 'before-save-hook 'gofmt-before-save)
+  (add-hook 'write-contents-functions (lambda () (gofmt-before-save) nil))
   ;; compile in emacs
   (if (not (string-match "go" compile-command))
       (set (make-local-variable 'compile-command)
@@ -345,8 +350,7 @@
   (add-to-list 'ac-sources 'ac-source-php)
   ;;(define-key php-mode-map  (kbd "C-]") 'ac-php-find-symbol-at-point)   ;goto define
   ;;(define-key php-mode-map  (kbd "C-t") 'ac-php-location-stack-back   ) ;go back
-                                        ;(add-hook 'write-contents-functions 'ac-php-remake-tags)
-  ;(add-hook 'write-contents-functions 'ac-php-remake-tags)
+  (add-hook 'write-contents-functions (lambda () (ac-php-remake-tags) nil))
   )
 (defun my-setup-php ()
   (elpa-require 'php-mode)
@@ -857,7 +861,6 @@
 
 ;; show blank, newline, tab ...
 (elpa-require 'blank-mode)
-(add-hook 'before-save-hook 'whitespace-cleanup)
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
