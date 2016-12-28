@@ -41,8 +41,8 @@ is_target()
     Return 1  
 ;   IfWinActive,ahk_class XEmacs ; XEmacs on Cygwin
 ;     Return 1
-  #IfWinActive,ahk_exe idea64.exe ;ideaU
-      Return 1
+  IfWinActive,ahk_exe idea64.exe ;ideaU
+    Return 1
   Return 0
 }
 
