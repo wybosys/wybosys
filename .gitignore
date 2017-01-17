@@ -69,7 +69,6 @@ wingProperties.json
 Thumbs.db
 .n*
 publish
-tsconfig.json
 .wing
 .project
 .buildpath
