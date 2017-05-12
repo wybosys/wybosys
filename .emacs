@@ -117,7 +117,7 @@
  '(linum-format "%-5d")
  '(package-selected-packages
    (quote
-    (python-environment go-guru go-eldoc go-mode company actionscript-mode realgud helm-go-package ac-helm gorepl-mode pyimport python-docstring virtualenv python-mode flycheck find-file-in-project grep+ icicles logview shell-here shell-command bash-completion dash-at-point w3m imenu+ imenu-anywhere helm-dash flycheck-gometalinter helm-flycheck flymake-go helm-anything helm-projectile magit helm geben ac-html window-number undo-tree tss tide thrift rainbow-delimiters python-info pylint pyflakes php-scratch php-extras php-eldoc mmm-mode js2-mode jedi-direx hlinum golint go-stacktracer go-projectile go-playground go-impl go-gopath go-errcheck go-dlv go-autocomplete flycheck-pyflakes erlang ecb dired-toggle dired-single dired-open dired-filetype-face dired-efap dired+ composer blank-mode bison-mode auto-compile anything ac-php ac-etags ac-c-headers)))
+    (yaml-mode jedi python-environment go-guru go-eldoc go-mode company actionscript-mode realgud helm-go-package ac-helm gorepl-mode pyimport python-docstring virtualenv python-mode flycheck find-file-in-project grep+ icicles logview shell-here shell-command bash-completion dash-at-point w3m imenu+ imenu-anywhere helm-dash flycheck-gometalinter helm-flycheck flymake-go helm-anything helm-projectile magit helm geben ac-html window-number undo-tree tss tide thrift rainbow-delimiters python-info pylint php-scratch php-extras php-eldoc mmm-mode js2-mode jedi-direx hlinum golint go-stacktracer go-projectile go-playground go-impl go-gopath go-errcheck go-dlv go-autocomplete flycheck-pyflakes erlang ecb dired-toggle dired-single dired-open dired-filetype-face dired-efap dired+ composer blank-mode bison-mode auto-compile anything ac-php ac-etags ac-c-headers)))
  '(scroll-bar-mode (quote right))
  '(show-paren-mode t)
  '(tab-width 4)
@@ -392,7 +392,6 @@
   (elpa-require 'python-docstring)
   (elpa-require 'pyimport)
   (elpa-require 'pylint)
-  (elpa-require 'pyflakes)
   (elpa-require 'jedi)
   (elpa-require 'jedi-direx)
   (elpa-require 'flycheck-pyflakes)
@@ -808,6 +807,13 @@
     )
   )
 (add-to-list 'auto-mode-alist '("\\.gpx\\'" . xml-mode))
+
+;; yml
+(defun my-setup-yml()
+  (elpa-require 'yaml-mode)
+  (yaml-mode)
+  )
+(add-to-list 'auto-mode-alist '("\\.yml$" . my-setup-yml))
 
 ;; global bind keys.
 (global-set-key (kbd "C-x <left>") 'my-switch-to-lastbuffer)
