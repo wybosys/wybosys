@@ -33,8 +33,8 @@ is_target()
     Return 1
 ;  IfWinActive,ahk_class SWT_Window0 ; Eclipse
 ;    Return 1
-;   IfWinActive,ahk_class Xming X
-;     Return 1
+   IfWinActive,ahk_class Xming X
+     Return 1
 ;   IfWinActive,ahk_class SunAwtFrame
 ;     Return 1
   IfWinActive,ahk_class Emacs ; NTEmacs
@@ -42,6 +42,8 @@ is_target()
 ;   IfWinActive,ahk_class XEmacs ; XEmacs on Cygwin
 ;     Return 1
   IfWinActive,ahk_exe idea64.exe ;ideaU
+    Return 1
+  IfWinActive,ahk_exe studio64.exe ;ideaU
     Return 1
   Return 0
 }
