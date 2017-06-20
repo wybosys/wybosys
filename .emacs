@@ -1,6 +1,6 @@
 ;; feedback
 (setq visible-bell t)
-(blink-cursor-mode 0)
+(blink-cursor-mode nil)
 (setq ring-bell-function 'ignore)
 ;;(toggle-debug-on-error)
 
