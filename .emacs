@@ -162,10 +162,10 @@
 (elpa-require 'mmm-mode)
 
 ;; hl-line
-(set-face-background 'hl-line "#EEEEEE")
+(set-face-background 'hl-line "gray10")
 (elpa-require 'hlinum)
 (hlinum-activate)
-(set-face-background 'linum-highlight-face "#EEEEEE")
+(set-face-background 'linum-highlight-face "gray10")
 
 ;; yes-or-no.
 (defun my-mumble-or-no-p (prompt)
@@ -893,8 +893,8 @@
 ;; 当使用命令行模式打开
 (defun my-cli ()
   (custom-set-faces
-   '(default ((t (:inherit nil :stipple nil :background "#FFFFFF" :foreground "#000000" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "outline"))))
-   '(linum ((t (:inherit (shadow default) :background "#FFFFFF"))))
+   '(default ((t (:inherit nil :stipple nil :background "#000000" :foreground "#ffffff" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "outline"))))
+   '(linum ((t (:inherit (shadow default) :background "#000000"))))
    )
   )
 
