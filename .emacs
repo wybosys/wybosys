@@ -162,10 +162,9 @@
 (elpa-require 'mmm-mode)
 
 ;; hl-line
-(set-face-background 'hl-line "gray10")
+(set-face-background 'hl-line "azure")
 (elpa-require 'hlinum)
 (hlinum-activate)
-(set-face-background 'linum-highlight-face "gray10")
 
 ;; yes-or-no.
 (defun my-mumble-or-no-p (prompt)
