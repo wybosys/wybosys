@@ -892,8 +892,8 @@
 ;; 当使用命令行模式打开
 (defun my-cli ()
   (custom-set-faces
-   '(default ((t (:inherit nil :stipple nil :background "#000000" :foreground "#ffffff" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "outline"))))
-   '(linum ((t (:inherit (shadow default) :background "#000000"))))
+   '(default ((t (:inherit nil :stipple nil :background "#FFFFFF" :foreground "#000000" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "outline"))))
+   '(linum ((t (:inherit (shadow default) :background "#FFFFFF"))))
    )
   )
 
