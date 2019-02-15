@@ -735,8 +735,7 @@
 (add-to-list 'auto-mode-alist '("nginx/conf\\.d/[[:ascii:]]+\\.conf\\'" . my-setup-nginx))
 
 ;; ssh mode.
-(mi-use-package-url "ssh-config-mode.el" "https://raw.github.com/jhgorrell/ssh-config-mode-el/master/ssh-config-mode.el")
-(autoload 'ssh-config-mode "ssh-config-mode" nil t)
+(elpa-require 'ssh-config-mode)
 (add-to-list 'auto-mode-alist '(".ssh/config\\'"  . ssh-config-mode))
 (add-to-list 'auto-mode-alist '("sshd?_config\\'" . ssh-config-mode))
 
