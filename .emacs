@@ -162,7 +162,7 @@
 (elpa-require 'mmm-mode)
 
 ;; hl-line
-(set-face-background 'hl-line "color-235")
+(set-face-background 'hl-line "color-255")
 (elpa-require 'hlinum)
 (hlinum-activate)
 
@@ -891,7 +891,7 @@
 ;; 当使用命令行模式打开
 (defun my-cli ()
   (custom-set-faces
-   '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "outline"))))
+   '(default ((t (:inherit nil :stipple nil :foreground "#000000" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "outline"))))
    '(linum ((t (:inherit (shadow default)))))
    )
   )
