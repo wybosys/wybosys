@@ -1,6 +1,8 @@
 ###################################################################
 # source ~/.bashtools
 # PS1="\h:\W \u \$(tools_tag)\$ "
+# PS1="\W \$(tools_tag)\$ "
+# PROMPT_COMMAND='echo -ne "\033];$(tools_title)\007"'
 ###################################################################
 
 parse_git_branch () {
@@ -21,4 +23,11 @@ parse_git_branch_or_tag() {
 
 tools_tag() {
     echo $(parse_git_branch_or_tag)
+}
+
+tools_title() {
+    local left=`dirname $PWD`
+    local r2=`basename $PWD`
+    local r1=`basename $left`
+    echo $r1/$r2
 }
