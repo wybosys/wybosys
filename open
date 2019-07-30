@@ -5,7 +5,7 @@ import os, sys
 def open():
     if len(sys.argv) == 1:
         return
-    for each in sys.argv:
+    for each in sys.argv[1:]:
         if os.path.isdir(each):
             os.system('nautilus ' + each)
         else:
