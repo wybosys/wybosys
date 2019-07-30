@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+
+import os, sys
+
+def open():
+    if len(sys.argv) == 1:
+        return
+    for each in sys.argv:
+        if os.path.isdir(each):
+            os.system('nautilus ' + each)
+        else:
+            os.system('code ' + each)
+
+if __name__ == "__main__":
+    open()
+    
