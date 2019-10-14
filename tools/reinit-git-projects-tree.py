@@ -14,7 +14,9 @@ def process(nodes, dir):
             os.chdir(path)
             os.system('git pull')
             os.chdir(now)
-        else:            
+        else:       
+            if len(node['remotes']) == 0:
+                continue     
             cur = node['remotes'][0]
             url = cur['urls'][0]
             os.system('git clone ' + url + ' ' + path)
