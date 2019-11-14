@@ -441,7 +441,7 @@
 
 ;; cmake.
 (defun my-setup-cmake ()
-  (mi-use-package-url "cmake-mode.el" "http://www.cmake.org/CMakeDocs/cmake-mode.el")
+  (elpa-require 'cmake-mode)
   (cmake-mode)
   )
 (setq auto-mode-alist
