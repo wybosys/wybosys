@@ -1,0 +1,37 @@
+allprojects{
+    repositories {
+        def ALIYUN_PUBLIC_URL = 'https://maven.aliyun.com/repository/public'
+        def ALIYUN_GOOGLE_URL = 'https://maven.aliyun.com/repository/google'        
+        def ALIYUN_JCENTER_URL = 'https://maven.aliyun.com/repository/jcenter'
+        def ALIYUN_GRADLE_URL = 'https://maven.aliyun.com/repository/gradle-plugin'
+        
+        all { ArtifactRepository repo ->            
+            if (repo instanceof MavenArtifactRepository){                
+                def url = repo.url.toString()
+                if (url.indexOf('maven.org') != -1) {
+                    project.logger.lifecycle "Repository ${repo.url} replaced by $ALIYUN_PUBLIC_URL."
+                    remove repo
+                }
+                if (url.indexOf('google.com') != -1) {
+                    project.logger.lifecycle "Repository ${repo.url} replaced by $ALIYUN_GOOGLE_URL."
+                    remove repo
+                }
+                if (url.indexOf('jcenter.bintray.com') != -1) {
+                    project.logger.lifecycle "Repository ${repo.url} replaced by $ALIYUN_JCENTER_URL."
+                    remove repo
+                }
+                if (url.indexOf('repo.maven.apache.org') != -1) {
+                    project.logger.lifecycle "Repository ${repo.url} replaced by $ALIYUN_GRADLE_URL."
+                    remove repo
+                }
+            }
+        }
+        
+        maven {
+            url ALIYUN_PUBLIC_URL
+            url ALIYUN_GOOGLE_URL
+            url ALIYUN_JCENTER_URL
+            url ALIYUN_GRADLE_URL
+        }
+    }
+}
