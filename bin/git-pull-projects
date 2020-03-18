@@ -4,6 +4,8 @@ import os
 
 for e in os.listdir('.'):
     if os.path.isdir(e):
+        print(e)
         os.chdir(e)
         os.system('git pull')
         os.chdir('..')
+        print('\n')
