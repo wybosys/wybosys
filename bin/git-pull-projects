@@ -8,4 +8,4 @@ for e in os.listdir('.'):
         os.chdir(e)
         os.system('git pull')
         os.chdir('..')
-        print('\n')
+        print()
