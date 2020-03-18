@@ -1,0 +1,9 @@
+#!/usr/bin/env python3
+
+import os
+
+for e in os.listdir('.'):
+    if os.path.isdir(e):
+        os.chdir(e)
+        os.system('git pull')
+        os.chdir('..')
