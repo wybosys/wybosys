@@ -1,0 +1,7 @@
+#!/usr/bin/env python3
+
+import os
+
+for i in range(1, 2600):
+   print(i)
+   os.system("git fetch --depth " + str(i))
