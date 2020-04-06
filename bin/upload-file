@@ -33,14 +33,14 @@ def upload(fp, file_pos, size, file_size):
 def get_session_id():
     m = hashlib.md5()
     file_name = os.path.basename(FILE_UPLOAD)
-    m.update(file_name)
+    m.update(file_name.encode('utf-8'))
     return m.hexdigest()
 
 
 def main():
     file_pos = 0
     file_size = os.path.getsize(FILE_UPLOAD)
-    fp = open(FILE_UPLOAD, "r")
+    fp = open(FILE_UPLOAD, "rb")
 
     while True:
         if file_pos + SEGMENT_SIZE >= file_size:
