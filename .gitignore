@@ -75,3 +75,5 @@ publish
 \.buildpath
 \.actionScriptProperties
 node_modules
+*.pyc
+__pycache__
