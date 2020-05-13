@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+
+import sys, os
+
+src=sys.argv[1]
+dest=sys.argv[2]
+
+for e in os.listdir(os.getcwd()):
+    cfg = e + "/.git/config"
+    if not os.path.exists(cfg):
+        continue
+    print(cfg)
+    lines = open(cfg).readlines()
+    for i in range(len(lines)):
+        lines[i] = lines[i].replace(src, dest)
+    open(cfg, 'w').write(''.join(lines))
