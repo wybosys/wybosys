@@ -452,14 +452,14 @@
 
 ;; yaml.
 (defun my-setup-yaml ()
-  (mi-use-package-url "yaml-mode.el" "https://raw.github.com/yoshiki/yaml-mode/master/yaml-mode.el")
+  (elpa-require 'yaml-mode)
   (yaml-mode)
   )
 (add-to-list 'auto-mode-alist '("\\.ya?ml$" . my-setup-yaml))
 
 ;; lua.
 (defun my-setup-lua ()
-  (mi-use-package-url "lua-mode.el" "https://raw.github.com/immerrr/lua-mode/master/lua-mode.el")
+  (elpa-require 'lua-mode)
   (lua-mode)
   )
 (add-to-list 'auto-mode-alist '("\\.lua$" . my-setup-lua))
@@ -681,15 +681,14 @@
 
 ;; protobuf
 (defun my-setup-pb ()
-  (mi-use-package-url "protobuf-mode.el" "https://raw.githubusercontent.com/wybosys/wybosys/master/el/protobuf-mode.el")
+  (elpa-require 'protobuf-mode)
   (protobuf-mode)
   )
 (add-to-list 'auto-mode-alist '("\\.proto\\'" . my-setup-pb))
 
 ;; erlang
 (defun my-erlang ()
-  (mi-use-package-url "erlang-start.el" "https://raw.githubusercontent.com/wybosys/el-erlang/master/erlang-start.el")
-  (require 'erlang-start)
+  (elpa-require 'erlang)
   (flycheck-mode)
   (add-to-list 'ac-modes 'erlang-mode)
   (add-to-list 'load-path "~/.emacs.d/lisps/distel/elisp")
@@ -714,7 +713,7 @@
 
 ;; apache httpd.
 (defun my-setup-httpd ()
-  (mi-use-package-url "apache-mode.el" "https://raw.githubusercontent.com/wybosys/wybosys/master/el/apache-mode.el")
+  (elpa-require 'apache-mode)
   (apache-mode)
   )
 (add-to-list 'auto-mode-alist '("\\.htaccess\\'"   . my-setup-httpd))
@@ -726,7 +725,7 @@
 
 ;; nginx mode.
 (defun my-setup-nginx ()
-  (mi-use-package-url "nginx-mode.el" "https://raw.github.com/ajc/nginx-mode/master/nginx-mode.el")
+  (elpa-require 'nginx-mode)
   (require 'nginx-mode)
   (setq nginx-indent-level 4)
   (nginx-mode)
