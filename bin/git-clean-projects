@@ -1,0 +1,20 @@
+#!/usr/bin/env python3
+
+import os
+
+
+def clean(dir):
+    old = os.pwd()
+    if os.path.isdir(dir + "/.git"):
+        os.chdir(dir)
+        print("cleaning " + dir)
+        os.system("git clean -fdx")
+    elif os.path.isdir(dir):
+        for e in os.listdir(dir):
+            clean(dir + "/" + e)
+    else:
+        pass
+
+
+if __name__ == "__main__":
+    clean(os.pwd())
