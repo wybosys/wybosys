@@ -231,7 +231,7 @@
 (setq tramp-default-method "ssh")
 
 ;; save space.
-(setq-default save-place t)
+(setq-default save-place-mode t)
 (require 'saveplace)
 
 ;; default mode.
