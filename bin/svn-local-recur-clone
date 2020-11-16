@@ -6,17 +6,17 @@ import configparser
 import subprocess
 
 
-def Svn2Git(src: str, dir, user):
+def Svn2Git(src: str, dir):
     nm = os.path.basename(src)
-    print("svn clone %s to %s/%s" % (src, dir, nm))
     fp_passwd = src + "/conf/passwd"
-    cnf_passwd = configparser.ConfigParser()
+    cnf_passwd = configparser.RawConfigParser()
     cnf_passwd.read(fp_passwd)
     usrpwd = cnf_passwd.items("users")[0]
+    #usrpwd = (usrpwd[0], urllib.parse.quote(usrpwd[1]))
     cmd_svn = "svnserve --foreground -X -r %s" % (src)
     proc_svn = subprocess.Popen(cmd_svn, shell=True)
-    cmd_git = "runuser -u %s -- svn co --username %s --password %s svn://localhost:3690 %s/%s" % (
-        user, usrpwd[0], usrpwd[1], dir, nm)
+    cmd_git = "svn co --username '%s' --password '%s' svn://localhost:3690 %s/%s" % (
+        usrpwd[0], usrpwd[1], dir, nm)
     os.system(cmd_git)
     proc_svn.terminate()
 
@@ -28,17 +28,17 @@ def IsSvn(dir: str) -> bool:
         os.path.isdir(dir + "/locks")
 
 
-def _recur(cur, tgt, user):
+def _recur(cur, tgt):
     if os.path.isfile(cur):
         return
     if IsSvn(cur):
-        Svn2Git(cur, tgt, user)
+        Svn2Git(cur, tgt)
         return
     nm = os.path.basename(cur)
     for e in os.listdir(cur):
-        _recur(cur + "/" + e, tgt + "/" + nm, user)
+        _recur(cur + "/" + e, tgt + "/" + nm)
 
 
 if __name__ == "__main__":
     _recur(os.path.abspath(sys.argv[1]),
-           os.path.abspath(sys.argv[2]), sys.argv[3])
+           os.path.abspath(sys.argv[2]))
