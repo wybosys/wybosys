@@ -1,0 +1,27 @@
+#!/usr/bin/env python3
+
+# 分析用户名密码 -> 启动svn监听git -> svn clone -> 停止svn服务
+
+import sys
+import os
+import configparser
+import subprocess
+
+
+def Svn2Git(src: str, dir, user):
+    src = os.path.abspath(src)
+    nm = os.path.basename(src)
+    fp_passwd = src + "/conf/passwd"
+    cnf_passwd = configparser.ConfigParser()
+    cnf_passwd.read(fp_passwd)
+    usrpwd = cnf_passwd.items("users")[0]
+    cmd_svn = "svnserve --foreground -X -r %s" % (src)
+    proc_svn = subprocess.Popen(cmd_svn, shell=True)
+    cmd_git = "runuser -u %s -- svn co --username %s --password %s svn://localhost:3690 %s/%s" % (
+        user, usrpwd[0], usrpwd[1], dir, nm)
+    os.system(cmd_git)
+    proc_svn.terminate()
+
+
+if __name__ == "__main__":
+    Svn2Git(sys.argv[1], sys.argv[2], sys.argv[3])
