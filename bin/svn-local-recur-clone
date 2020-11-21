@@ -17,10 +17,7 @@ def Svn2Git(src: str, dir):
     proc_svn = subprocess.Popen(cmd_svn, shell=True)
     tgt_work = dir + "/" + nm
     if os.path.exists(tgt_work):
-        os.chdir(tgt_work)
-        os.system("svn update --username '%s' --password '%s'" %
-                  (usrpwd[0], usrpwd[1]))
-        os.chdir("../")
+        pass
     else:
         cmd_git = "svn co --username '%s' --password '%s' svn://localhost:3690 %s" % (
             usrpwd[0], usrpwd[1], tgt_work)

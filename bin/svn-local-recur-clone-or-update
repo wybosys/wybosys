@@ -1,12 +1,9 @@
 #!/usr/bin/env python3
 
-# 分析用户名密码 -> 启动svn监听git -> svn clone -> 停止svn服务
-
 import sys
 import os
 import configparser
 import subprocess
-import urllib.parse
 
 
 def Svn2Git(src: str, dir):
@@ -20,7 +17,10 @@ def Svn2Git(src: str, dir):
     proc_svn = subprocess.Popen(cmd_svn, shell=True)
     tgt_work = dir + "/" + nm
     if os.path.exists(tgt_work):
-        pass
+        os.chdir(tgt_work)
+        os.system("svn update --username '%s' --password '%s'" %
+                  (usrpwd[0], usrpwd[1]))
+        os.chdir("../")
     else:
         cmd_git = "svn co --username '%s' --password '%s' svn://localhost:3690 %s" % (
             usrpwd[0], usrpwd[1], tgt_work)
@@ -28,5 +28,24 @@ def Svn2Git(src: str, dir):
     proc_svn.terminate()
 
 
+def IsSvn(dir: str) -> bool:
+    return os.path.isdir(dir + "/conf") and \
+        os.path.isdir(dir + "/db") and \
+        os.path.isdir(dir + "/hooks") and \
+        os.path.isdir(dir + "/locks")
+
+
+def _recur(cur, tgt):
+    if os.path.isfile(cur):
+        return
+    if IsSvn(cur):
+        Svn2Git(cur, tgt)
+        return
+    nm = os.path.basename(cur)
+    for e in os.listdir(cur):
+        _recur(cur + "/" + e, tgt + "/" + nm)
+
+
 if __name__ == "__main__":
-    Svn2Git(os.path.abspath(sys.argv[1]), os.path.abspath(sys.argv[2]))
+    _recur(os.path.abspath(sys.argv[1]),
+           os.path.abspath(sys.argv[2]))
