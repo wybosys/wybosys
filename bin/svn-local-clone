@@ -21,7 +21,8 @@ def Svn2Git(src: str, dir):
     tgt_work = dir + "/" + nm
     if os.path.exists(tgt_work):
         os.chdir(tgt_work)
-        os.system("svn update")
+        os.system("svn update --username '%s' --password '%s'" %
+                  (usrpwd[0], usrpwd[1]))
         os.chdir("../")
     else:
         cmd_git = "svn co --username '%s' --password '%s' svn://localhost:3690 %s" % (
