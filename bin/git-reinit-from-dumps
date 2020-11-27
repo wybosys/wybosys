@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+
+import sys
+import json
+import urllib.parse
+import os
+
+
+def reinits(dumps, domain, user, passwd, target):
+    urls = urllib.parse.urlparse(domain)
+    domain = "%s://%s:%s@%s" % (urls.scheme, user, passwd, urls.netloc)
+    for each in dumps:
+        reinit(each, domain, user, passwd, target)
+
+
+def reinit(dump, domain, user, passwd, target):
+    print('正在 clone %s' % dump)
+    target = target + dump
+    if os.path.exists(target + '/.git'):
+        return
+    bd = os.path.dirname(target)
+    fd = os.path.basename(target)
+    if not os.path.isdir(bd):
+        os.makedirs(bd)
+    cwd = os.getcwd()
+    os.chdir(bd)
+    gitcmd = "git clone --bare %s%s.git %s" % (domain, dump, fd)
+    os.system(gitcmd)
+    os.chdir(cwd)
+
+
+if __name__ == "__main__":
+    domain = sys.argv[1]
+    user = urllib.parse.quote(sys.argv[2])
+    passwd = urllib.parse.quote(sys.argv[3])
+    dumps = json.load(open(sys.argv[4]))
+    target = sys.argv[5]
+    reinits(dumps, domain, user, passwd, target)
