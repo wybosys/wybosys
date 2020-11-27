@@ -30,6 +30,9 @@ def reinit(dump, domain, user, passwd, target):
 
 
 if __name__ == "__main__":
+    if len(sys.argv) != 6:
+        print("usage: domain user passwd dumps.file target.directory")
+        exit
     domain = sys.argv[1]
     user = urllib.parse.quote(sys.argv[2])
     passwd = urllib.parse.quote(sys.argv[3])
