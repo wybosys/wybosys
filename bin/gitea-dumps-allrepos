@@ -1,0 +1,49 @@
+#!/usr/bin/env python3
+
+import asyncio
+import sys
+import json
+from pyppeteer import launch, browser, page
+import urllib.parse
+from typing import List
+
+
+async def dumps(domain: str, user: str, passwd: str) -> List[str]:
+    brw: browser.Browser = await launch({'headless': False, 'args': ['--no-sandbox']})
+    pge: page.Page = await brw.newPage()
+    await pge.goto(domain + '/user/login?redirect_to=')
+    await pge.type('#user_name', user)
+    await pge.type('#password', passwd)
+    await pge.click('form button')
+    await pge.goto(domain + '/admin/repos')
+    res = []
+    # 从第一页开始卷
+    pid = 1
+    while True:
+        print('提取第 %d 页' % pid)
+        tgt = domain + '/admin/repos?page=%d&q=&tab=' % pid
+        await pge.goto(tgt)
+        # 筛选数据
+        for e in await pge.querySelectorAll('tbody tr > td:nth-child(3) > a'):
+            href = await pge.evaluate('(each) => each.href', e)
+            sp = urllib.parse.urlsplit(href)
+            res.append(sp.path)
+        # 判断是否是最后有一页
+        nxt = await pge.querySelector('.pagination .item:nth-last-child(2)')
+        href = await pge.evaluate('(tgt) => tgt.href', nxt)
+        if href != '':
+            pid += 1
+            print('提取下一页')
+        else:
+            print('提取结束')
+            break
+    return res
+
+if __name__ == "__main__":
+    domain = sys.argv[1]
+    user = sys.argv[2]
+    passwd = sys.argv[3]
+    output = sys.argv[4]
+    loop = asyncio.get_event_loop()
+    res = loop.run_until_complete(dumps(domain, user, passwd))
+    open(output, 'w').write(json.dumps(res))
