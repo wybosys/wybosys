@@ -13,7 +13,7 @@ def reinits(dumps, domain, user, passwd, target):
         reinit(each, domain, user, passwd, target)
 
 
-def isgit(dir) -> Bool:
+def isgit(dir) -> bool:
     if os.path.exists(dir + '/.git'):
         return True
     return os.path.exists(dir + '/HEAD') and \
