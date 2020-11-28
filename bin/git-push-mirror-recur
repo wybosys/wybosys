@@ -11,27 +11,33 @@ def isgit(dir) -> bool:
         os.path.exists(dir + '/objects')
 
 
-def push(dir, cur, target):
+def push(dir: str, cur: str, target, fails):
     if isgit(dir):
         tgt = target + cur
         old = os.getcwd()
         os.chdir(dir)
+        # 判断是否是gitlab的保留路径
+        if tgt.endswith('/update'):
+            tgt += '_'
         print("正在推送 " + cur + " " + tgt)
         cmds = [
-            #'git remote add mirror ' + tgt + '.git',
-            #'git push mirror --all',
-            #'git push mirror --tags'
-            #'git remote rm mirror'
-            'git push --mirror ' + tgt + '.git'
+            'git remote add mirror ' + tgt + '.git',
+            'git push mirror --all',
+            'git push mirror --tags',
+            'git remote rm mirror'
+            #'git push --mirror ' + tgt + '.git'
         ]
+        st = 0
         for cmd in cmds:
-            os.system(cmd)
+            st += os.system(cmd)
         os.chdir(old)
         # print(cmd)
+        if st != 0:
+            fails.append(cur)
         return
     if os.path.isdir(dir):
         for each in os.listdir(dir):
-            push(dir + "/" + each, cur + "/" + each, target)
+            push(dir + "/" + each, cur + "/" + each, target, fails)
 
 
 if __name__ == "__main__":
@@ -39,4 +45,7 @@ if __name__ == "__main__":
         raise Exception("usage: target.domain")
     target = sys.argv[1]
     cwd = os.getcwd()
-    push(cwd, '', target)
+    fails = []
+    push(cwd, '', target, fails)
+    if len(fails) != 0:
+        print("推送错误的列表 :", fails)

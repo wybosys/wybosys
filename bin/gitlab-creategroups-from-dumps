@@ -13,9 +13,13 @@ def createsubgroups(gl, node, parent, grps):
         print("存在子组 %s/%s" % (parent, grps[0]))
     except:
         print("创建子组 %s/%s" % (parent, grps[0]))
+        ph = grps[0]
+        # 判断是否是gitlab的保留路径
+        if ph == 'update':
+            ph += '_'
         data = {
             "name": grps[0],
-            "path": grps[0],
+            "path": ph,
             "parent_id": node.id
         }
         cur = gl.groups.create(data)
