@@ -1,0 +1,64 @@
+#!/usr/bin/env python3
+
+import sys
+import json
+import gitlab
+
+
+def createsubgroups(gl, node, parent, grps):
+    if not grps:
+        return
+    try:
+        cur = node.subgroups.list(search=grps[0])
+        print("存在子组 %s/%s" % (parent, grps[0]))
+    except:
+        print("创建子组 %s/%s" % (parent, grps[0]))
+        data = {
+            "name": grps[0],
+            "path": grps[0],
+            "parent_id": node.id
+        }
+        cur = gl.groups.create(data)
+    createsubgroups(gl, cur, parent + "/" + grps[0], grps[1:])
+
+
+def creategroup(gl, grps):
+    # print(grps)
+    try:
+        root = gl.groups.get(grps[0])
+    except:
+        print("创建根组 " + grps[0])
+        data = {
+            "name": grps[0],
+            "path": grps[0]
+        }
+        root = gl.groups.create(data)
+    # 创建子组
+    createsubgroups(gl, root, grps[0], grps[1:])
+
+
+def creategroups(domain, token, dumps, prefix):
+    gl = gitlab.Gitlab(domain, private_token=token)
+    # 目标groups取去冲后的
+    gss = set()
+    for each in dumps:
+        gs = list(filter(lambda x: x != '', each.split("/")))[:1]
+        gs = prefix + gs
+        gss.add(tuple(gs))
+    for gs in gss:
+        creategroup(gl, gs)
+
+
+if __name__ == "__main__":
+    if len(sys.argv) < 4:
+        raise Exception(
+            "usage: domain.gitlab admin.token dump.repos [group.prefix]")
+    domain = sys.argv[1]
+    token = sys.argv[2]
+    dumps = json.load(open(sys.argv[3]))
+    if len(sys.argv) > 4:
+        prefix = sys.argv[4]
+    else:
+        prefix = ''
+    prefix = list(filter(lambda x: x != '', prefix.split("/")))
+    creategroups(domain, token, dumps, prefix)
