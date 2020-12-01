@@ -1,0 +1,33 @@
+#!/usr/bin/env python3
+
+import sys
+import os
+import shutil
+
+
+def IsIgnore(name: str):
+    if name.startswith('#') or name.startswith('~'):
+        return True
+    return False
+
+
+def clear(tgt):
+    fn = os.path.basename(tgt)
+    if IsIgnore(fn):
+        print(tgt)
+        if os.path.isfile(tgt):
+            os.unlink(tgt)
+        elif os.path.isdir(tgt):
+            shutil.rmtree(tgt)
+        else:
+            print('不支持移除 ' + tgt)
+    else:
+        if os.path.isdir(tgt):
+            for each in os.listdir(tgt):
+                clear(tgt + '/' + each)
+
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        raise Exception('usage: target.directory.file')
+    clear(sys.argv[1])
