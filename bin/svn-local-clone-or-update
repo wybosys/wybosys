@@ -32,4 +32,6 @@ def Svn2Git(src: str, dir):
 
 
 if __name__ == "__main__":
+    if len(sys.argv) != 3:
+        raise Exception("usage: svn.data projects.target")
     Svn2Git(os.path.abspath(sys.argv[1]), os.path.abspath(sys.argv[2]))

@@ -7,6 +7,7 @@ import subprocess
 
 
 def Svn2Git(src: str, dir):
+    print(src)
     nm = os.path.basename(src)
     fp_passwd = src + "/conf/passwd"
     cnf_passwd = configparser.RawConfigParser()
@@ -44,5 +45,7 @@ def _recur(cur, tgt):
 
 
 if __name__ == "__main__":
+    if len(sys.argv) != 3:
+        raise Exception("usage: svn.data projects.target")
     _recur(os.path.abspath(sys.argv[1]),
            os.path.abspath(sys.argv[2]))
