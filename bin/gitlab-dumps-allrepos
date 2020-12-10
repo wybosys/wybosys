@@ -1,0 +1,51 @@
+#!/usr/bin/env python3
+
+import asyncio
+import sys
+import json
+from pyppeteer import launch, browser, page
+import urllib.parse
+from typing import List
+
+
+async def dumps(domain: str, group: str, user: str, passwd: str) -> List[str]:
+    brw: browser.Browser = await launch({'headless': False, 'args': ['--no-sandbox']})
+    pge: page.Page = await brw.newPage()
+    await pge.goto(domain + '/users/sign_in')
+    await pge.type('#user_login', user)
+    await pge.type('#user_password', passwd)
+    await pge.click('.submit-container .btn-success')
+    await pge.goto(domain + '/' + group)
+    res = []
+    # 从第一页开始卷
+    pid = 1
+    while True:
+        print('提取第 %d 页' % pid)
+        tgt = domain + '%s?page=%d' % (group, pid)
+        await pge.goto(tgt)
+        # 筛选数据
+        for e in await pge.querySelectorAll('.group-row .title a'):
+            href = await pge.evaluate('(each) => each.href', e)
+            sp = urllib.parse.urlsplit(href)
+            res.append(sp.path)
+        # 判断是否是最后有一页
+        nxt = await pge.querySelector('.pagination .page-item:nth-last-child(1) a')
+        if nxt != None:
+            pid += 1
+            print('提取下一页')
+        else:
+            print('提取结束')
+            break
+    return res
+
+if __name__ == "__main__":
+    if len(sys.argv) != 6:
+        raise Exception("usage: domain group user passwd output")
+    domain = sys.argv[1]
+    group = sys.argv[2]
+    user = sys.argv[3]
+    passwd = sys.argv[4]
+    output = sys.argv[5]
+    loop = asyncio.get_event_loop()
+    res = loop.run_until_complete(dumps(domain, group, user, passwd))
+    open(output, 'w').write(json.dumps(res))
