@@ -6,12 +6,14 @@ import json
 from pyppeteer import launch, browser, page
 import urllib.parse
 from typing import List
+import time
 
 
 async def dumps(domain: str, group: str, user: str, passwd: str) -> List[str]:
     brw: browser.Browser = await launch({'headless': False, 'args': ['--no-sandbox']})
     pge: page.Page = await brw.newPage()
     await pge.goto(domain + '/users/sign_in')
+    time.sleep(5)
     await pge.type('#user_login', user)
     await pge.type('#user_password', passwd)
     await pge.click('.submit-container .btn-success')
@@ -21,8 +23,9 @@ async def dumps(domain: str, group: str, user: str, passwd: str) -> List[str]:
     pid = 1
     while True:
         print('提取第 %d 页' % pid)
-        tgt = domain + '%s?page=%d' % (group, pid)
+        tgt = domain + '/%s?page=%d' % (group, pid)
         await pge.goto(tgt)
+        time.sleep(5)
         # 筛选数据
         for e in await pge.querySelectorAll('.group-row .title a'):
             href = await pge.evaluate('(each) => each.href', e)

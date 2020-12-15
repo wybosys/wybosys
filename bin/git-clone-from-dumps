@@ -29,7 +29,14 @@ def clone(dump: str, domain, target):
             os.makedirs(gitdir)
         old = os.getcwd()
         os.chdir(gitdir)
-        cmd = 'git clone ' + domain + '/' + dump + '.git ' + gitnm
+        if os.path.isdir(gitnm):
+            os.chdir(gitnm)
+            cmd = 'git pull'
+        else:
+            if domain.startswith('http'):
+                cmd = 'git clone ' + domain + '/' + dump + '.git ' + gitnm
+            else:
+                cmd = 'git clone git@' + domain + ':' + dump + '.git ' + gitnm
         # print(gitdir)
         os.system(cmd)
         # print(cmd)
