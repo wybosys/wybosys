@@ -43,7 +43,7 @@ def creategroup(gl, grps):
 
 def creategroups(domain, token, dumps, prefix):
     gl = gitlab.Gitlab(domain, private_token=token)
-    # 目标groups取去冲后的
+    # 目标groups去重
     gss = set()
     for each in dumps:
         gs = list(filter(lambda x: x != '', each.split("/")))[:1]
