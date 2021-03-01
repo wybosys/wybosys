@@ -60,6 +60,7 @@ gradlew
 gradlew.bat
 .gradle
 .gradlew
+.mvn
 .pdsync
 .pdsyncu
 .elc
