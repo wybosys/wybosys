@@ -6,6 +6,7 @@ tmp
 *.tmp
 ~*
 *~
+.~*
 .settings
 .classpath
 *.xcuserdatad
@@ -62,6 +63,7 @@ gradlew.bat
 .gradlew
 .mvn
 mvnw
+mvnw.bat
 .pdsync
 .pdsyncu
 .elc
