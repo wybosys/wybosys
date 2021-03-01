@@ -61,6 +61,7 @@ gradlew.bat
 .gradle
 .gradlew
 .mvn
+mvnw
 .pdsync
 .pdsyncu
 .elc
