@@ -1,0 +1,44 @@
+#!/usr/bin/env python3
+
+import os
+
+MIRRORS = [
+    ("http://ppa.launchpad.net", "https://launchpad.proxy.ustclug.org")
+]
+
+
+def SetFile(filepath: str):
+    if not filepath.endswith(".list"):
+        return
+    print("正在处理 " + filepath)
+    lines = open(filepath).readlines()
+    outputs = []
+    for line in lines:
+        if line.startswith('#'):
+            outputs.append(line)
+        else:
+            # 查找mirror
+            for mir in MIRRORS:
+                if mir[0] in line:
+                    # 找到匹配段
+                    outputs.append(line.replace(mir[0], mir[1]))
+                    outputs.append('#' + line)
+                else:
+                    outputs.append(line)
+    open(filepath, 'w').writelines(outputs)
+
+
+def Set(dirpath: str):
+    for each in os.listdir(dirpath):
+        cur = dirpath + '/' + each
+        if os.path.isdir(cur):
+            Set(cur)
+        else:
+            SetFile(cur)
+
+
+if __name__ == "__main__":
+    if not os.path.isdir("/etc/apt/sources.list.d"):
+        print("没有找到apt设置目录")
+    else:
+        Set("/etc/apt/sources.list.d")
