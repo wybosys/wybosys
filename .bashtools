@@ -23,7 +23,9 @@ parse_git_branch_or_tag() {
 }
 
 tools_tag() {
-    echo $(parse_git_branch_or_tag)
+    if [ -d .git ]; then
+       echo $(parse_git_branch_or_tag)
+    fi
 }
 
 tools_title() {
