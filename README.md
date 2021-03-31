@@ -1,4 +1,1 @@
-wybosys
-=======
-
-wybosys common
+WYBOSYS
