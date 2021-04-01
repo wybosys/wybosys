@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import subprocess
+
+
+def Remove(pat: str):
+    output = subprocess.getoutput("pip3 list | grep " + pat).split('\n')
+    for line in output:
+        pkg = line.split(' ')[0]
+        os.system('pip3 uninstall -y ' + pkg)
+
+
+if __name__ == '__main__':
+    Remove(sys.argv[1])
