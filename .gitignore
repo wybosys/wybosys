@@ -15,15 +15,16 @@ xcshareddata
 *.ncb
 *.suo
 *.usr
-Debug
+[Dd]ebug
 Debug Static
-Release
+[Rr]elease
 Release Static
 *.scc
 cscope.files
 cscope.out
 *.class
 *.o
+*.o.*
 _*
 !__init*
 #*
@@ -41,6 +42,7 @@ ipch
 objchk_*
 objfre_*
 @
+*.cmd
 .tmp*
 *.symvers
 *.order
@@ -56,17 +58,17 @@ bin-release
 libs
 gen
 gradle
+.gradle
 gradle.bat
 gradlew
 gradlew.bat
-.gradle
 .gradlew
 .mvn
 mvnw
 mvnw.bat
 .pdsync
 .pdsyncu
-.elc
+*.elc
 .beam
 .idea
 .iml
@@ -87,3 +89,4 @@ stage
 node_modules
 *.pyc
 __pycache__
+.~*
