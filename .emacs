@@ -19,8 +19,10 @@
 
 ;; elpa
 (require 'package)
-(setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
+(setq package-archives '(("gnu" . "http://mirrors.ustc.edu.cn/elpa/gnu/")
+                         ("melpa" . "http://mirrors.ustc.edu.cn/elpa/melpa/")
+                         ("melpa-stable" . "http://mirrors.ustc.edu.cn/elpa/melpa-stable/")
+                         ("org" . "http://mirrors.ustc.edu.cn/elpa/org/")))
 (package-initialize)
 
 ;; 管理elpa提供的库
