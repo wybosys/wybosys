@@ -23,6 +23,7 @@ Release Static
 cscope.files
 cscope.out
 *.class
+*.out
 *.o
 *.o.*
 _*
