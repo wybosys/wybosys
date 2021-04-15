@@ -5,8 +5,9 @@ import sys
 import subprocess
 
 I18N = {
-    "zh_CN.UTF-8": "[配置文件残留]",
-    "en.UTF-8": "[residual-config]"
+    "zh_CN.UTF-8": r"\[配置文件残留\]",
+    "en.UTF-8": r"\[residual-config\]",
+    "C.UTF-8": r"\[residual-config\]"
 }
 
 IGNORES = [
@@ -24,7 +25,8 @@ def IsIgnore(pkg: str) -> bool:
 
 def Clean():
     search = I18N[os.getenv("LANG")]
-    output = subprocess.getoutput("apt list|grep " + search).split('\n')
+    output = subprocess.getoutput('apt list|grep "%s"' % search).split('\n')
+    print(output)
     for each in output:
         pkg = each.split('/')
         if len(pkg) != 2:
