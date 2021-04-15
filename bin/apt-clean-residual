@@ -26,7 +26,7 @@ def IsIgnore(pkg: str) -> bool:
 def Clean():
     search = I18N[os.getenv("LANG")]
     output = subprocess.getoutput('apt list|grep "%s"' % search).split('\n')
-    print(output)
+    #print(output)
     for each in output:
         pkg = each.split('/')
         if len(pkg) != 2:
