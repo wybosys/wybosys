@@ -6,6 +6,7 @@ import json
 from pyppeteer import launch, browser, page
 import urllib.parse
 from typing import List
+import argparse
 
 
 async def dumps(domain: str, user: str, passwd: str) -> List[str]:
@@ -40,10 +41,12 @@ async def dumps(domain: str, user: str, passwd: str) -> List[str]:
     return res
 
 if __name__ == "__main__":
-    domain = sys.argv[1]
-    user = sys.argv[2]
-    passwd = sys.argv[3]
-    output = sys.argv[4]
+    args = argparse.ArgumentParser()
+    args.add_argument('domain', help='gitlab的域名', type=str)
+    args.add_argument('user', help='用户名', type=str)
+    args.add_argument('passwd', help='密码', type=str)
+    args.add_argument('output', help='输出的文件名', type=str)
+    args = args.parse_args()
     loop = asyncio.get_event_loop()
-    res = loop.run_until_complete(dumps(domain, user, passwd))
-    open(output, 'w').write(json.dumps(res))
+    res = loop.run_until_complete(dumps(args.domain, args.user, args.passwd))
+    open(args.output, 'w').write(json.dumps(res))

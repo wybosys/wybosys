@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# 区别与普通用户，admin账户可以通过admin面板直接拉取所有的仓库
 
 import asyncio
 import sys
@@ -10,28 +11,36 @@ import time
 import argparse
 
 
-async def dumps(domain: str, group: str, user: str, passwd: str) -> List[str]:
-    brw: browser.Browser = await launch({'headless': False, 'args': ['--no-sandbox']})
+async def dumps(domain: str, user: str, passwd: str) -> List[str]:
+    brw: browser.Browser = await launch({'headless': False})
     pge: page.Page = await brw.newPage()
     await pge.goto(domain + '/users/sign_in')
-    time.sleep(5)
     await pge.type('#user_login', user)
     await pge.type('#user_password', passwd)
+    pge.waitForNavigation()
     await pge.click('.submit-container .btn-success')
-    await pge.goto(domain + '/' + group)
+    await pge.goto(domain + '/admin/projects')
     res = []
     # 从第一页开始卷
     pid = 1
     while True:
         print('提取第 %d 页' % pid)
-        tgt = domain + '/%s?page=%d' % (group, pid)
+        tgt = domain + '/admin/projects?page=%d&sort=none' % (pid)
         await pge.goto(tgt)
         time.sleep(5)
         # 筛选数据
-        for e in await pge.querySelectorAll('.group-row .title a'):
-            href = await pge.evaluate('(each) => each.href', e)
+        for e in await pge.querySelectorAll('.project-row .title'):
+            href = await pge.evaluate("(each) => each.querySelector('a').href", e)
+            fullname = (await pge.evaluate("(each) => each.querySelector('.project-full-name').textContent", e)).replace('\n', '').replace(' ', '')
+            name = fullname.split('/')[-1]
             sp = urllib.parse.urlsplit(href)
-            res.append(sp.path)
+            res.append({
+                'name': name,
+                'fullname': fullname,
+                'adminpath': sp.path,
+                'path': sp.path.replace('/admin/projects', '')
+            })
+            print('提取项目 %s' % fullname)
         # 判断是否是最后有一页
         nxt = await pge.querySelector('.pagination .page-item:nth-last-child(1) a')
         if nxt != None:
@@ -45,12 +54,11 @@ async def dumps(domain: str, group: str, user: str, passwd: str) -> List[str]:
 if __name__ == "__main__":
     args = argparse.ArgumentParser()
     args.add_argument('domain', help='gitlab的域名', type=str)
-    args.add_argument('group', help='目标组名', type=str)
     args.add_argument('user', help='用户名', type=str)
     args.add_argument('passwd', help='密码', type=str)
     args.add_argument('output', help='输出的文件名', type=str)
     args = args.parse_args()
     loop = asyncio.get_event_loop()
     res = loop.run_until_complete(
-        dumps(args.domain, args.group, args.user, args.passwd))
+        dumps(args.domain, args.user, args.passwd))
     open(args.output, 'w').write(json.dumps(res))
