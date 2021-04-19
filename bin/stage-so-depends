@@ -1,0 +1,27 @@
+#!/usr/bin/env python3
+
+import argparse
+import re
+import os
+import subprocess
+
+
+def Stage(so, libs, out):
+    (st, raw) = subprocess.getstatusoutput('ldd %s' % so)
+    print(st)
+
+
+if __name__ == '__main__':
+    args = argparse.ArgumentParser()
+    args.add_argument('target', help='目标SO', type=str)
+    args.add_argument(
+        '-l', '--lib', help='定义可用lib匹配串，避免从系统lib中拉去过多依赖', type=str, action='append')
+    args.add_argument('out', help='输出文件夹', type=str)
+    args = args.parse_args()
+    print(args)
+    if not os.path.isfile(args.target):
+        raise '%s不存在' % args.target
+    if not os.path.isdir(args.out):
+        os.mkdir(args.out)
+    pats = [re.compile(e) for e in args.lib]
+    Stage(args.target, pats, args.out)
