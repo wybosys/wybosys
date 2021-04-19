@@ -4,12 +4,37 @@ import argparse
 import re
 import os
 import subprocess
+import shutil
 
+def IsMatch(src, pats):
+    for pat in pats:
+        if pat.match(src):
+            return True
+    return False
 
-def Stage(so, libs, out):
+def Stage(so, libs, result=set()):
     (st, raw) = subprocess.getstatusoutput('ldd %s' % so)
-    print(st)
-
+    if st != 0:
+        raise raw
+    raw = raw.split('\n')
+    for line in raw:
+        line = line.strip()
+        if ' => ' not in line:
+            # 非标格式一般为系统lib
+            continue
+        comps = line.split(' => ')
+        deps = comps[1]
+        if 'not found' == deps:
+            # 没有找到依赖
+            continue
+        # 检测是否是过滤名单之内的
+        if not IsMatch(deps, libs):
+            continue
+        tgtso = deps[:deps.index(' ')]
+        result.add(tgtso)
+        # 迭代识别
+        Stage(tgtso, pats, result)
+    return result
 
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
@@ -18,10 +43,13 @@ if __name__ == '__main__':
         '-l', '--lib', help='定义可用lib匹配串，避免从系统lib中拉去过多依赖', type=str, action='append')
     args.add_argument('out', help='输出文件夹', type=str)
     args = args.parse_args()
-    print(args)
+    #print(args)
     if not os.path.isfile(args.target):
         raise '%s不存在' % args.target
     if not os.path.isdir(args.out):
         os.mkdir(args.out)
-    pats = [re.compile(e) for e in args.lib]
-    Stage(args.target, pats, args.out)
+    pats = [re.compile(e) for e in (args.lib if args.lib else [])]
+    sos = Stage(args.target, pats)
+    for so in sos:
+        print(so)
+        shutil.copyfile(so, args.out + '/' + os.path.basename(so))
