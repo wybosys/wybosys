@@ -15,6 +15,7 @@ async def dumps(domain: str, user: str, passwd: str) -> List[str]:
     brw: browser.Browser = await launch({'headless': False})
     pge: page.Page = await brw.newPage()
     await pge.goto(domain + '/users/sign_in')
+    pge.waitForNavigation()
     await pge.type('#user_login', user)
     await pge.type('#user_password', passwd)
     pge.waitForNavigation()
