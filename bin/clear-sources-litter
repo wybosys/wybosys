@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# 清理代码库中无用的文件
+
+find . -name "examples" -exec rm -fv '{}' ';';
+find . -name "test" -exec rm -fv '{}' ';';
