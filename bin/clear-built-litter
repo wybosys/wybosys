@@ -3,5 +3,8 @@
 find . -name "CMakeFiles" -exec rm -frv '{}' ';';
 find . -name "*.py[co]" -exec rm -fv '{}' ';';
 find . -name "*.o" -exec rm -fv '{}' ';';
-find . -name "*.log" -exec rm -fv '{}' ';';
 find . -name "*.tar.gz" -exec rm -fv '{}' ';';
+
+find . -name "*.log" -exec rm -fv '{}' ';';
+find . -name "*.dump" -exec rm -fv '{}' ';';
+
