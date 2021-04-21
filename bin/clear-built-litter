@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+find . -name "CMakeFiles" -exec rm -fv '{}' ';';
 find . -name "*.py[co]" -exec rm -fv '{}' ';';
 find . -name "*.o" -exec rm -fv '{}' ';';
 find . -name "*.tar.gz" -exec rm -fv '{}' ';';
