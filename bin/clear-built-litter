@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+find . -name "*.py[co]" -exec rm -fv '{}' ';';
+find . -name "*.o" -exec rm -fv '{}' ';';
+find . -name "*.tar.gz" -exec rm -fv '{}' ';';
