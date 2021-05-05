@@ -1,0 +1,74 @@
+#!/usr/bin/env python3
+
+import argparse
+from typing import List
+import re
+
+PAT_PROPERTY = re.compile(r'^\s*([a-z0-9\.\-_]+)\s*=\s*([a-z0-9]+)')
+
+
+class Config:
+
+    def __init__(self) -> None:
+        with open('/etc/sysctl.conf') as f:
+            self._raw = f.readlines()
+            self._props = self.get_properties()
+
+    def get_properties(self):
+        """
+        读取所有属性
+        """
+        ret = {}
+        for line in self._raw:
+            res = PAT_PROPERTY.findall(line)
+            if len(res):
+                ret[res[0][0]] = (res[0][1], line)
+        return ret
+
+    def __str__(self) -> str:
+        return ''.join(self._raw)
+
+    def get(self, prop: str) -> str:
+        if prop in self._props:
+            return self._props[prop][0]
+        return None
+
+    def set(self, prop: str, val: str):
+        if prop in self._props:
+            line = self._props[prop][1]
+            self._raw.remove(line)
+        line = '%s = %s\n' % (prop, val)
+        self._props[prop] = (val, line)
+        self._raw.append(line)
+
+    def save(self):
+        with open('/etc/sysctl.conf', 'w') as f:
+            f.writelines(self._raw)
+
+
+def Get(prop: str) -> str:
+    cnf = Config()
+    return cnf.get(prop)
+
+
+def Set(prop: str, val: str):
+    cnf = Config()
+    cnf.set(prop, val)
+    cnf.save()
+
+
+if __name__ == '__main__':
+    args = argparse.ArgumentParser()
+    subargs = args.add_subparsers()
+
+    getargs = subargs.add_parser('get')
+    getargs.add_argument('prop', help='参数名')
+    getargs.set_defaults(func=lambda args: print(Get(args.prop)))
+
+    setargs = subargs.add_parser('set')
+    setargs.add_argument('prop', help='参数名')
+    setargs.add_argument('value', help='数据')
+    setargs.set_defaults(func=lambda args: Set(args.prop, args.value))
+
+    args = args.parse_args()
+    args.func(args)
