@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+
+import argparse
+import subprocess
+import os
+
+if __name__ == '__main__':
+    args = argparse.ArgumentParser()
+    args.add_argument('directory', help='将目录下的文件夹打包', default=os.getcwd())
+    args = args.parse_args()
+
+    for each in os.listdir(args.directory):
+        cur = '%s/%s' % (args.directory, each)
+        if os.path.isdir(cur):
+            subprocess.Popen(['tar', '-czf', '%s/%s.tar.gz' %
+                              (args.directory, each), cur]).wait()
