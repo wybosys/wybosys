@@ -25,13 +25,6 @@ def HardLinkInodesInVolume(vol: str) -> Dict[int, set]:
     return r
 
 
-def NotSelf(items: set, obj):
-    for each in items:
-        if each != obj:
-            return each
-    return None
-
-
 def Convert(tgt: str, vol: str, recu: bool, inos: Dict[int, set]):
     st = os.stat(tgt)
     if st.st_nlink > 1:
@@ -41,15 +34,17 @@ def Convert(tgt: str, vol: str, recu: bool, inos: Dict[int, set]):
         if os.path.islink(tgt):
             return
         # 选原身
-        ori = NotSelf(inos[st.st_ino], tgt)
-        if ori == None:
-            print("在 %s 中找不到 %s 的原身" % (vol, tgt))
-            return
-        # 删除硬链接
-        os.unlink(tgt)
-        # 建立软链接
-        os.symlink(ori, tgt, target_is_directory=os.path.isdir(ori))
-        print('转换软链接 %s -> %s' % (tgt, ori))
+        ori = next(iter(inos[st.st_ino]))
+        # 只转换不是自己的
+        if ori != tgt:
+            #print(ori, tgt)
+            ori = os.path.relpath(ori, os.path.dirname(tgt))
+            # print(ori)
+            # 删除硬链接
+            os.unlink(tgt)
+            # 建立软链接
+            os.symlink(ori, tgt, target_is_directory=os.path.isdir(ori))
+            print('转换软链接 %s -> %s' % (tgt, ori))
 
     if recu and os.path.isdir(tgt):
         for each in os.listdir(tgt):
@@ -64,5 +59,6 @@ if __name__ == '__main__':
     args = args.parse_args()
 
     # 记录所有hard-link的inode信息
-    inodes = HardLinkInodesInVolume(args.volumn)
-    Convert(args.target, args.volumn, args.recurise, inodes)
+    inodes = HardLinkInodesInVolume(os.path.abspath(args.volumn))
+    Convert(os.path.abspath(args.target), os.path.abspath(
+        args.volumn), args.recurise, inodes)
