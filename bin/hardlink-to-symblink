@@ -1,0 +1,68 @@
+#!/usr/bin/env python3
+
+import argparse
+from typing import Dict, Set
+import os
+
+
+def HardLinkInodesInVolume(vol: str) -> Dict[int, set]:
+    r: Dict[int, set] = {}
+    for each in os.listdir(vol):
+        cur = '%s/%s' % (vol, each)
+        if os.path.islink(cur) or os.path.ismount(cur):
+            continue
+        st = os.stat(cur)
+        if st.st_nlink > 1:
+            if st.st_ino not in r:
+                r[st.st_ino] = set()
+            r[st.st_ino].add(cur)
+        if os.path.isdir(cur):
+            res = HardLinkInodesInVolume(cur)
+            for ino in res:
+                if ino not in r:
+                    r[ino] = set()
+                r[ino] = r[ino].union(res[ino])
+    return r
+
+
+def NotSelf(items: set, obj):
+    for each in items:
+        if each != obj:
+            return each
+    return None
+
+
+def Convert(tgt: str, vol: str, recu: bool, inos: Dict[int, set]):
+    st = os.stat(tgt)
+    if st.st_nlink > 1:
+        if st.st_ino not in inos:
+            print("在 %s 中找不到 %s 的原身" % (vol, tgt))
+            return
+        if os.path.islink(tgt):
+            return
+        # 选原身
+        ori = NotSelf(inos[st.st_ino], tgt)
+        if ori == None:
+            print("在 %s 中找不到 %s 的原身" % (vol, tgt))
+            return
+        # 删除硬链接
+        os.unlink(tgt)
+        # 建立软链接
+        os.symlink(ori, tgt, target_is_directory=os.path.isdir(ori))
+        print('转换软链接 %s -> %s' % (tgt, ori))
+
+    if recu and os.path.isdir(tgt):
+        for each in os.listdir(tgt):
+            Convert('%s/%s' % (tgt, each), vol, recu, inos)
+
+
+if __name__ == '__main__':
+    args = argparse.ArgumentParser(usage='转换目标硬链接为软链接,如果是普通文件则跳过')
+    args.add_argument('target', help='目标')
+    args.add_argument('volumn', help='查找inode所在存储系统')
+    args.add_argument('-r', '--recurise', action='store_true')
+    args = args.parse_args()
+
+    # 记录所有hard-link的inode信息
+    inodes = HardLinkInodesInVolume(args.volumn)
+    Convert(args.target, args.volumn, args.recurise, inodes)
