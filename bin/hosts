@@ -1,0 +1,180 @@
+#!/usr/bin/env python
+
+import argparse
+from os import kill
+import re
+from typing import List
+
+PAT_COMMENT = re.compile(r'^\s*#\s*(.+)$')
+PAT_IPv4 = re.compile(
+    r'^\s*([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})\s+(.+)')
+PAT_HOST = re.compile(r'([0-9a-zA-Z_\-\.]+)')
+PAT_IPv6 = re.compile('^\s*((?:[0-9a-fA-F]+)*(?:::(?:[0-9a-fA-F]+))+)\s+(.+)')
+
+
+def Parse(line: str):
+    """
+    解析记录到ip和host的成对数据
+    """
+    if PAT_IPv4.match(line):
+        res = PAT_IPv4.findall(line)
+        ip = res[0][0]
+        hosts = PAT_HOST.findall(res[0][1])
+        return {'ip': ip, 'host': hosts}
+    if PAT_IPv6.match(line):
+        res = PAT_IPv6.findall(line)
+        ip = res[0][0]
+        hosts = PAT_HOST.findall(res[0][1])
+        return {'ip': ip, 'host': hosts}
+    return None
+
+
+class Hosts:
+
+    def __init__(self, file) -> None:
+        # 符号之后的认为是region，组织region和记录，避免修改时格式混乱 { 'region': { 'ip': { 'host':true } } }
+        self._hosts = {'': {}}
+        self._cur = self._hosts['']
+        # 出来默认文件
+        self._file = file
+        self._load(file)
+
+    def _load(self, file):
+        with open(file) as fd:
+            for line in fd.readlines():
+
+                # 跳过空行
+                if line.endswith('\n'):
+                    line = line[:-1]
+                if not line:
+                    continue
+
+                if PAT_COMMENT.match(line):
+                    res = PAT_COMMENT.findall(line)
+                    rcd = Parse(res[0])
+                    if rcd == None:  # 纯注释行，理解为region
+                        region = PAT_COMMENT.findall(line)[0].strip()
+                        self._hosts[region] = {}
+                        self._cur = self._hosts[region]
+                    else:
+                        if rcd['ip'] not in self._cur:
+                            self._cur[rcd['ip']] = {}
+                        for host in rcd['host']:
+                            self._cur[rcd['ip']][host] = False
+                else:
+                    rcd = Parse(line)
+                    if rcd == None:  # 脏数据
+                        raise BaseException('%s 格式错误' % line)
+                    else:
+                        if rcd['ip'] not in self._cur:
+                            self._cur[rcd['ip']] = {}
+                        for host in rcd['host']:
+                            self._cur[rcd['ip']][host] = True
+
+    def find_ip(self, ip: str) -> List:
+        fnd = []
+        for k in self._hosts:
+            reg = self._hosts[k]
+            for eachip in reg:
+                if eachip == ip:
+                    fnd.append(reg[eachip])
+        return fnd
+
+    def get_hosts(self, ip: str) -> List[str]:
+        fnd = self.find_ip(ip)
+        r = []
+        for each in fnd:
+            for host in each:
+                if each[host]:
+                    r.append(host)
+        return r
+
+    def add_hosts(self, region: str, ip: str, hosts: List[str]):
+        if region not in self._hosts:
+            self._hosts[region] = {}
+        reg = self._hosts[region]
+        if ip not in reg:
+            reg[ip] = {}
+        for host in hosts:
+            reg[ip][host] = True
+        return self
+
+    def del_hosts(self, region: str, ip: str, hosts: List[str]):
+        if region not in self._hosts:
+            return self
+        reg = self._hosts[region]
+        if ip not in reg:
+            return self
+        for host in hosts:
+            del reg[ip][host]
+        return self
+
+    def unset_hosts(self, region: str, ip: str, hosts: List[str]):
+        if region not in self._hosts:
+            return self
+        reg = self._hosts[region]
+        if ip not in reg:
+            return self
+        for host in hosts:
+            reg[ip][host] = False
+        return self
+
+    def save(self):
+        lines = []
+        for regnm in self._hosts:
+            if regnm:
+                lines.append('# %s' % regnm)
+            region = self._hosts[regnm]
+            for ip in region:
+                trues = []
+                falses = []
+                rcd = region[ip]
+                for host in rcd:
+                    if rcd[host]:
+                        trues.append(host)
+                    else:
+                        falses.append(host)
+                if trues:
+                    lines.append('%s %s' % (ip, ' '.join(trues)))
+                if falses:
+                    lines.append('#%s %s' % (ip, ' '.join(falses)))
+            lines.append('')
+            lines.append('')
+        with open(self._file, 'w') as fd:
+            fd.write('\n'.join(lines))
+
+
+if __name__ == '__main__':
+    args = argparse.ArgumentParser()
+    args.add_argument('-f', '--file', default='/etc/hosts')
+    subargs = args.add_subparsers()
+
+    getargs = subargs.add_parser('get')
+    getargs.add_argument('ip', help='欲查询的ip地址')
+    getargs.set_defaults(func=lambda args: print(f.get_hosts(args.ip)))
+
+    setargs = subargs.add_parser('set')
+    setargs.add_argument('region', help='分区')
+    setargs.add_argument('ip', help='地址')
+    setargs.add_argument('hosts', nargs='+', help='域名')
+    setargs.set_defaults(func=lambda args: f.add_hosts(
+        args.region, args.ip, args.hosts).save())
+
+    setargs = subargs.add_parser('rm')
+    setargs.add_argument('region', help='分区')
+    setargs.add_argument('ip', help='地址')
+    setargs.add_argument('hosts', nargs='+', help='域名')
+    setargs.set_defaults(func=lambda args: f.del_hosts(
+        args.region, args.ip, args.hosts).save())
+
+    setargs = subargs.add_parser('unset')
+    setargs.add_argument('region', help='分区')
+    setargs.add_argument('ip', help='地址')
+    setargs.add_argument('hosts', nargs='+', help='域名')
+    setargs.set_defaults(func=lambda args: f.unset_hosts(
+        args.region, args.ip, args.hosts).save())
+
+    args = args.parse_args()
+
+    f = Hosts(args.file)
+    args.func(args)
