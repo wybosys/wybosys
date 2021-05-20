@@ -1,20 +1,17 @@
 #!/usr/bin/env python3
 
-import sys
+import argparse
 import os
 
-src = sys.argv[1]
-dest = sys.argv[2]
 
-
-def dodir(dir):
+def dodir(dir, src, dest):
     for e in os.listdir(dir):
         cur = dir + '/' + e
         if not os.path.isdir(cur):
             continue
         cfg = cur + "/.git/config"
         if not os.path.exists(cfg):
-            dodir(cur)
+            dodir(cur, src, dest)
             continue
         print(cfg)
         lines = open(cfg).readlines()
@@ -23,4 +20,10 @@ def dodir(dir):
         open(cfg, 'w').write(''.join(lines))
 
 
-dodir(os.getcwd())
+if __name__ == '__main__':
+    args = argparse.ArgumentParser()
+    args.add_argument('src', help='源地址')
+    args.add_argument('dest', help='替换为目标地址')
+    args = args.parse_args()
+
+    dodir(os.getcwd(), args.src, args.dest)
