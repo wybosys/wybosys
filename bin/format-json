@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+
+import argparse
+import json
+import os
+
+
+def Load(jstr: str, recurise: bool):
+    jsobj = json.loads(jstr)
+    if recurise:
+        for k in jsobj:
+            v = jsobj[k]
+            if type(v) == str:
+                try:
+                    t = Load(v, True)
+                    jsobj[k] = t
+                except:
+                    continue
+    return jsobj
+
+
+if __name__ == '__main__':
+    args = argparse.ArgumentParser()
+    args.add_argument('content', help='文字内容或者文件路径')
+    args.add_argument('-r', '--recurise', action='store_true',
+                      help='迭代处理每一级(比如json套json的情况)')
+    args = args.parse_args()
+
+    if os.path.isfile(args.content):
+        content = ''.join(open(args.content).readlines())
+        isfile = True
+    else:
+        content = args.content
+        isfile = False
+
+    jsobj = Load(content, args.recurise)
+    content = json.dumps(jsobj, indent='  ', ensure_ascii=False)
+    if isfile:
+        open(args.content, 'w', encoding='utf-8').write(content)
+    else:
+        print(content)
