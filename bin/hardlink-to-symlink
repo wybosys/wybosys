@@ -5,7 +5,7 @@ from typing import Dict, Set
 import os
 
 
-def HardLinkInodesInVolume(vol: str) -> Dict[int, set]:
+def HardLinkInodesInVolumn(vol: str) -> Dict[int, set]:
     r: Dict[int, set] = {}
     for each in os.listdir(vol):
         cur = '%s/%s' % (vol, each)
@@ -17,7 +17,7 @@ def HardLinkInodesInVolume(vol: str) -> Dict[int, set]:
                 r[st.st_ino] = set()
             r[st.st_ino].add(cur)
         if os.path.isdir(cur):
-            res = HardLinkInodesInVolume(cur)
+            res = HardLinkInodesInVolumn(cur)
             for ino in res:
                 if ino not in r:
                     r[ino] = set()
@@ -59,6 +59,6 @@ if __name__ == '__main__':
     args = args.parse_args()
 
     # 记录所有hard-link的inode信息
-    inodes = HardLinkInodesInVolume(os.path.abspath(args.volumn))
+    inodes = HardLinkInodesInVolumn(os.path.abspath(args.volumn))
     Convert(os.path.abspath(args.target), os.path.abspath(
         args.volumn), args.recurise, inodes)

@@ -1,0 +1,56 @@
+#!/usr/bin/env python3
+
+import argparse
+from hashlib import md5
+from typing import Dict, Set
+import os
+
+
+def Md5File(file: str) -> str:
+    return md5(open(file, 'rb').read()).hexdigest()
+
+
+def CollectVolumn(vol: str) -> Dict[str, str]:
+    """
+    查找过程中遇到的hash列表，保存为 hash -> '全路径'
+    """
+    r = {}
+    for each in os.listdir(vol):
+        cur = '%s/%s' % (vol, each)
+        if os.path.islink(cur):
+            continue
+        if os.path.isdir(cur):
+            t = CollectVolumn(cur)
+            for te in t:
+                r[te] = t[te]
+            continue
+        r[Md5File(cur)] = cur
+    return r
+
+
+def Convert(tgt: str, infos: Dict[str, str]):
+    if os.path.isdir(tgt):
+        for each in os.listdir(tgt):
+            cur = '%s/%s' % (tgt, each)
+            Convert(cur, infos)
+    elif os.path.islink(tgt):
+        return
+    elif os.path.isfile(tgt):
+        hh = Md5File(tgt)
+        if hh in infos:
+            ori = infos[hh]
+            if ori != tgt:
+                os.remove(tgt)
+                ori = os.path.relpath(ori, os.path.dirname(tgt))
+                os.symlink(ori, tgt, target_is_directory=False)
+                print('转换软链接 %s -> %s' % (tgt, ori))
+
+
+if __name__ == '__main__':
+    args = argparse.ArgumentParser(usage='转换目标文件为软链接')
+    args.add_argument('target', help='目标')
+    args.add_argument('volumn', help='查找重复的文件所依赖的文件夹')
+    args = args.parse_args()
+
+    all = CollectVolumn(os.path.abspath(args.volumn))
+    Convert(os.path.abspath(args.target), all)
