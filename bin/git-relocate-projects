@@ -3,18 +3,24 @@
 import argparse
 import os
 
+def Relocate(dir, src, dest):
+    cfg = dir + "/.git/config"
+    if not os.path.exists(cfg):
+        return
+    print(cfg)
+    lines = open(cfg).readlines()
+    for i in range(len(lines)):
+        lines[i] = lines[i].replace(src, dest)
+    open(cfg, 'w').write(''.join(lines))
+
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
     args.add_argument('src', help='源地址')
     args.add_argument('dest', help='替换为目标地址')
     args = args.parse_args()
 
+    Relocate(os.getcwd(), args.src, args.dest)
+
     for e in os.listdir(os.getcwd()):
-        cfg = e + "/.git/config"
-        if not os.path.exists(cfg):
-            continue
-        print(cfg)
-        lines = open(cfg).readlines()
-        for i in range(len(lines)):
-            lines[i] = lines[i].replace(args.src, args.dest)
-        open(cfg, 'w').write(''.join(lines))
+        Relocate(e, args.src, args.dest)
+        
