@@ -1,0 +1,54 @@
+#!/usr/bin/env python3
+
+import argparse
+import os
+import io
+import re
+
+
+def DefaultDir() -> str:
+    """
+    获得默认目录
+    """
+    return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def IsPythonScript(file: str) -> bool:
+    with open(file) as fd:
+        return 'python' in fd.readline()
+
+
+# 默认目录
+DEFAULT_DIR = DefaultDir()
+
+TPL_BIN_PS1 = """
+$BIN_DIR = Split-Path -Parent $MyInvocation.MyCommand.Definition
+python3 ${{BIN_DIR}}\{} $args
+"""
+PAT_SIMPLE_BIN = re.compile(r'^[a-zA-Z0-9\-_]+$')
+
+
+def GeneratePS1Bin():
+    """
+    生成bin中用来运行于powershell中的命令封装
+    """
+    BIN_DIR = '%s/bin' % DEFAULT_DIR
+    for each in os.listdir(BIN_DIR):
+        cur = '%s/%s' % (BIN_DIR, each)
+        if not PAT_SIMPLE_BIN.match(each) or not os.path.isfile(cur):
+            continue
+        # 当前ps1包装仅支持python脚本
+        if IsPythonScript(cur):
+            with io.open(cur + '.ps1', 'w', newline='\r\n') as f:
+                f.write(TPL_BIN_PS1.format(each))
+
+
+if __name__ == '__main__':
+    args = argparse.ArgumentParser(prog='wybosys')
+    subargs = args.add_subparsers(help='子命令')
+    run_args = subargs.add_parser('run')
+    run_args.add_subparsers().add_parser('ps1', help='生成ps1命令').set_defaults(
+        func=lambda args: GeneratePS1Bin())
+    args = args.parse_args()
+    if hasattr(args, 'func'):
+        args.func(args)
