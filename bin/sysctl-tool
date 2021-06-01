@@ -71,4 +71,5 @@ if __name__ == '__main__':
     setargs.set_defaults(func=lambda args: Set(args.prop, args.value))
 
     args = args.parse_args()
-    args.func(args)
+    if 'func' in args:
+        args.func(args)

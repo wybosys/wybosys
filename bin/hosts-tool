@@ -176,4 +176,5 @@ if __name__ == '__main__':
     args = args.parse_args()
 
     f = Hosts(args.file)
-    args.func(args)
+    if hasattr(args, 'func'):
+        args.func(args)
