@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+
+import os
+import hashlib
+
+
+def SHA256(dir: str):
+    for each in os.listdir(dir):
+        if each.endswith('.sha256'):
+            continue
+        cur = '%s/%s' % (dir, each)
+        if os.path.isdir(cur):
+            SHA256(cur)
+            continue
+        res = '%s.sha256' % cur
+        if os.path.isfile(cur) and not os.path.exists(res):
+            hs = hashlib.sha256()
+            with open(cur, 'rb') as f:
+                for bytes in iter(lambda: f.read(4096), b''):
+                    hs.update(bytes)
+            open(res, 'w').write(hs.hexdigest())
+
+
+if __name__ == '__main__':
+    SHA256(os.getcwd())
