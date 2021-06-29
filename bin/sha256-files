@@ -13,7 +13,7 @@ def SHA256(dir: str):
             SHA256(cur)
             continue
         res = '%s.sha256' % cur
-        if os.path.isfile(cur) and not os.path.exists(res):
+        if os.path.isfile(cur):
             hs = hashlib.sha256()
             with open(cur, 'rb') as f:
                 for bytes in iter(lambda: f.read(4096), b''):
